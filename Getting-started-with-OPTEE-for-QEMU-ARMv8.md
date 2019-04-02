@@ -55,3 +55,34 @@ inc value is 129
 dec value is 29
 Success
 ```
+
+Note that if you are under a environment without GUI, you please comment out the following code in `qemu_v8.mk` and use `nc` instead.
+
+```
+diff --git a/qemu_v8.mk b/qemu_v8.mk
+index 8271590..1c4a91b 100644
+--- a/qemu_v8.mk
++++ b/qemu_v8.mk
+@@ -163,9 +163,9 @@ run-only:
+        ln -sf $(ROOT)/out-br/images/rootfs.cpio.gz $(BINARIES_PATH)/
+        $(call check-terminal)
+        $(call run-help)
+-       $(call launch-terminal,54320,"Normal World")
+-       $(call launch-terminal,54321,"Secure World")
+-       $(call wait-for-ports,54320,54321)
++       # $(call launch-terminal,54320,"Normal World")
++       # $(call launch-terminal,54321,"Secure World")
++       # $(call wait-for-ports,54320,54321)
+        cd $(BINARIES_PATH) && $(QEMU_PATH)/aarch64-softmmu/qemu-system-aarch64 \
+                -nographic \
+                -serial tcp:localhost:54320 -serial tcp:localhost:54321 \
+```
+
+Before start QEMU, run two `nc` to listen port `54320` and `54321`.
+
+```
+$ nc -l 127.0.0.1 54320
+$ nc -l 127.0.0.1 54321
+```
+
+Then open QEMU by `make run-only`, and start by input `c`.
