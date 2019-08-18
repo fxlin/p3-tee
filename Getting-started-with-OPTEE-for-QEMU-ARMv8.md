@@ -26,7 +26,7 @@ Create a shared folder to share example host apps and TAs with QEMU guest system
 
 ```sh
 $ mkdir shared_folder
-$ cp -r out/* shared_folder/
+$ cp -r /project/root/dir/out/* shared_folder/
 ```
 
 Run QEMU.
