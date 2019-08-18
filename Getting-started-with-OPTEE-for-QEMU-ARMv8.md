@@ -17,8 +17,9 @@ $ mkdir optee-qemuv8-3.4.0 && cd optee-qemuv8-3.4.0 && \
 Build OP-TEE for QEMU ARMv8 and images.
 
 ```sh
-$ cd build && \
-  make -j2 toolchains && \
+$ cd build
+$ source environment
+$ make -j2 toolchains && \
   make QEMU_VIRTFS_ENABLE=y CFG_TEE_RAM_VA_SIZE=0x00300000 -j$(nproc) && \
   make examples-install
 ```
