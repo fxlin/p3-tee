@@ -19,14 +19,15 @@ Build OP-TEE for QEMU ARMv8 and images.
 ```sh
 $ cd build && \
   make -j2 toolchains && \
-  make QEMU_VIRTFS_ENABLE=y CFG_TEE_RAM_VA_SIZE=0x00300000 -j$(nproc)
+  make QEMU_VIRTFS_ENABLE=y CFG_TEE_RAM_VA_SIZE=0x00300000 -j$(nproc) && \
+  make examples-install
 ```
 
 Create a shared folder to share example host apps and TAs with QEMU guest system.
 
 ```sh
 $ mkdir shared_folder
-$ cp ALL_HOST_APPS_TAS shared_folder/
+$ cp -r out/* shared_folder/
 ```
 
 Run QEMU.
@@ -43,12 +44,13 @@ $ mkdir shared && mount -t 9p -o trans=virtio host shared
 Copy TAs to corresponding directory.
 
 ```sh
-$ cd shared && cp *.ta /lib/optee_armtz/
+$ cd shared && cp ta/*.ta /lib/optee_armtz/
 ```
 
 Execute host apps.
 
 ```sh
+$ cd host
 $ ./hello_world
 original value is 29
 inc value is 129
