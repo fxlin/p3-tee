@@ -18,10 +18,8 @@ Build OP-TEE for QEMU ARMv8 and images.
 
 ```sh
 $ cd build
-$ source environment
 $ make -j2 toolchains && \
-  make QEMU_VIRTFS_ENABLE=y CFG_TEE_RAM_VA_SIZE=0x00300000 -j$(nproc) && \
-  make examples-install
+  make QEMU_VIRTFS_ENABLE=y CFG_TEE_RAM_VA_SIZE=0x00300000 -j$(nproc)
 ```
 
 Create a shared folder to share example host apps and TAs with QEMU guest system.
