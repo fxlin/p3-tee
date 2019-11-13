@@ -1,7 +1,7 @@
 To run examples on the QEMU ARMv8 emulator, we need first build OP-TEE for QEMU
 ARMv8. You can install dependencies with this
-[instruction](https://optee.readthedocs.io/building/prerequisites.html#prerequisites)
-or use our [Dockerfile](Dockerfile).
+[instruction](https://optee.readthedocs.io/en/latest/building/prerequisites.html)
+or use our [Dockerfile](https://github.com/mesalock-linux/rust-optee-trustzone-sdk/blob/master/Dockerfile).
 
 Download OP-TEE for QEMU ARMv8 source code.
 
