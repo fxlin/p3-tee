@@ -1,0 +1,39 @@
+xzl@minibox:/data/teaching/p3-tee-workspace/optee-rpi3/build$ make img-help                                          
+$ fdisk /dev/sdx   # where sdx is the name of your sd-card                                                           
+   > p             # prints partition table                                                                          
+   > d             # repeat until all partitions are deleted                                                         
+   > n             # create a new partition                                                                          
+   > p             # create primary                                                                                  
+   > 1             # make it the first partition                                                                     
+   > <enter>       # use the default sector                                                                          
+   > +32M          # create a boot partition with 32MB of space                                                      
+   > n             # create rootfs partition                                                                         
+   > p                                                                                                               
+   > 2                                                                                                               
+   > <enter>                                                                                                         
+   > <enter>       # fill the remaining disk, adjust size to fit your needs                                          
+   > t             # change partition type                                                                           
+   > 1             # select first partition                                                                          
+   > e             # use type 'e' (FAT16)                                                                            
+   > a             # make partition bootable                                                                         
+   > 1             # select first partition                                                                          
+   > p             # double check everything looks right                                                             
+   > w             # write partition table to disk.                                                                  
+                                                                                                                     
+run the following as root                                                                                            
+   $ mkfs.vfat -F16 -n BOOT /dev/sdx1                                                                                
+   $ mkdir -p /media/boot                                                                                            
+   $ mount /dev/sdx1 /media/boot                                                                                     
+   $ cd /media                                                                                                       
+   $ gunzip -cd /data/teaching/p3-tee-workspace/optee-rpi3/build/../out-br/images/rootfs.cpio.gz | sudo cpio -idmv "b
+oot/*"                                                                                                               
+   $ umount boot                                                                                                     
+                                                                                                                     
+run the following as root                                                                                            
+   $ mkfs.ext4 -L rootfs /dev/sdx2                                                                                   
+   $ mkdir -p /media/rootfs                                                                                          
+   $ mount /dev/sdx2 /media/rootfs                                                                                   
+   $ cd rootfs                                                                                                       
+   $ gunzip -cd /data/teaching/p3-tee-workspace/optee-rpi3/build/../out-br/images/rootfs.cpio.gz | sudo cpio -idmv   
+   $ rm -rf /media/rootfs/boot/*                                                                                     
+   $ cd .. && umount rootfs                                                                                          

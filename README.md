@@ -1,5 +1,7 @@
 # Lab3: Trusted Execution Environment (TEE)
 
+<img src="https://www.thefastmode.com/media/k2/items/src/7df193d5a2be86814850ef16aacb19d6.jpg?t=20200606_093102?date=13042020" alt="Enterprises Need To Focus On IoT Security" style="zoom: 67%;" />
+
 In this lab, we will experience with Arm's TEE - TrustZone. 
 
 Instead of writing baremetal TEE code, we will write our TEE code running atop a popular TEE framework -- OPTEE. 
