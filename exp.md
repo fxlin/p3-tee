@@ -24,6 +24,8 @@ https://sod.pixlab.io/intro.html#cnn
 
 You should feel free to pick your choice of libs. 
 
+See the general [porting guide](porting.md) for porting libraries/apps into TrustZone.
+
 ### The choice of crypto algorithms
 What encryption/decryption algorithm do you plan to use? Are there existing implementations for OPTEE and Linux in the normal world? 
 
