@@ -1,12 +1,14 @@
-# Experiment: A secure machine learning service
+# Experiment: A secure ~~machine learning~~ computer vision service
 
-We will run a machine learning service in the secure world. This is useful when we do not want to expose the input data or the machine learning model to the normal world, deeming it untrusted. 
+We will run a ~~machine learning~~ computer vision service in the secure world. This is useful when we want to ensure the confidentiality of the input data and also the integrity of the service code given the untrusted normal world.  
 
-We will create a TA that accepts **encrypted** images (in jpg) submitted from the CA. The TA will run neural network inference on the input image; for each detected object on the image, the TA will return the coordinates of its bounding boxes, and a textual label (e.g. "bicycle"). 
+### Task
+
+We will create a TA that accepts **encrypted** images (in jpg) submitted from the CA. The TA will run license plate detection service on the input images; for each detected license plate on the image, the TA will return the coordinates of its bounding boxes. 
 
 ## Challenges
 
-### CA/TA interface
+### Designing CA/TA interface
 
 The basic interaction flow can be learnt from the helloworld example. Passing image data is (large chunks, variable length) in/out can be learnt from the sdp (secure data path) example. 
 
@@ -14,36 +16,49 @@ You will come up with the command(s) and the formats of parameters passed in/out
 
 ### Shopping for proper libraries
 
-We need to run code inside the TA for image decoding and NN inference. On one hand, we do not want to reinvent the wheel. On the other hand, we cannot use popular frameworks such as Tensorflow or nCNN. Optimized for speed and rich features, they are large and have extensive external dependency. Porting them to the secure world will be tedious. Furthermore, we are limited to libraries implemented in C as OPTEE does not have libs and runtimes, e.g. for C++ or Python. 
+We need to run code inside the TA for image decoding and simple vision algorithms. On one hand, we do not want to reinvent the wheel. On the other hand, we cannot use popular frameworks such as Tensorflow or nCNN. Optimized for speed and rich features, they are large and have extensive external dependency. Porting them to the secure world will be tedious, if not impossible. Furthermore, we are limited to libraries implemented in C as OPTEE does not have libs and runtimes, e.g. for C++ or Python. 
 
-Indeed, we are looking for a "embedded" library that is lightweight, self-sufficient, and in C. To this end, SOD seems a good choice. It provides a simple program and good documentation. 
+Indeed, we are looking for an "embedded" library that is lightweight, self-sufficient, and in C. To this end, SOD seems a good choice. It provides a simple program and good documentation. 
 
-https://sod.pixlab.io/intro.html#cnn
+https://sod.pixlab.io/intro.html
 
-![image-20200710153951674](sod.png)
+![license](license.png)
 
-You should feel free to pick your choice of libs. 
+For those who wish to use SOD, we have ported the library. The build instruction and API documentation can be found in here. 
+
+Meanwhile, you should also feel free to pick your choice of libs. 
 
 See the general [porting guide](porting.md) for porting libraries/apps into TrustZone.
 
-### The choice of crypto algorithms
-What encryption/decryption algorithm do you plan to use? Are there existing implementations for OPTEE and Linux in the normal world? 
+### Choosing cryptos
 
-### Key management
+You may assume a shared secret (i.e. crypto key) between normal and secure world is used to encrypt/decrypt the images. For example, prior to asking CA to submit the images to TA, you may have **your own code** to encrypt the images, which is considered trusted and shares a secret key with TA in secure world for decryption.    
 
-How do you plan to distribute the crypto keys to the secure/normal worlds?
+However, the immediate question to consider is:  
 
-How to store the keys securely? Are there existing support in OPTEE? 
+* What encryption/decryption algorithm to use? Are there existing implementations for OPTEE and Linux in the normal world? 
 
-### Secure storage
+Two types of crypto schema are at our hand: symmetric and asymmetric. The former uses only ***one*** key for both  encryption and decryption while the latter uses a public/private key pair: ***public*** key for encryption and ***private*** key for decryption.  
 
-The NN model shall be kept in secure world only. To do that, you will need to study OPTEE's secure storage. 
+For sure, the choice of these cryptos lead to different performance implications and in this experiment you will have to decide which schema to use.
+
+### Reasoning about security
+
+Each design decision made from the above three challenges is crucial to the security of the system **you** just designed. That is why you should reason about them and be clear about the design tradeoffs. For example:
+
+* With your design of CA/TA interface, what could normal world learn at best? Does this affect the design goal of your system? 
+* What is the implication of accepting user-input images and run algorithms on them inside secure world? Is the system safe for good by putting the security sensitive code inside secure world?
+* With your choice of crypto, what additional assumptions you **must** make to ensure security? Hints: 
+  * Symmetric encryption uses only one key. Can you expose it to normal world? If you have to do so to encrypt images, what assumption you must make to ensure the images are still confidential?  
+  * How do you store the key(s)? Can you bake them into TA and why?   
 
 ## Deliverables
 
-Demonstrate that your code works. 
+1. A tarball that demonstrates your code works. 
 
-Report performance measurement. 
+2. A report with:
+   * performance measurement
+   * security analysis that shows your reasoning 
 
-Enhancement ideas: can you use multicore to speedup the inference? 
+~~Enhancement ideas: can you use multicore to speedup the inference?~~ 
 
