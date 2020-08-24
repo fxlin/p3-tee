@@ -24,7 +24,7 @@ https://sod.pixlab.io/intro.html
 
 ![license](license.png)
 
-For those who wish to use SOD, we have ported the library. The build instruction and API documentation can be found in here. 
+For those who wish to use SOD, we have ported the library. The build instruction and API documentation can be found in [here](sod.md) . 
 
 Meanwhile, you should also feel free to pick your choice of libs. 
 
