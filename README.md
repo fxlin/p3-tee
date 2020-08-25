@@ -10,6 +10,7 @@ Instead of writing baremetal TEE code, we will write our TEE code running atop a
 
 * (primary) experience with modern hardware-based isolation mechanism.
 * (primary) security-oriented programming. 
+* (primary) porting existing libs to a new environment 
 * (secondary) building embedded AI
 
 ## Overview
@@ -17,10 +18,8 @@ Instead of writing baremetal TEE code, we will write our TEE code running atop a
 This las has three phases: 
 
 * [Quickstart](quickstart.md): set up the OPTEE development environment. You should follow the instructions. 
-
 * [App examples](helloworld.md): demo two simple OPTEE apps which show basic app structures. You should reproduce the demo and tinker with the apps
-
+* Porting libs to OPTEE: 
+  * [Guidelines](porting.md)
+  * [Case study: the SOD lib](sod.md)
 * [Experiment](exp.md): an assignment in which you will build a machine learning service inside TrustZone. 
-
-  
-
