@@ -10,7 +10,7 @@ Instead of writing baremetal TEE code, we will write our TEE code running atop a
 
 * (primary) experience with modern hardware-based isolation mechanism.
 * (primary) security-oriented programming. 
-* (primary) porting existing libs to a new environment 
+* (primary) porting existing software to a new environment 
 * (secondary) building embedded AI
 
 ## Overview

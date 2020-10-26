@@ -30,15 +30,17 @@ Each component is versioned in its own git repository. Together, all these git r
 
 > `repo` is a by-product of Google's AOSP project. 
 
-The build process is complex, e.g. managed by numerous Makefiles in a hierarchy, let alone building for a series of targets, e.g. various Arm boards and QEMU. To automate the build process, there is a dedicated component called `build` (see above), which has its own git repository. 
+The build process is complex, e.g. managed by numerous Makefiles in a hierarchy, let alone building for a series of targets, e.g. various Arm boards and QEMU. To automate the build process, there is a dedicated component called `build` (see above), which has its own git repository! 
 
-### Build workflow overview
+### Building the project: an overview
 
 1. Install tools & libs required for building
 2. Pull the source of the entire project via `repo`. 
 3. First time build: we will build everything including QEMU and normal/secure worlds binaries of OPTEE. The build process will pack these binaries into an Armv8 system image (rootfs image) to be launched by QEMU
 4. Run QEMU and play with "Hello world", validating that our environment works properly.
-5. Repeated build: modify source code of normal world app and TAs, and 
+5. Repeated build: modify source code of normal world app and TAs, and build again. 
+
+Read on for detailed steps below. 
 
 ### Terms
 **TA** Trusted applications, sometimes called trustlets. A TA is a binary to be executed in the secure world. 
@@ -51,9 +53,9 @@ The build process is complex, e.g. managed by numerous Makefiles in a hierarchy,
 
 <img src="arch.png" alt="image-20200710111628521" style="zoom: 67%;" />
 
-## Setup
+## Setup steps
 
-### QEMU
+### Alternative target 1: QEMU
 
 To run examples on the QEMU ARMv8 emulator, we need first build OP-TEE for QEMU that emulates ARMv8 and TrustZone. You can install dependencies with this [instruction](https://optee.readthedocs.io/en/latest/building/prerequisites.html). 
 
@@ -125,7 +127,7 @@ Here is my window (running tmux) split in three ways:
 
 ![](qemu.png)
 
-### Rpi3
+### Alternative target 2: Rpi3
 
 Read the instructions for QEMU above. We will follow a similar procedure with minor tweaks. 
 
@@ -204,7 +206,7 @@ Reference: [Official build instructions](https://optee.readthedocs.io/en/latest/
 
 ## Development workflow
 
-### 1. The easiest way (need to reboot QEMU every time)
+### Alternative 1: the easiest way (need to reboot QEMU every time)
 
 We will leverage an existing OPTEE example program: modify/add/delete its sources, rebuild the entire rootfs, and relaunch QEMU. In this way, we do not have deal with the Makefile hierarchy. 
 
@@ -312,7 +314,7 @@ TA incremented value to 44
 
 The value is incremented by 2 -- our modification to TA works!
 
-### 2. A better way (shared binaries with QEMU, no reboot needed)
+### Alternative 2: A better way (shared binaries with QEMU, no reboot needed)
 
 With the above method, you will soon find it tedious to restart QEMU every time we change TA/CA sources. The solution is to share the TA/CA build outcome via a folder shared with the QEMU guest.
 
@@ -350,6 +352,6 @@ Of course, you should write a script to automate the above workflow!
 
 Need extra software packages (e.g. strace) to be included in the rootfs image? either change `common.mk` or `out-br/.config` (may be overwritten). See [here](https://github.com/OP-TEE/optee_os/issues/2632). 
 
-### 3. Rpi3: copying files over SSH
+### Alternative 3: Rpi3: copying files over SSH
 
 If we are running Rpi3, we copy over CA/TA over SSH connection. [This article](https://github.com/piachristel/open-source-fabric-optee-chaincode/blob/master/documentation/chaincode-and-chaincode-proxy-rapi.md) explains how to quickly configure an SSH server on Rpi3. 

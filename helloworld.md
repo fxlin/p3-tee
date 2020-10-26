@@ -185,6 +185,8 @@ $ xtest --sdp-basic
 
 ## Exercises
 
+*<u>CS6456 students -- please refer to MS teams for assignment.</u>* 
+
 * What's the overhead of each command invocation? Carefully plan & execute measurement. What are the major contributors to the overhead?
 * Add a command to helloworld, which will multiply a given integer by 2. 
 
