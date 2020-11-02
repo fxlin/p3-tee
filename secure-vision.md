@@ -1,4 +1,4 @@
-# Experiment: secure visual analytics
+# Experiment: secure vision
 
 We will run a computer vision service in the secure world. This is useful when we want to ensure the confidentiality of the input data and also the integrity of the service code in the face of the untrusted normal world.  
 
@@ -20,7 +20,7 @@ You will come up with the command(s) and the formats of parameters passed in/out
 
 #### Computer vision library 
 
-We need to run code inside the TA for image decoding and simple vision algorithms. On one hand, we do not want to reinvent the wheel. On the other hand, we cannot use popular frameworks such as Tensorflow or nCNN. Optimized for speed and rich features, they are large and have extensive external dependency. Porting them to the secure world will be tedious, if not impossible. Furthermore, we are limited to libraries implemented in C as OPTEE does not have libs and runtimes, e.g. for C++ or Python. 
+We need to run code inside the TA for image decoding and simple vision algorithms. On one hand, we do not want to reinvent the wheel. On the other hand, we cannot use popular frameworks such as Tensorflow or nCNN. Why? Optimized for speed and rich features, they are large and have extensive external dependency. Porting them to the secure world will be tedious, if not impossible. Furthermore, we are limited to libraries implemented in C as OPTEE does not have libs and runtimes, e.g. for C++ or Python. 
 
 Indeed, we are looking for an "embedded" library that is lightweight, self-sufficient, and in C. To this end, SOD seems a good choice. It provides simple sample programs and good documentation. 
 
@@ -55,6 +55,7 @@ Each design decision you made above is crucial to the security of the system. Co
   * How do you store the key(s)? Can you bake them into TA and why?   
 
 ## Deliverables
+*cs6456 students: see assignments from Teams*
 
 1. A tarball that demonstrates your code works. 
 

@@ -1,5 +1,7 @@
 # Quickstart: OPTEE 
 
+**This project is to be completed on server: granger1**
+
 ## Source code overview
 
 Compared to the codebase we have dealt with before, OPTEE is a complex project with a myriad of components, including QEMU, a normal world daemon, trustlets (TAs), etc. The sources of all these components are organized in a directory with the following structure. 
@@ -55,7 +57,9 @@ Read on for detailed steps below.
 
 ## Setup steps
 
-### Alternative target 1: QEMU
+You can choose one of two possible environments: the one emulated by QEMU and Rpi3 hardware. 
+
+### Alternative environment 1: QEMU
 
 To run examples on the QEMU ARMv8 emulator, we need first build OP-TEE for QEMU that emulates ARMv8 and TrustZone. You can install dependencies with this [instruction](https://optee.readthedocs.io/en/latest/building/prerequisites.html). 
 
@@ -127,7 +131,7 @@ Here is my window (running tmux) split in three ways:
 
 ![](qemu.png)
 
-### Alternative target 2: Rpi3
+### Alternative environment 2: Rpi3
 
 Read the instructions for QEMU above. We will follow a similar procedure with minor tweaks. 
 
@@ -166,7 +170,7 @@ ii) load the filesystem image to the card. The commands extract boot/ and / from
 
 **Boot Rpi3 from the micro SD card:**
 
-Power on Rpi3. We boot into a Linux console (root, empty password) from serial console: 
+Power on Rpi3 and hook up a serial cable. We boot into a Linux console (root, empty password) from a serial console: 
 
 ![](rpi3-login.png)
 
@@ -194,7 +198,7 @@ $ xtest
 ```
 For more options for `xtest`, see its [reference](https://optee.readthedocs.io/en/latest/building/gits/optee_test.html#optee-test-run-xtest)
 
-Now try all examples for OPTEE, e.g. 
+Now try examples for OPTEE, e.g. 
 
 ```
 $ optee_example_hello_world

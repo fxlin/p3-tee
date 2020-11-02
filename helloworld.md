@@ -131,7 +131,7 @@ When the CA opens/closes a session, the following TA functions will be called:
 
 ```
 TEE_Result TA_OpenSessionEntryPoint(...)
-void TA_CloseSessio nEntryPoint(...)
+void TA_CloseSessionEntryPoint(...)
 ```
 
 In this helloworld TA, they are just placeholders that print some "Hello world" messages, which shall show up on the secure world console. 
@@ -144,7 +144,7 @@ TEE_Result TA_InvokeCommandEntryPoint(...)
 
 This function further dispatches to `inc_value()` and `dec_value()`, depending on the command ID passed from the CA. These two functions will update the parameter (`params[0].value`) in place, which will be made visible to the CA after the command is completed on the normal world side. 
 
-## App 2: Secure data path basic (sdp)
+## App 2: Secure data path (sdp) basic 
 
 Another simple example worth looking at. It showcases how to copy a large chunk of data between normal/secure worlds, as OPTEE does not support passing large data as values in command parameters (for efficiency reason). 
 
@@ -185,7 +185,7 @@ $ xtest --sdp-basic
 
 ## Exercises
 
-*<u>CS6456 students -- please refer to MS teams for assignment.</u>* 
+*<u>CS6456 students -- please refer to Teams for assignment.</u>* 
 
 * What's the overhead of each command invocation? Carefully plan & execute measurement. What are the major contributors to the overhead?
 * Add a command to helloworld, which will multiply a given integer by 2. 
