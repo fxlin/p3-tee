@@ -90,7 +90,13 @@ $ make -j2 toolchains
 $ make QEMU_VIRTFS_ENABLE=y CFG_TEE_RAM_VA_SIZE=0x00300000 -j `nproc`
 ```
 
-Comment out the following lines `qemu_v8.mk`, which will attempt to launch local terminal emulators. These are only useful when you are developing on your local Linux machine: 
+Additional notes on cleaning up OPTEE build: [here](cleanup.md) 
+
+#### Adjust the makefile  `qemu_v8.mk`
+
+Explanation: the first three lines attempt to launch local terminal emulators (e.g. xterm). These are useful only when you are developing on your local Linux machine. They do not apply when you connect to a remote server over SSH. 
+
+The last line specifies -s, which tells QEMU to listen for incoming GDB connection. The listened port is 1234 which seems to be hardcoded (?). If multiple students try to do the same thing, their commands will fail because only one student can bind to port 1234. 
 
 ```
 diff --git a/qemu_v8.mk b/qemu_v8.mk
@@ -110,7 +116,12 @@ index 8271590..1c4a91b 100644
         cd $(BINARIES_PATH) && $(QEMU_PATH)/aarch64-softmmu/qemu-system-aarch64 \
                 -nographic \
                 -serial tcp:localhost:54320 -serial tcp:localhost:54321 \
+                -smp $(QEMU_SMP) \
+-               -s -S -machine virt,secure=on -cpu cortex-a57 \
++               -S -machine virt,secure=on -cpu cortex-a57 \
 ```
+
+#### Run netcat (nc)
 
 Run two `nc` to listen port `54320` and `54321`, which connect to consoles for normal & secure worlds of the ARM system emulated by QEMU, respectively. 
 
@@ -124,7 +135,7 @@ NOTE on nc:
 1. nc has slight variations in its command line syntax. If you run into issues, see [here](https://serverfault.com/questions/512333/how-can-i-configure-netcat-or-some-other-stock-linux-utility-to-listen-on-a-sp). 
 2. Apparently on the same server you cannot use the same ports, e.g. 54320/54321, being used by other students. Just pick your own "personal" ports. Set them up in the Makefile above and your command line. 
 
-Run QEMU.
+#### Run QEMU
 
 ```sh
 $ make run-only 
@@ -135,8 +146,6 @@ Once QEMU is launched, start the emulated guest by typing `c`.
 Here is my window (running tmux) split in three ways: 
 
 ![](qemu.png)
-
-Notes on cleaning up your OPTEE build: [here](cleanup.md) 
 
 ### Alternative environment 2: Rpi3
 
