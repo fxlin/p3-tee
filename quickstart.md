@@ -90,7 +90,7 @@ $ make -j2 toolchains
 $ make QEMU_VIRTFS_ENABLE=y CFG_TEE_RAM_VA_SIZE=0x00300000 -j `nproc`
 ```
 
-If you run QEMU on a different machine, comment out the following code in `qemu_v8.mk`. 
+Comment out the following lines `qemu_v8.mk`, which will attempt to launch local terminal emulators. These are only useful when you are developing on your local Linux machine: 
 
 ```
 diff --git a/qemu_v8.mk b/qemu_v8.mk
