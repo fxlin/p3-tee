@@ -136,6 +136,8 @@ Here is my window (running tmux) split in three ways:
 
 ![](qemu.png)
 
+Notes on cleaning up your OPTEE build: [here](cleanup.md) 
+
 ### Alternative environment 2: Rpi3
 
 Read the instructions for QEMU above. We will follow a similar procedure with minor tweaks. 
