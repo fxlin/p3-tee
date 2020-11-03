@@ -57,7 +57,7 @@ Read on for detailed steps below.
 
 ## Setup steps
 
-You can choose one of two possible environments: the one emulated by QEMU and Rpi3 hardware. 
+You can choose one of two possible environments: an ARM platform with TrustZone as emulated by QEMU; Rpi3 with has TrustZone built in. 
 
 ### Alternative environment 1: QEMU
 
@@ -90,7 +90,7 @@ $ make -j2 toolchains
 $ make QEMU_VIRTFS_ENABLE=y CFG_TEE_RAM_VA_SIZE=0x00300000 -j `nproc`
 ```
 
-If you run QEMU on a remote server as opposed to a local Linux machine, comment out the following code in `qemu_v8.mk` and use `nc`.
+If you run QEMU on a different machine, comment out the following code in `qemu_v8.mk`. 
 
 ```
 diff --git a/qemu_v8.mk b/qemu_v8.mk
@@ -112,12 +112,17 @@ index 8271590..1c4a91b 100644
                 -serial tcp:localhost:54320 -serial tcp:localhost:54321 \
 ```
 
-Before start QEMU, run two `nc` to listen port `54320` and `54321`, which connect to consoles for normal & secure worlds, respectively. 
+Run two `nc` to listen port `54320` and `54321`, which connect to consoles for normal & secure worlds of the ARM system emulated by QEMU, respectively. 
 
 ```
-$ nc -l 127.0.0.1 -p 54320
-$ nc -l 127.0.0.1 -p 54321
+$ nc -l 127.0.0.1 54320
+$ nc -l 127.0.0.1 54321
 ```
+
+NOTE on nc: 
+
+1. nc has slight variations in its command line syntax. If you run into issues, see [here](https://serverfault.com/questions/512333/how-can-i-configure-netcat-or-some-other-stock-linux-utility-to-listen-on-a-sp). 
+2. Apparently on the same server you cannot use the same ports, e.g. 54320/54321, being used by other students. Just pick your own "personal" ports. Set them up in the Makefile above and your command line. 
 
 Run QEMU.
 
