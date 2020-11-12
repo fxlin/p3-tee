@@ -80,6 +80,9 @@ $ mkdir optee-qemuv8 && cd optee-qemuv8 && \
   repo sync -j4 --no-clone-bundle
 ```
 
+[Sample command output](repo-output.md)
+
+>
 > In case you are curious, the .xml file lists all the git repos and the corresponding commits that we refer to. Check it out: https://github.com/ForgeRock/optee-manifest/blob/master/qemu_v8.xml
 
 Build OPTEE for QEMU ARMv8: 

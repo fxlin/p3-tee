@@ -26,5 +26,16 @@ Instead of writing baremetal TEE code, we will write our TEE code running atop a
 * Porting libs to OPTEE: 
   * [Guidelines](porting.md)
   * [Case study: the SOD lib](sod.md)
-* [Assignment](secure-vision.md): an assignment in which you will build a machine learning service inside TrustZone. *(cs6456 students: refer to Teams for assignment)*
+* [Programming challenge](secure-vision.md): an assignment in which you will build a machine learning service inside TrustZone. *(cs6456 students: refer to Teams for assignment)*
+
+## Assignment weights
+
+| Exp  | Weights |
+| ---- | ------- |
+| 1 TEE basics | 10     |
+| 2 helloworld | 10     |
+| 3 data path | 10     |
+| 4 secure vision -- alpha | 15    |
+| 5 secure vision -- beta | 15    |
+The weights are relative and may not necessarily add up to 100. 
 
