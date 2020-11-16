@@ -167,6 +167,7 @@ The entry function is `sdp_basic_runner_cmd_parser()` which will be invoked by t
 The sdp functionalities are included in compilation when CFG_SECURE_DATA_PATH is set. To do that, do 
 
 ```
+$ make buildroot-cleaner 
 $ make buildroot CFG_SECURE_DATA_PATH=y CFG_TEE_RAM_VA_SIZE=0x00300000 -j `nproc`
 ```
 Note that you should add other flags such as `QEMU_VIRTFS_ENABLE=y` as needed. 

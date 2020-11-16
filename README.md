@@ -6,8 +6,6 @@
 
 **This project is to be completed on server: granger1**
 
-
-
 In this project, we will experience with Arm's TEE - TrustZone. 
 
 Instead of writing baremetal TEE code, we will write our TEE code running atop a popular TEE framework -- OPTEE. 
