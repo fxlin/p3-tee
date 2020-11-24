@@ -6,7 +6,10 @@ We will run a computer vision service in the secure world. This is useful when w
 
 ## Task overview
 
-We will create a TA that accepts **encrypted** images (in jpg) submitted from the CA. The TA will run license plate detection service on the input images; for each detected license plate on the image, the TA will return the coordinates of its bounding boxes.  <!--- and the license plate text???--->
+We will create a TA that accepts **encrypted** images (in jpg) submitted from the CA. The TA will run license plate detection service on the input images; for each detected license plate on the image, the TA will return the results, e.g. coordinates of its bounding boxes, license plate info, etc. <!--- and the license plate text???--->
+
+<img src="exp-flow.png" alt="exp-flow" style="zoom:50%;" />
+
 
 ## Challenges
 
