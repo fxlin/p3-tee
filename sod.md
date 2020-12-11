@@ -8,15 +8,15 @@
 
 To use the ported SOD:
 
-1. Grab the code from https://github.com/zaxguo/sod/tree/tz (branch tz). 
-
-2. Put `libm.a` under the same directory as `libutee.a`, `libteec.a`; put all other source files (e.g. `sod.h`, `sod.c`) under the source path of your TA.
-
+1. Grab the code from https://github.com/zaxguo/sod/tree/tz (branch: tz). 
+2. Put `libm.a` under the lib directory, where same directory as `libutee.a`, `libteec.a`; put all other source files (e.g. `sod.h`, `sod.c`) under the source path of your TA.
 3. Modify your TA Makefile so that `sod.c` can be compiled and `libm.a` can be located and linked.
-
+   * To add sod.c to your TA build, modify sub.mk in the TA's source directory
+   * To link libm.a (and any other libs), modify ./optee_os/ta/mk/ta_dev_kit.mk. Just follow examples there, e.g. for adding libmbedtls to the link process. 
 4. Include `sod.h` in your TA source code. Call supported `sod` functions as you like. 
-
 5. Compile the TA normally. 
+
+The TA's output binary: out-br/build/optee_examples-1.0/XXX/ta/out, where XXX is the TA example name. 
 
 <!--- can we provide a tiny example? --->
 
@@ -44,7 +44,11 @@ To port SOD into TEE, we will bridge the services provided by OPTEE to what is e
 
 For 1. the solution is simple -- simply supply the required semantics to SOD while ensuring it can execute correctly. This is done in `fs.h` and `stat.h` added to the ported library. As you may see, required but not necessary APIs are substituted by a stub function, which does nothing. 
 
-For 2. it is slightly trickier, as these libraries need actual implementation (e.g. for math functions) and cannot be simply substituted by stubs. Luckily, OP-TEE OS provides its version of standard libraries (i.e. `stdlib.h` and `stdio.h`) with some missing functions (e.g. `fputs`, `fwrite`). Porting them would only need to implement stubs for these functions. Examples can be found in `sod.c` which adds stub implementation for symbols such as  `fputs`, `fwrite`, and `stderr`. For math functions, which need actual implementation, I took the pre-compiled `libm.a`, slightly modified its header file `math.h` & `ctype.h`, and brought them to TZ for SOD to link against.  
+For 2. it is slightly trickier, as these libraries need actual implementation (e.g. for math functions) and cannot be simply substituted by stubs. Luckily, OP-TEE OS provides its version of standard libraries (i.e. `stdlib.h` and `stdio.h`) with some missing functions (e.g. `fputs`, `fwrite`). Porting them would only need to implement stubs for these functions. Examples can be found in `sod.c` which adds stub implementation for symbols such as  `fputs`, `fwrite`, and `stderr`. 
+
+**Libm.a** For math functions, which need actual implementation, I took the pre-compiled `libm.a`, slightly modified its header file `math.h` & `ctype.h`, and brought them to TZ for SOD to link against.  
+
+<!--- libm.a is from Hikey's filesystem image. Per Liwei--->
 
 ## How to debug? 
 
@@ -116,7 +120,7 @@ This is the dumped stack trace, which is hard to parse by human eyes. Luckily, O
 
 ```
 $ export CROSS_COMPILE=aarch64-linux-gnu-
-$ cat stack.dump | optee_os/scripts/symbolize.py -d optee_examples/hellow_world/ta/` 
+$ cat stack.dump | optee_os/scripts/symbolize.py -d optee_examples/hellow_world/ta/ 
 ```
 
 It then translates the call stack into the following:
@@ -135,3 +139,5 @@ E/LD:   0x00000000400a6b90 __ta_entry at /home/liwei/optee-rpi3/optee_os/out/arm
 ```
 
 This makes it so much easier to locate where the bug is. <!--- explain the callstack ---> 
+
+If the above does not work, e.g. showing "???" as function names, double check your CROSS_COMPILE environment variable. Do you miss the trailing -? 
