@@ -1,0 +1,661 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      <link rel="shortcut icon" href="../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.2.6">
+    
+    
+      
+        <title>sod - p4-fs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.cb6bc1d0.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.39b8e14a.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#ffc105">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="amber" data-md-color-accent="amber">
+      
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#porting-sod-to-optee" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href=".." title="p4-fs" class="md-header-nav__button md-logo" aria-label="p4-fs">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 89 89"><path d="M3.136 17.387v42.932l42.932 21.467L3.136 17.387z"/><path d="M21.91 8l42.933 64.398-18.775 9.388L3.136 17.387 21.91 8z" fill-opacity=".5"/><path d="M67.535 17.387L40.273 35.543l21.878 32.818 5.384 2.691V17.387z"/><path d="M67.535 17.387v53.666l18.774-9.388V8l-18.774 9.387z" fill-opacity=".25"/></svg>
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      <div class="md-header-nav__ellipsis">
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
+            p4-fs
+          </span>
+        </div>
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
+            
+              sod
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../quickstart/" class="md-tabs__link">
+      quickstart
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../helloworld/" class="md-tabs__link">
+      app examples
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../porting/" class="md-tabs__link">
+      porting
+    </a>
+  </li>
+
+      
+        
+  
+  
+    
+  
+
+
+  <li class="md-tabs__item">
+    <a href="./" class="md-tabs__link md-tabs__link--active">
+      sod
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../secure-vision/" class="md-tabs__link">
+      challenge
+    </a>
+  </li>
+
+      
+    </ul>
+  </div>
+</nav>
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="p4-fs" class="md-nav__button md-logo" aria-label="p4-fs">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 89 89"><path d="M3.136 17.387v42.932l42.932 21.467L3.136 17.387z"/><path d="M21.91 8l42.933 64.398-18.775 9.388L3.136 17.387 21.91 8z" fill-opacity=".5"/><path d="M67.535 17.387L40.273 35.543l21.878 32.818 5.384 2.691V17.387z"/><path d="M67.535 17.387v53.666l18.774-9.388V8l-18.774 9.387z" fill-opacity=".25"/></svg>
+
+    </a>
+    p4-fs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quickstart/" class="md-nav__link">
+        quickstart
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../helloworld/" class="md-nav__link">
+        app examples
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../porting/" class="md-nav__link">
+        porting
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          sod
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        sod
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#purpose" class="md-nav__link">
+    Purpose
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quickstart" class="md-nav__link">
+    Quickstart
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#whats-working" class="md-nav__link">
+    What's working?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-we-did" class="md-nav__link">
+    What we did?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-debug" class="md-nav__link">
+    How to debug?
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../secure-vision/" class="md-nav__link">
+        challenge
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#purpose" class="md-nav__link">
+    Purpose
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quickstart" class="md-nav__link">
+    Quickstart
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#whats-working" class="md-nav__link">
+    What's working?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-we-did" class="md-nav__link">
+    What we did?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-debug" class="md-nav__link">
+    How to debug?
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="porting-sod-to-optee">Porting SOD to OPTEE</h1>
+<h2 id="purpose">Purpose</h2>
+<ul>
+<li>describe how to use the SOD library that we have ported to OPTEE</li>
+<li>describe our porting &amp; debugging methodologies, which is crucial for you to use SOD and port other libs to OPTEE</li>
+</ul>
+<h2 id="quickstart">Quickstart</h2>
+<p>To use the ported SOD:</p>
+<ol>
+<li>Grab the code from https://github.com/zaxguo/sod/tree/tz (branch: tz). </li>
+<li>Put <code>libm.a</code> under the lib directory, where same directory as <code>libutee.a</code>, <code>libteec.a</code>; put all other source files (e.g. <code>sod.h</code>, <code>sod.c</code>) under the source path of your TA.</li>
+<li>Modify your TA Makefile so that <code>sod.c</code> can be compiled and <code>libm.a</code> can be located and linked.</li>
+<li>To add sod.c to your TA build, modify sub.mk in the TA's source directory</li>
+<li>To link libm.a (and any other libs), modify ./optee_os/ta/mk/ta_dev_kit.mk. Just follow examples there, e.g. for adding libmbedtls to the link process. </li>
+<li>Include <code>sod.h</code> in your TA source code. Call supported <code>sod</code> functions as you like. </li>
+<li>Compile the TA normally. </li>
+</ol>
+<p>The TA's output binary: out-br/build/optee_examples-1.0/XXX/ta/out, where XXX is the TA example name. </p>
+<!--- can we provide a tiny example? --->
+
+<h2 id="whats-working">What's working?</h2>
+<p>After bringing the necessary libraries, SOD can be compiled and linked together with a TA. However, some functions are apparently not working due to the measures we take to port the libraries, as described above. The working functions and caveats are summarized below.</p>
+<ul>
+<li>What's working:</li>
+<li>SOD's own library functions: these functions are SOD self-contained. E.g. converting a chunk of byte to an RGB image, denoted by the type <code>sod_img</code>. </li>
+<li>Image processing functions:  some basic algorithms such as load the grayscale image (i.e. <code>sod_img_load_grayscale</code>), canny edge detection (i.e. <code>sod_canny_edge_image</code>). These functions will be used to perform the license plate detection function.</li>
+<li>What's not working:</li>
+<li>CNN related functions: embedded machine learning is cool, and theoretically can be supported. However, it requires a fully functional on-demand paging of OP-TEE since SOD-supported NN model consumes ~80MB of RAM which does not fit in TrustZone.<ul>
+<li>Big bonus if you CAN make it work</li>
+</ul>
+</li>
+</ul>
+<h2 id="what-we-did">What we did?</h2>
+<p>Despite SOD is designed for "embedded" environment, it depends on a set of functionalities provided by the underlying OS: </p>
+<ol>
+<li>Filesystem (related) services*. E.g., <code>open</code>,<code>close</code>, <code>read,</code> <code>write,</code> <code>mmap</code> </li>
+<li>Standard libraries. E.g. <code>stdlib.h</code>, <code>stdio.h</code>, <code>math.h</code></li>
+</ol>
+<p>*: SOD implements an abstraction layer to handle the filesystem API differences of Unix &amp; Windows and allows custom APIs for other OSes. </p>
+<p>To port SOD into TEE, we will bridge the services provided by OPTEE to what is expected by SOD. </p>
+<p>For 1. the solution is simple -- simply supply the required semantics to SOD while ensuring it can execute correctly. This is done in <code>fs.h</code> and <code>stat.h</code> added to the ported library. As you may see, required but not necessary APIs are substituted by a stub function, which does nothing. </p>
+<p>For 2. it is slightly trickier, as these libraries need actual implementation (e.g. for math functions) and cannot be simply substituted by stubs. Luckily, OP-TEE OS provides its version of standard libraries (i.e. <code>stdlib.h</code> and <code>stdio.h</code>) with some missing functions (e.g. <code>fputs</code>, <code>fwrite</code>). Porting them would only need to implement stubs for these functions. Examples can be found in <code>sod.c</code> which adds stub implementation for symbols such as  <code>fputs</code>, <code>fwrite</code>, and <code>stderr</code>. </p>
+<p><strong>Libm.a</strong> For math functions, which need actual implementation, I took the pre-compiled <code>libm.a</code>, slightly modified its header file <code>math.h</code> &amp; <code>ctype.h</code>, and brought them to TZ for SOD to link against.  </p>
+<!--- libm.a is from Hikey's filesystem image. Per Liwei--->
+
+<h2 id="how-to-debug">How to debug?</h2>
+<p>As you might imagine, the ported library is flaky and might crash. The output might look like the following: <!--- where does the trace show?---></p>
+<pre><code class="language-c">D/TC:? 0 tee_ta_init_pseudo_ta_session:284 Lookup pseudo TA deadbeef-2450-11e4-abe2-0002a5d5cb
+D/TC:? 0 load_ldelf:703 ldelf load address 0x40006000
+D/LD:  ldelf:134 Loading TA deadbeef-2450-11e4-abe2-0002a5d5c51b
+D/TC:? 0 tee_ta_init_session_with_context:573 Re-open TA 3a2f8978-5dc0-11e8-9c2d-fa7ae01bbebc
+D/TC:? 0 system_open_ta_binary:257 Lookup user TA ELF deadbeef-2450-11e4-abe2-0002a5d5c51b (S)
+D/TC:? 0 system_open_ta_binary:259 lwg: open = 0x101055e8
+D/TC:? 0 secstor_ta_open:21 lwg:secstor_ta_open:21: res = ffff0008
+D/TC:? 0 system_open_ta_binary:261 res=0xffff0008
+D/TC:? 0 system_open_ta_binary:257 Lookup user TA ELF deadbeef-2450-11e4-abe2-0002a5d5c51b (R)
+D/TC:? 0 system_open_ta_binary:259 lwg: open = 0x10105124
+D/TC:? 0 system_open_ta_binary:261 res=0x0
+D/LD:  ldelf:169 ELF (deadbeef-2450-11e4-abe2-0002a5d5c51b) at 0x40088000
+D/TC:? 0 tee_ta_close_session:499 csess 0x101776e0 id 1
+D/TC:? 0 tee_ta_close_session:518 Destroy session
+D/TC:0 0 abort_handler:524 [abort] abort in User mode (TA will panic)
+E/TC:? 0 
+E/TC:? 0 User TA data-abort at address 0x10 (translation fault)
+E/TC:? 0  esr 0x92000045  ttbr0 0x200001018f000   ttbr1 0x00000000   cidr 0x0
+E/TC:? 0  cpu #0          cpsr 0x20000100
+E/TC:? 0  x0  0000000000000010 x1  0000000000000000
+E/TC:? 0  x2  00000000400cb953 x3  0000000000000000
+E/TC:? 0  x4  00000000400cd490 x5  0000000000000080
+E/TC:? 0  x6  00000000400d3ce0 x7  0000000000000020
+E/TC:? 0  x8  0000000040013e20 x9  00000000400cbe24
+E/TC:? 0  x10 0000000000000000 x11 0000000000000000
+E/TC:? 0  x12 0000000000000000 x13 0000000040013c38
+E/TC:? 0  x14 0000000000000000 x15 0000000000000000
+E/TC:? 0  x16 0000000000000000 x17 0000000000000000
+E/TC:? 0  x18 0000000000000000 x19 0000000000000001
+E/TC:? 0  x20 0000000040094e2c x21 00000000400d3ce0
+E/TC:? 0  x22 00000000400d7ce0 x23 0000000000000001
+E/TC:? 0  x24 0000000000000008 x25 00000000400d3ce0
+E/TC:? 0  x26 0000000040013b90 x27 0000000000000000
+E/TC:? 0  x28 0000000000000000 x29 00000000400138a0
+E/TC:? 0  x30 0000000040098ac0 elr 0000000040098aec
+E/TC:? 0  sp_el0 00000000400138a0
+E/LD:  Status of TA deadbeef-2450-11e4-abe2-0002a5d5c51b
+E/LD:   arch: aarch64
+E/LD:  region  0: va 0x40004000 pa 0x10800000 size 0x002000 flags rw-s (ldelf)
+E/LD:  region  1: va 0x40006000 pa 0x10802000 size 0x008000 flags r-xs (ldelf)
+E/LD:  region  2: va 0x4000e000 pa 0x1080a000 size 0x001000 flags rw-s (ldelf)
+E/LD:  region  3: va 0x4000f000 pa 0x1080b000 size 0x003000 flags rw-s (ldelf)
+E/LD:  region  4: va 0x40012000 pa 0x1080e000 size 0x001000 flags r--s
+E/LD:  region  5: va 0x40013000 pa 0x10860000 size 0x001000 flags rw-s (stack)
+E/LD:  region  6: va 0x40088000 pa 0x00001000 size 0x045000 flags r-xs [0]
+E/LD:  region  7: va 0x400cd000 pa 0x00046000 size 0x00c000 flags rw-s [0]
+E/LD:   [0] deadbeef-2450-11e4-abe2-0002a5d5c51b @ 0x40088000
+E/LD:  Call stack:
+E/LD:   0x0000000040098aec
+E/LD:   0x00000000400a25b0
+E/LD:   0x00000000400a52a0
+E/LD:   0x00000000400a5450
+E/LD:   0x00000000400a6490
+E/LD:   0x00000000400a698c
+E/LD:   0x00000000400944e0
+E/LD:   0x00000000400abcb4
+E/LD:   0x00000000400a6b90
+E/LD:   0xfffffffffffffffc
+D/TC:? 0 user_ta_enter:167 tee_user_ta_enter: TA panicked with code 0xdeadbeef
+</code></pre>
+<p>This is the dumped stack trace, which is hard to parse by human eyes. Luckily, OP-TEE OS has already provided a script to parse the stack trace into human-readable function call stack. The script can be found in <code>optee_os/scripts/symbolize.py</code> . Its usage is simple -- simply feed the stack trace dump to the script, and supply the directory of your TA:  <!---- how to collect stack.dump---></p>
+<pre><code>$ export CROSS_COMPILE=aarch64-linux-gnu-
+$ cat stack.dump | optee_os/scripts/symbolize.py -d optee_examples/hellow_world/ta/ 
+</code></pre>
+<p>It then translates the call stack into the following:</p>
+<pre><code class="language-c">E/LD:  Call stack:
+E/LD:   0x0000000040098aec stbi__err at /home/liwei/optee-rpi3/optee_examples/cv/ta/lib/sod_img_reader.h:933
+E/LD:   0x00000000400a25b0 stbi__jpeg_test at /home/liwei/optee-rpi3/optee_examples/cv/ta/lib/sod_img_reader.h:3953
+E/LD:   0x00000000400a52a0 stbi__load_and_postprocess_8bit at /home/liwei/optee-rpi3/optee_examples/cv/ta/lib/sod_img_reader.h:1193
+E/LD:   0x00000000400a5450 stbi_load_from_memory at /home/liwei/optee-rpi3/optee_examples/cv/ta/lib/sod_img_reader.h:1359
+E/LD:   0x00000000400a6490 sod_img_load_from_file at /home/liwei/optee-rpi3/optee_examples/cv/ta/lib/sod.c:13637
+E/LD:   0x00000000400a698c sod_bench at /home/liwei/optee-rpi3/optee_examples/cv/ta/lib/sod.c:14040
+E/LD:   0x00000000400944e0 TA_OpenSessionEntryPoint at /home/liwei/optee-rpi3/optee_examples/cv/ta/hello_world_ta.c:83
+E/LD:   0x00000000400abcb4 entry_open_session at /home/liwei/optee-rpi3/optee_os/lib/libutee/arch/arm/user_ta_entry.c:239
+E/LD:   0x00000000400a6b90 __ta_entry at /home/liwei/optee-rpi3/optee_os/out/arm/export-ta_arm64/src/user_ta_header.c:48
+</code></pre>
+<p>This makes it so much easier to locate where the bug is. <!--- explain the callstack ---> </p>
+<p>If the above does not work, e.g. showing "???" as function names, double check your CROSS_COMPILE environment variable. Do you miss the trailing -? </p>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href="../porting/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                porting
+              </div>
+            </div>
+          </a>
+        
+        
+          <a href="../secure-vision/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                challenge
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/vendor.53cc9318.min.js"></script>
+      <script src="../assets/javascripts/bundle.e9c9f54f.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+      
+      <script>
+        app = initialize({
+          base: "..",
+          features: ['navigation.tabs'],
+          search: Object.assign({
+            worker: "../assets/javascripts/worker/search.9c0e82ba.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+    
+  </body>
+</html>
