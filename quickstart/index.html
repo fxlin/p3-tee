@@ -823,7 +823,7 @@ $ make -j `nproc` # note we don't need flags for VIRTFS, etc.
 </code></pre>
 <p>The build output will be <code>out-br/images/rootfs</code> which is the filesystem tree (and image) for Rpi3. </p>
 <p><strong>Prepare the SD card:</strong></p>
-<p>In the following steps, we will load the filesystem tree to a microSD card. OPTEE's <a href="https://optee.readthedocs.io/en/latest/building/devices/rpi3.html">instructions</a> for Rpi3 suggest you to go <code>build/</code> and run <code>make img-help</code> to see the list of commands. Here is a <a href="rpi3-flash-sample-cmd.txt">sample output</a> from my computer; you should follow the commands displayed when you rum <code>make img-help</code> on your computer. </p>
+<p>In the following steps, we will load the filesystem tree to a microSD card. OPTEE's <a href="https://optee.readthedocs.io/en/latest/building/devices/rpi3.html">instructions</a> for Rpi3 suggest you to go <code>build/</code> and run <code>make img-help</code> to see the list of commands. Here is a <a href="../rpi3-flash-sample-cmd.txt">sample output</a> from my computer; you should follow the commands displayed when you rum <code>make img-help</code> on your computer. </p>
 <p>These commands are nothing magical: </p>
 <p>i) format a microSD card from scratch. The commands use <code>fdisk</code> to create two partitions: boot (32MB, FAT32) and rootfs (spanning the rest of the microSD card, ext4). </p>
 <p>ii) load the filesystem image to the card. The commands extract boot/ and / from the filesystem image (*.cpio) to the two partitions of the microSD card, respectively. </p>
