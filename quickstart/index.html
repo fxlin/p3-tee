@@ -694,7 +694,7 @@
                 
                 
                 <h1 id="quickstart-optee">Quickstart: OPTEE</h1>
-<p><strong>This project is to be completed on server: granger1</strong></p>
+<p><strong>This project is to be completed on granger1/2 or rpi3</strong></p>
 <h2 id="source-code-overview">Source code overview</h2>
 <p>Compared to the codebase we have dealt with before, OPTEE is a complex project with a myriad of components, including QEMU, a normal world daemon, trustlets (TAs), etc. The sources of all these components are organized in a directory with the following structure. </p>
 <pre><code>($optee ROOT)
@@ -736,19 +736,14 @@
 <p><strong>CA</strong> Trusted clients, or clients. A TA is a normal world apps invoking TAs. </p>
 <p><strong>TEE supplicant</strong>: the OPTEE daemon running in the normal world serving clients </p>
 <p><strong>Host vs guest</strong> The lingo of OPTEE source refers the normal world app as "host". Be aware though: in the context of virtual machines, the PC/server where we hack &amp; develop OPTEE code is "host" and QEMU is a "guest". We will be explicit in differentiating them. </p>
-<p><img src="arch.png" alt="image-20200710111628521" style="zoom: 67%;" /></p>
+<p><img alt="" src="../arch.png" /></p>
 <h2 id="setup-steps">Setup steps</h2>
 <p>You can choose one of two possible environments: an ARM platform with TrustZone as emulated by QEMU; Rpi3 with has TrustZone built in. </p>
+<p><em>NOTE: you cannot reuse QEMU from p1!</em></p>
 <h3 id="alternative-environment-1-qemu">Alternative environment 1: QEMU</h3>
-<p>To run examples on the QEMU ARMv8 emulator, we need first build OP-TEE for QEMU that emulates ARMv8 and TrustZone. You can install dependencies with this <a href="https://optee.readthedocs.io/en/latest/building/prerequisites.html">instruction</a>. </p>
-<blockquote>
-<p>If the installation fails, e.g. due to unmet dependency, it's likely that the source of your apt repository is not properly configured. A common cause is that you have previously installed packages from some third-party apt sources. Remove them from /etc/apt and do <code>apt update</code>. </p>
-</blockquote>
-<!---- or use our [Dockerfile](https://github.com/mesalock-linux/rust-optee-trustzone-sdk/blob/master/Dockerfile). ---->
-
+<p>To run examples on the QEMU ARMv8 emulator, we need first build OP-TEE for QEMU that emulates ARMv8 and TrustZone. </p>
+<p><em>For students run QEMU on personal machines not the server:</em> You can install dependencies with this <a href="https://optee.readthedocs.io/en/latest/building/prerequisites.html">instruction</a>. If the installation fails, e.g. due to unmet dependency, it's likely that the source of your apt repository is not properly configured. A common cause is that you have previously installed packages from some third-party apt sources. Remove them from /etc/apt and do <code>apt update</code>. </p>
 <p>Download the OPTEE source. We use version 3.9. </p>
-<!--- using version 3.9 --->
-
 <pre><code class="language-sh">$ mkdir -p ~/bin
 $ curl https://storage.googleapis.com/git-repo-downloads/repo &gt; ~/bin/repo &amp;&amp; chmod a+x ~/bin/repo
 $ export PATH=~/bin:$PATH
@@ -767,8 +762,6 @@ $ make QEMU_VIRTFS_ENABLE=y CFG_TEE_RAM_VA_SIZE=0x00300000 -j `nproc`
 </code></pre>
 <p>Additional notes on cleaning up OPTEE build: <a href="../cleanup/">here</a> </p>
 <h4 id="adjust-the-makefile-qemu_v8mk">Adjust the makefile  <code>qemu_v8.mk</code></h4>
-<p>Explanation: the first three lines attempt to launch local terminal emulators (e.g. xterm). These are useful only when you are developing on your local Linux machine. They do not apply when you connect to a remote server over SSH. </p>
-<p>The last line specifies -s, which tells QEMU to listen for incoming GDB connection. The listened port is 1234 which seems to be hardcoded (?). If multiple students try to do the same thing, their commands will fail because only one student can bind to port 1234. </p>
 <pre><code>diff --git a/qemu_v8.mk b/qemu_v8.mk
 index 8271590..1c4a91b 100644
 --- a/qemu_v8.mk
@@ -790,6 +783,8 @@ index 8271590..1c4a91b 100644
 -               -s -S -machine virt,secure=on -cpu cortex-a57 \
 +               -S -machine virt,secure=on -cpu cortex-a57 \
 </code></pre>
+<p>Explanation: the three changed lines launch local terminal emulators (e.g. xterm). These are useful only when you are developing on your local Linux machine. They do not apply when you connect to a remote server over SSH. So comment out if you use granger1/2.</p>
+<p>The last line specifies -s, which tells QEMU to listen for incoming GDB connection. The listened port is 1234. If multiple students try to do the same thing, their commands will fail because only one student can bind to port 1234. </p>
 <h4 id="run-netcat-nc">Run netcat (nc)</h4>
 <p>Run two <code>nc</code> to listen port <code>54320</code> and <code>54321</code>, which connect to consoles for normal &amp; secure worlds of the ARM system emulated by QEMU, respectively. </p>
 <pre><code>$ nc -l 127.0.0.1 54320
@@ -798,7 +793,7 @@ $ nc -l 127.0.0.1 54321
 <p>NOTE on nc: </p>
 <ol>
 <li>nc has slight variations in its command line syntax. If you run into issues, see <a href="https://serverfault.com/questions/512333/how-can-i-configure-netcat-or-some-other-stock-linux-utility-to-listen-on-a-sp">here</a>. </li>
-<li>Apparently on the same server you cannot use the same ports, e.g. 54320/54321, being used by other students. Just pick your own "personal" ports. Set them up in the Makefile above and your command line. </li>
+<li>Apparently on the same server you cannot use the same ports, e.g. 54320/54321, being used by other students. Just pick your own "personal" ports. Set them up in <strong>qemu_v8.mk</strong> above and your <strong>command lines</strong>. </li>
 </ol>
 <h4 id="run-qemu">Run QEMU</h4>
 <pre><code class="language-sh">$ make run-only 

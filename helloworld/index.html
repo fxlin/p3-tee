@@ -641,9 +641,9 @@
 </code></pre>
 <p>For this tutorial, we only care about <code>host/main.c</code> (the client app) and <code>ta/*.[c|h]</code> (the TA). A detailed description of CA/TA source structure is <a href="https://optee.readthedocs.io/en/latest/building/trusted_applications.html">here</a>. </p>
 <h3 id="the-cata-interaction">The CA/TA interaction</h3>
-<p><img src="interaction.png" alt="image-20200710111919753" style="zoom:67%;" /></p>
+<p><img alt="" src="../interaction.png" /></p>
 <p>To implement the above interaction, CA/TA must implement a set of functions as shown below: </p>
-<p><img src="api.png" alt="image-20200710112141007" style="zoom:67%;" /></p>
+<p><img alt="" src="../api.png" /></p>
 <h3 id="the-ca-host-source">The CA (host) source</h3>
 <p>In only ~100 SLoC, the source implements a barebone CA. Corresponding to the figure above: </p>
 <p>First, initialize a TEE context: </p>
@@ -736,7 +736,7 @@ $ xtest -h |grep --sdp-basic
 <pre><code>$ xtest --sdp-basic
 </code></pre>
 <h2 id="exercises">Exercises</h2>
-<p><em><u>CS6456 students -- please refer to Teams for assignment.</u></em> </p>
+<p><em><u>CS4414/6456 students -- please refer to the formal assignment.</u></em> </p>
 <ul>
 <li>What's the overhead of each command invocation? Carefully plan &amp; execute measurement. What are the major contributors to the overhead?</li>
 <li>Add a command to helloworld, which will multiply a given integer by 2. </li>
