@@ -742,7 +742,7 @@
 <p><em>NOTE: you cannot reuse QEMU from p1!</em></p>
 <h3 id="alternative-environment-1-qemu">Alternative environment 1: QEMU</h3>
 <p>To run examples on the QEMU ARMv8 emulator, we need first build OP-TEE for QEMU that emulates ARMv8 and TrustZone. </p>
-<p><em>For students run QEMU on personal machines not the server:</em> You can install dependencies with this <a href="https://optee.readthedocs.io/en/latest/building/prerequisites.html">instruction</a>. If the installation fails, e.g. due to unmet dependency, it's likely that the source of your apt repository is not properly configured. A common cause is that you have previously installed packages from some third-party apt sources. Remove them from /etc/apt and do <code>apt update</code>. </p>
+<p><em>For students run QEMU on personal machines not the server:</em> (Note: use granger1/2 is easier for most students) You can install dependencies with this <a href="https://optee.readthedocs.io/en/latest/building/prerequisites.html">instruction</a>. If the installation fails, e.g. due to unmet dependency, it's likely that the source of your apt repository is not properly configured. A common cause is that you have previously installed packages from some third-party apt sources. Remove them from /etc/apt and do <code>apt update</code>. </p>
 <p>Download the OPTEE source. We use version 3.9. </p>
 <pre><code class="language-sh">$ mkdir -p ~/bin
 $ curl https://storage.googleapis.com/git-repo-downloads/repo &gt; ~/bin/repo &amp;&amp; chmod a+x ~/bin/repo
@@ -801,6 +801,7 @@ $ nc -l 127.0.0.1 54321
 <p>Once QEMU is launched, start the emulated guest by typing <code>c</code>.</p>
 <p>Here is my window (running tmux) split in three ways: </p>
 <p><img alt="" src="../qemu.png" /></p>
+<p><img alt="" src="../dev.gif" /></p>
 <h3 id="alternative-environment-2-rpi3">Alternative environment 2: Rpi3</h3>
 <p>Read the instructions for QEMU above. We will follow a similar procedure with minor tweaks. </p>
 <p><strong>Grab source.</strong> Note that we point to <code>rpi3.xml</code> instead of <code>qemu_v8.xml</code>: </p>
@@ -936,6 +937,9 @@ TA incremented value to 44
 </code></pre>
 <p>When we build &amp; launch QEMU, pass in "VIRTFS" (virtual filesystem) arguments: </p>
 <pre><code>$ make run-only QEMU_VIRTFS_ENABLE=y QEMU_VIRTFS_HOST_DIR=build/shared_folder
+</code></pre>
+<p>Update (04/12/2021): if the above command complains "shared_folder" not found, try its full path, or </p>
+<pre><code>$ make run-only QEMU_VIRTFS_ENABLE=y QEMU_VIRTFS_HOST_DIR=../../build/shared_folder/
 </code></pre>
 <p>After QEMU is launched, mount the shared folder in QEMU guest system (username: root).</p>
 <pre><code class="language-sh"># inside the QEMU's normal world console
