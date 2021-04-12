@@ -62,7 +62,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#porting-a-vision-library-sod-to-optee" class="md-skip">
+        <a href="#use-a-vision-library-sod-inside-tee" class="md-skip">
           Skip to content
         </a>
       
@@ -341,8 +341,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#what-we-did" class="md-nav__link">
-    What we did?
+  <a href="#what-we-did-to-port-the-lib" class="md-nav__link">
+    What we did to port the lib?
   </a>
   
 </li>
@@ -453,8 +453,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#what-we-did" class="md-nav__link">
-    What we did?
+  <a href="#what-we-did-to-port-the-lib" class="md-nav__link">
+    What we did to port the lib?
   </a>
   
 </li>
@@ -479,7 +479,7 @@
               
                 
                 
-                <h1 id="porting-a-vision-library-sod-to-optee">Porting a vision library (SOD) to OPTEE</h1>
+                <h1 id="use-a-vision-library-sod-inside-tee">Use a vision library (SOD) inside TEE</h1>
 <h2 id="purpose">Purpose</h2>
 <ul>
 <li>describe how to use the SOD library that we have ported to OPTEE</li>
@@ -512,14 +512,14 @@
 </ul>
 </li>
 </ul>
-<h2 id="what-we-did">What we did?</h2>
+<h2 id="what-we-did-to-port-the-lib">What we did to port the lib?</h2>
 <p>Despite SOD is designed for "embedded" environment, it depends on a set of functionalities provided by the underlying OS: </p>
 <ol>
 <li>Filesystem (related) services*. E.g., <code>open</code>,<code>close</code>, <code>read,</code> <code>write,</code> <code>mmap</code> </li>
 <li>Standard libraries. E.g. <code>stdlib.h</code>, <code>stdio.h</code>, <code>math.h</code></li>
 </ol>
 <p>*: SOD implements an abstraction layer to handle the filesystem API differences of Unix &amp; Windows and allows custom APIs for other OSes. </p>
-<p>To port SOD into TEE, we will bridge the services provided by OPTEE to what is expected by SOD. </p>
+<p>To port SOD into TEE, we bridged the services provided by OPTEE to what is expected by SOD. </p>
 <p>For 1. the solution is simple -- simply supply the required semantics to SOD while ensuring it can execute correctly. This is done in <code>fs.h</code> and <code>stat.h</code> added to the ported library. As you may see, required but not necessary APIs are substituted by a stub function, which does nothing. </p>
 <p>For 2. it is slightly trickier, as these libraries need actual implementation (e.g. for math functions) and cannot be simply substituted by stubs. Luckily, OP-TEE OS provides its version of standard libraries (i.e. <code>stdlib.h</code> and <code>stdio.h</code>) with some missing functions (e.g. <code>fputs</code>, <code>fwrite</code>). Porting them would only need to implement stubs for these functions. Examples can be found in <code>sod.c</code> which adds stub implementation for symbols such as  <code>fputs</code>, <code>fwrite</code>, and <code>stderr</code>. </p>
 <p><strong>Libm.a</strong> For math functions, which need actual implementation, I took the pre-compiled <code>libm.a</code>, slightly modified its header file <code>math.h</code> &amp; <code>ctype.h</code>, and brought them to TZ for SOD to link against.  </p>
