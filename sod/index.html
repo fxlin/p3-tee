@@ -487,27 +487,33 @@
 </ul>
 <h2 id="quickstart">Quickstart</h2>
 <p>TA=trusted application. (!=teaching assistant)</p>
-<p>To use the ported SOD:</p>
+<p>To use the ported SOD, we will get it source code and the math library SOD depends on. We've pre-built the math library (libm.a) for you so you just download it as a binary. </p>
 <ol>
-<li>Grab the code from https://github.com/zaxguo/sod/tree/tz (branch: tz). </li>
-<li>Put <code>libm.a</code> under the lib directory, where same directory as <code>libutee.a</code>, <code>libteec.a</code>; put all other source files (e.g. <code>sod.h</code>, <code>sod.c</code>) under the source path of your TA.</li>
+<li>Grab the code from https://github.com/zaxguo/sod/tree/tz (credit: Liwei Guo)</li>
+</ol>
+<pre><code>git clone https://github.com/zaxguo/sod.git
+cd sod
+git checkout tz
+</code></pre>
+<ol>
+<li>Put <code>libm.a</code> (the math library) under the lib directory, the same directory as <code>libutee.a</code> and  <code>libteec.a</code>; put all other source files (e.g. <code>sod.h</code>, <code>sod.c</code>) under the source path of your TA.</li>
 <li>Modify your TA Makefile so that <code>sod.c</code> can be compiled and <code>libm.a</code> can be located and linked.</li>
 <li>To add sod.c to your TA build, modify sub.mk in the TA's source directory</li>
-<li>To link libm.a (and any other libs), modify ./optee_os/ta/mk/ta_dev_kit.mk. Just follow examples there, e.g. for adding libmbedtls to the link process. </li>
-<li>Include <code>sod.h</code> in your TA source code. Call supported <code>sod</code> functions as you like. </li>
+<li>To link libm.a (and any other libs you may have), modify ./optee_os/ta/mk/ta_dev_kit.mk. Learn from examples there, e.g. for adding libmbedtls to the link process. </li>
+<li>Include <code>sod.h</code> in your TA source code. Call any <code>sod</code> functions as you like. </li>
 <li>Compile the TA normally. </li>
 </ol>
 <p>The TA's output binary: out-br/build/optee_examples-1.0/XXX/ta/out, where XXX is the TA example name. </p>
 <!--- can we provide a tiny example? --->
 
 <h2 id="whats-working">What's working?</h2>
-<p>After bringing the necessary libraries, SOD can be compiled and linked together with a TA. However, some functions are apparently not working due to the measures we take to port the libraries, as described above. The working functions and caveats are summarized below.</p>
+<p>After bringing the necessary libraries, SOD can be compiled and linked together with a TA. However, some functions are apparently not working due to the measures we take to port the libraries, as described below. The working functions and caveats are summarized below.</p>
 <ul>
 <li>What's working:</li>
 <li>SOD's own library functions: these functions are SOD self-contained. E.g. converting a chunk of byte to an RGB image, denoted by the type <code>sod_img</code>. </li>
 <li>Image processing functions:  some basic algorithms such as load the grayscale image (i.e. <code>sod_img_load_grayscale</code>), canny edge detection (i.e. <code>sod_canny_edge_image</code>). These functions will be used to perform the license plate detection function.</li>
 <li>What's not working:</li>
-<li>CNN related functions: embedded machine learning is cool, and theoretically can be supported. However, it requires a fully functional on-demand paging of OP-TEE since SOD-supported NN model consumes ~80MB of RAM which does not fit in TrustZone.<ul>
+<li>CNN related functions: embedded machine learning is cool, and theoretically can be supported. However, it requires a fully functional demand paging of OP-TEE since SOD-supported NN model consumes ~80MB of RAM which does not fit in TrustZone.<ul>
 <li>Big bonus if you CAN make it work</li>
 </ul>
 </li>
