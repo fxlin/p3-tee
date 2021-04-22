@@ -723,7 +723,12 @@ void TA_CloseSessionEntryPoint(...)
 <p>The entry function is <code>sdp_basic_runner_cmd_parser()</code> which will be invoked by the main test function in <code>./optee_test/host/xtest/xtest_main.c</code>. </p>
 <h3 id="compile-run">Compile &amp; run</h3>
 <p>The sdp functionalities are included in compilation when CFG_SECURE_DATA_PATH is set. To do that, do </p>
-<pre><code>$ make buildroot-cleaner 
+<pre><code># do the following from build/
+
+# only do this once, when you change the configuration
+$ make buildroot-cleaner  
+
+# do this when you change the configuration or every time you change the source code 
 $ make buildroot CFG_SECURE_DATA_PATH=y CFG_TEE_RAM_VA_SIZE=0x00300000 -j `nproc`
 </code></pre>
 <p>Note that you should add other flags such as <code>QEMU_VIRTFS_ENABLE=y</code> as needed. </p>
@@ -734,6 +739,8 @@ $ xtest -h |grep --sdp-basic
 </code></pre>
 <p>Run the sdp example by: </p>
 <pre><code>$ xtest --sdp-basic
+# get help 
+$ xtest --sdp-basic -h
 </code></pre>
 <h2 id="exercises">Exercises</h2>
 <p><em><u>CS4414/6456 students -- please refer to the formal assignment.</u></em> </p>
