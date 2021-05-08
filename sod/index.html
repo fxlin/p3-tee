@@ -595,7 +595,9 @@ D/TC:? 0 user_ta_enter:167 tee_user_ta_enter: TA panicked with code 0xdeadbeef
 </code></pre>
 <p>This is the dumped stack trace, which is hard to parse by human eyes. Luckily, OP-TEE OS has already provided a script to parse the stack trace into human-readable function call stack. The script can be found in <code>optee_os/scripts/symbolize.py</code> . Its usage is simple -- simply feed the stack trace dump to the script, and supply the directory of your TA:  <!---- how to collect stack.dump---></p>
 <pre><code>$ export CROSS_COMPILE=aarch64-linux-gnu-
-$ cat stack.dump | optee_os/scripts/symbolize.py -d optee_examples/hellow_world/ta/ 
+$ cat stack.dump | optee_os/scripts/symbolize.py -d optee_examples/hellow_world/ta/
+# if the above path does not contain your .elf file, try the following
+# $ cat stack.dump | optee_os/scripts/symbolize.py -d out-br/build/optee_examples-1.0/hello_world/ta/out
 </code></pre>
 <p>It then translates the call stack into the following:</p>
 <pre><code class="language-c">E/LD:  Call stack:

@@ -758,6 +758,7 @@ $ mkdir optee-qemuv8 &amp;&amp; cd optee-qemuv8 &amp;&amp; \
 <p>Build OPTEE for QEMU ARMv8: </p>
 <pre><code class="language-sh">$ cd build
 $ make -j2 toolchains
+# clean build: about 5 minutes on a 20-core machine
 $ make QEMU_VIRTFS_ENABLE=y CFG_TEE_RAM_VA_SIZE=0x00300000 -j `nproc`
 </code></pre>
 <p>Additional notes on cleaning up OPTEE build: <a href="../cleanup/">here</a> </p>
