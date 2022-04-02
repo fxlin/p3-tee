@@ -1,4 +1,4 @@
-## General guidelines: porting libraries to TrustZone 
+# Porting libraries to TrustZone 
 
 <!----- ### Who are this doc for? 
 People who are trying to port existing codebase/libraries into TrustZone. But really the knowledge is general and can be transferred when porting any software on one runtime environment to another. ---->

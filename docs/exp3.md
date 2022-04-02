@@ -1,12 +1,12 @@
 # Exp 3: data path (SDP)
 
+*For reference only. UVA students: please refer to our formal assignments.* 
+
 ## Q&A (20%)
 
 In your own words, describe what the following commands do: INJECT, TRANSFORM, and DUMP. 
 
 What is macro CFG_CACHE_API for? In what condition is it defined/undefined? 
-
-
 
 ## Measurement (80%)
 

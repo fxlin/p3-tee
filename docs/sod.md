@@ -1,4 +1,4 @@
-# Porting SOD to OPTEE
+# Use a vision library (SOD) inside TEE
 
 ## Purpose 
 * describe how to use the SOD library that we have ported to OPTEE
@@ -6,15 +6,23 @@
 
 ## Quickstart
 
-To use the ported SOD:
+TA=trusted application. (!=teaching assistant)
 
-1. Grab the code from https://github.com/zaxguo/sod/tree/tz (branch: tz). 
-2. Put `libm.a` under the lib directory, where same directory as `libutee.a`, `libteec.a`; put all other source files (e.g. `sod.h`, `sod.c`) under the source path of your TA.
-3. Modify your TA Makefile so that `sod.c` can be compiled and `libm.a` can be located and linked.
+To use the ported SOD, we will get it source code and the math library SOD depends on. We've pre-built the math library (libm.a) for you so you just download it as a binary. 
+
+1. Grab the code from https://github.com/zaxguo/sod/tree/tz (credit: Liwei Guo)
+```
+git clone https://github.com/zaxguo/sod.git
+cd sod
+git checkout tz
+```
+
+3. Put `libm.a` (the math library) under the lib directory, the same directory as `libutee.a` and  `libteec.a`; put all other source files (e.g. `sod.h`, `sod.c`) under the source path of your TA.
+4. Modify your TA Makefile so that `sod.c` can be compiled and `libm.a` can be located and linked.
    * To add sod.c to your TA build, modify sub.mk in the TA's source directory
-   * To link libm.a (and any other libs), modify ./optee_os/ta/mk/ta_dev_kit.mk. Just follow examples there, e.g. for adding libmbedtls to the link process. 
-4. Include `sod.h` in your TA source code. Call supported `sod` functions as you like. 
-5. Compile the TA normally. 
+   * To link libm.a (and any other libs you may have), modify ./optee_os/ta/mk/ta_dev_kit.mk. Learn from examples there, e.g. for adding libmbedtls to the link process. 
+5. Include `sod.h` in your TA source code. Call any `sod` functions as you like. 
+6. Compile the TA normally. 
 
 The TA's output binary: out-br/build/optee_examples-1.0/XXX/ta/out, where XXX is the TA example name. 
 
@@ -22,16 +30,16 @@ The TA's output binary: out-br/build/optee_examples-1.0/XXX/ta/out, where XXX is
 
 ## What's working?
 
-After bringing the necessary libraries, SOD can be compiled and linked together with a TA. However, some functions are apparently not working due to the measures we take to port the libraries, as described above. The working functions and caveats are summarized below.
+After bringing the necessary libraries, SOD can be compiled and linked together with a TA. However, some functions are apparently not working due to the measures we take to port the libraries, as described below. The working functions and caveats are summarized below.
 
 * What's working:
   * SOD's own library functions: these functions are SOD self-contained. E.g. converting a chunk of byte to an RGB image, denoted by the type `sod_img`. 
   * Image processing functions:  some basic algorithms such as load the grayscale image (i.e. `sod_img_load_grayscale`), canny edge detection (i.e. `sod_canny_edge_image`). These functions will be used to perform the license plate detection function.
 * What's not working:
-  * CNN related functions: embedded machine learning is cool, and theoretically can be supported. However, it requires a fully functional on-demand paging of OP-TEE since SOD-supported NN model consumes ~80MB of RAM which does not fit in TrustZone.
+  * CNN related functions: embedded machine learning is cool, and theoretically can be supported. However, it requires a fully functional demand paging of OP-TEE since SOD-supported NN model consumes ~80MB of RAM which does not fit in TrustZone.
     * Big bonus if you CAN make it work
 
-## What we did? 
+## What we did to port the lib? 
 
 Despite SOD is designed for "embedded" environment, it depends on a set of functionalities provided by the underlying OS: 
 
@@ -40,7 +48,7 @@ Despite SOD is designed for "embedded" environment, it depends on a set of funct
 
 *: SOD implements an abstraction layer to handle the filesystem API differences of Unix & Windows and allows custom APIs for other OSes. 
 
-To port SOD into TEE, we will bridge the services provided by OPTEE to what is expected by SOD. 
+To port SOD into TEE, we bridged the services provided by OPTEE to what is expected by SOD. 
 
 For 1. the solution is simple -- simply supply the required semantics to SOD while ensuring it can execute correctly. This is done in `fs.h` and `stat.h` added to the ported library. As you may see, required but not necessary APIs are substituted by a stub function, which does nothing. 
 
@@ -120,7 +128,9 @@ This is the dumped stack trace, which is hard to parse by human eyes. Luckily, O
 
 ```
 $ export CROSS_COMPILE=aarch64-linux-gnu-
-$ cat stack.dump | optee_os/scripts/symbolize.py -d optee_examples/hellow_world/ta/ 
+$ cat stack.dump | optee_os/scripts/symbolize.py -d optee_examples/hellow_world/ta/
+# if the above path does not contain your .elf file, try the following
+# $ cat stack.dump | optee_os/scripts/symbolize.py -d out-br/build/optee_examples-1.0/hello_world/ta/out
 ```
 
 It then translates the call stack into the following:

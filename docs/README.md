@@ -2,9 +2,7 @@
 
 <img src="https://www.thefastmode.com/media/k2/items/src/7df193d5a2be86814850ef16aacb19d6.jpg?t=20200606_093102?date=13042020" alt="Enterprises Need To Focus On IoT Security" style="zoom: 67%;" />
 
-
-
-**This project is to be completed on server: granger1**
+**This project is to be completed on server granger1/2 or Rpi3**
 
 In this project, we will experience with Arm's TEE - TrustZone. 
 
@@ -24,7 +22,7 @@ Instead of writing baremetal TEE code, we will write our TEE code running atop a
 * Porting libs to OPTEE: 
   * [Guidelines](porting.md)
   * [Case study: the SOD lib](sod.md)
-* [Programming challenge](secure-vision.md): an assignment in which you will build a machine learning service inside TrustZone. *(cs6456 students: refer to Teams for assignment)*
+* [Programming challenge](secure-vision.md): an assignment in which you will build a machine learning service inside TrustZone. *(cs4414/6456 students: refer to formal assignment)*
 
 ## Assignment weights
 

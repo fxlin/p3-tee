@@ -1,5 +1,9 @@
 # Exp 5: secure vision -- beta
 
+*For reference only. UVA students: please refer to our formal assignments.* 
+
+
+
 ## Beta version (40%)
 
 Based on the alpha version, now implement the full functions: 

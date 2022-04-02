@@ -1,5 +1,7 @@
 # Exp 2: helloworld
 
+*For reference only. UVA students: please refer to our formal assignments.* 
+
 ## Context & Sessions (20%)
 
 1. What is a TEE "context"? 

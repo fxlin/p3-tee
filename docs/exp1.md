@@ -1,5 +1,7 @@
 # Exp1: TEE basics
 
+*For reference only. UVA students: please refer to our formal assignments.* 
+
 ## TEE Q&A (40%)
 
 Answer each of the following questions in a few sentences. 
@@ -10,18 +12,12 @@ Answer each of the following questions in a few sentences.
 4. What does trusted computing base (TCB) mean? 
 5. What is the role of "TEE supplicant"?
 
-
-
 ## Environment setup (60%)
 
 Follow the "quickstart" tutorial and run the "helloworld" example
 
 1. Are you using QEMU or the Rpi3 hardware? (10%) 
 
-   
-
 2. Why do we need `repo` to manage our codebase?  (10%)
-
-   
 
 3. Show a screenshot of you successfully running `helloworld` (40%)

@@ -10,7 +10,7 @@ Having completed the [quickstart](quickstart.md).
 
 ### Recall: the system architecture
 
-<img src="arch.png" alt="image-20200710111628521" style="zoom: 67%;" />
+![](arch.png)
 
 ## App 1: Helloworld
 
@@ -39,11 +39,13 @@ For this tutorial, we only care about `host/main.c` (the client app) and `ta/*.[
 
 ### The CA/TA interaction
 
-<img src="interaction.png" alt="image-20200710111919753" style="zoom:67%;" />
+
+
+![](interaction.png)
 
 To implement the above interaction, CA/TA must implement a set of functions as shown below: 
 
-<img src="api.png" alt="image-20200710112141007" style="zoom:67%;" />
+![](api.png)
 
 ### The CA (host) source
 
@@ -167,7 +169,12 @@ The entry function is `sdp_basic_runner_cmd_parser()` which will be invoked by t
 The sdp functionalities are included in compilation when CFG_SECURE_DATA_PATH is set. To do that, do 
 
 ```
-$ make buildroot-cleaner 
+# do the following from build/
+
+# only do this once, when you change the configuration. a clean build takes ~5 mins on a 20-core machine that no one is using
+$ make buildroot-cleaner  
+
+# do this when you change the configuration or every time you change the source code 
 $ make buildroot CFG_SECURE_DATA_PATH=y CFG_TEE_RAM_VA_SIZE=0x00300000 -j `nproc`
 ```
 Note that you should add other flags such as `QEMU_VIRTFS_ENABLE=y` as needed. 
@@ -182,11 +189,13 @@ $ xtest -h |grep --sdp-basic
 Run the sdp example by: 
 ```
 $ xtest --sdp-basic
+# get help 
+$ xtest --sdp-basic -h
 ```
 
 ## Exercises
 
-*<u>CS6456 students -- please refer to Teams for assignment.</u>* 
+*<u>CS4414/6456 students -- please refer to the formal assignment.</u>* 
 
 * What's the overhead of each command invocation? Carefully plan & execute measurement. What are the major contributors to the overhead?
 * Add a command to helloworld, which will multiply a given integer by 2. 
