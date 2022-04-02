@@ -76,7 +76,18 @@ $ mkdir -p ~/bin
 $ curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo && chmod a+x ~/bin/repo
 $ export PATH=~/bin:$PATH
 $ mkdir optee-qemuv8 && cd optee-qemuv8 && \
-  repo init -q -u https://github.com/OP-TEE/manifest.git -m qemu_v8.xml -b 3.9.0 && \
+  repo init -q -u https://github.com/OP-TEE/manifest.git -m qemu_v8.xml -b 3.9.0 
+```
+
+Now modify `.repo/manifests/qemu_v8.xml`, change the following line. [Explanation](issues.md)
+
+```
+- <project path="linux"  name="linaro-swg/linux.git" revision="optee" clone-depth="1" />
++ <project path="linux"  name="linaro-swg/linux.git" revision="refs/tags/optee-3.10.0" clone-depth="1" />
+```
+
+Now fetch all the code: 
+```sh  
   repo sync -j4 --no-clone-bundle
 ```
 
