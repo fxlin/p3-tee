@@ -146,6 +146,10 @@ TEE_Result TA_InvokeCommandEntryPoint(...)
 
 This function further dispatches to `inc_value()` and `dec_value()`, depending on the command ID passed from the CA. These two functions will update the parameter (`params[0].value`) in place, which will be made visible to the CA after the command is completed on the normal world side. 
 
+### Compile & run
+
+See [quickstart](quickstart.md#alternative-1-the-easiest-way-need-to-reboot-qemu-every-time).
+
 ## App 2: Secure data path (sdp) basic 
 
 Another simple example worth looking at. It showcases how to copy a large chunk of data between normal/secure worlds, as OPTEE does not support passing large data as values in command parameters (for efficiency reason). 

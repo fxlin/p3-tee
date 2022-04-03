@@ -28,13 +28,11 @@ Compared to the codebase we have dealt with before, OPTEE is a complex project w
 └── trusted-firmware-a
 ```
 
-Each component is versioned in its own git repository. Together, all these git repositories are managed (e.g. pull, push) by a tool called `repo`.  
+Each component is versioned in its own git repository. Together, all these git repositories are managed (e.g. pull, push) by a tool called `repo`.  (`repo` is a by-product of Google's Android project)
 
-> `repo` is a by-product of Google's AOSP project. 
+The build process is complex. It is managed by numerous Makefiles in a hierarchy; it also builds for various Arm boards and QEMU (called ``targets''). To automate the build process, there is a dedicated component called `build` (see above), which has its own git repository. 
 
-The build process is complex, e.g. managed by numerous Makefiles in a hierarchy, let alone building for a series of targets, e.g. various Arm boards and QEMU. To automate the build process, there is a dedicated component called `build` (see above), which has its own git repository! 
-
-### Building the project: an overview
+## Building the entire project: an overview
 
 1. Install tools & libs required for building
 2. Pull the source of the entire project via `repo`. 
@@ -44,14 +42,14 @@ The build process is complex, e.g. managed by numerous Makefiles in a hierarchy,
 
 Read on for detailed steps below. 
 
-### Terms
+## Glossary
 **TA** Trusted applications, sometimes called trustlets. A TA is a binary to be executed in the secure world. 
 
 **CA** Trusted clients, or clients. A TA is a normal world apps invoking TAs. 
 
 **TEE supplicant**: the OPTEE daemon running in the normal world serving clients 
 
-**Host vs guest** The lingo of OPTEE source refers the normal world app as "host". Be aware though: in the context of virtual machines, the PC/server where we hack & develop OPTEE code is "host" and QEMU is a "guest". We will be explicit in differentiating them. 
+**Host & guest** The lingo of OPTEE source refers the normal world app as "host". Be aware though: in the context of virtual machines, the PC/server where we hack & develop OPTEE code is "host" and QEMU is a "guest". We will be explicit in differentiating them. 
 
 
 
@@ -61,13 +59,13 @@ Read on for detailed steps below.
 
 You can choose one of two possible environments: an ARM platform with TrustZone as emulated by QEMU; Rpi3 with has TrustZone built in. 
 
-*NOTE: you cannot reuse QEMU from p1!*
+DO NOT REUSE QEMU FROM P1
 
-### Alternative environment 1: QEMU
+### Environment choice 1: QEMU
 
 To run examples on the QEMU ARMv8 emulator, we need first build OP-TEE for QEMU that emulates ARMv8 and TrustZone. 
 
-*For students run QEMU on personal machines not the server:* (Note: use granger1/2 is easier for most students) You can install dependencies with this [instruction](https://optee.readthedocs.io/en/latest/building/prerequisites.html). If the installation fails, e.g. due to unmet dependency, it's likely that the source of your apt repository is not properly configured. A common cause is that you have previously installed packages from some third-party apt sources. Remove them from /etc/apt and do `apt update`. 
+For most students, we recommend to use the course servers. *For students who run QEMU on personal machines not the server:* You can install dependencies with this [instruction](https://optee.readthedocs.io/en/latest/building/prerequisites.html). If the installation fails, e.g. due to unmet dependency, it's likely that the source of your apt repository is not properly configured. A common cause is that you have previously installed packages from some third-party apt sources. Remove them from /etc/apt and do `apt update`. 
 
 Download the OPTEE source. We use version 3.9. 
 
@@ -79,7 +77,9 @@ $ mkdir optee-qemuv8 && cd optee-qemuv8 && \
   repo init -q -u https://github.com/OP-TEE/manifest.git -m qemu_v8.xml -b 3.9.0 
 ```
 
-Now modify `.repo/manifests/qemu_v8.xml`, change the following line. [Explanation](issues.md)
+Now modify `.repo/manifests/qemu_v8.xml`. The .xml file lists all required components and the corresponding versions [(source)](https://github.com/ForgeRock/optee-manifest/blob/master/qemu_v8.xml).
+
+Now change the following line. [(Why?)](issues.md)
 
 ```
 - <project path="linux"  name="linaro-swg/linux.git" revision="optee" clone-depth="1" />
@@ -88,13 +88,11 @@ Now modify `.repo/manifests/qemu_v8.xml`, change the following line. [Explanatio
 
 Now fetch all the code: 
 ```sh  
-  repo sync -j4 --no-clone-bundle
+$ repo sync -j4 --no-clone-bundle
 ```
 
-[Sample command output](repo-output.md)
+If you suspect the code sync process goes wrong, here is the [sample command output](repo-output.md). 
 
->
-> In case you are curious, the .xml file lists all the git repos and the corresponding commits that we refer to. Check it out: https://github.com/ForgeRock/optee-manifest/blob/master/qemu_v8.xml
 
 Build OPTEE for QEMU ARMv8: 
 
