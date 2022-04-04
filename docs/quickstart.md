@@ -57,7 +57,7 @@ Read on for detailed steps below.
 
 ## Setup steps
 
-You can choose one of two possible environments: an ARM platform with TrustZone as emulated by QEMU; Rpi3 with has TrustZone built in. 
+You can choose one of two possible environments: an ARM platform with TrustZone as emulated by QEMU; Rpi3 which has TrustZone built in. 
 
 DO NOT REUSE QEMU FROM P1
 
