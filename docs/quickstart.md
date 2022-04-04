@@ -1,6 +1,6 @@
 # Quickstart: OPTEE 
 
-**This project is to be completed on server: granger1**
+**This project is to be completed on granger1/2 or rpi3**
 
 ## Source code overview
 
@@ -28,13 +28,11 @@ Compared to the codebase we have dealt with before, OPTEE is a complex project w
 └── trusted-firmware-a
 ```
 
-Each component is versioned in its own git repository. Together, all these git repositories are managed (e.g. pull, push) by a tool called `repo`.  
+Each component is versioned in its own git repository. Together, all these git repositories are managed (e.g. pull, push) by a tool called `repo`.  (`repo` is a by-product of Google's Android project)
 
-> `repo` is a by-product of Google's AOSP project. 
+The build process is complex. It is managed by numerous Makefiles in a hierarchy; it also builds for various Arm boards and QEMU (called ``targets''). To automate the build process, there is a dedicated component called `build` (see above), which has its own git repository. 
 
-The build process is complex, e.g. managed by numerous Makefiles in a hierarchy, let alone building for a series of targets, e.g. various Arm boards and QEMU. To automate the build process, there is a dedicated component called `build` (see above), which has its own git repository! 
-
-### Building the project: an overview
+## Building the entire project: an overview
 
 1. Install tools & libs required for building
 2. Pull the source of the entire project via `repo`. 
@@ -44,62 +42,70 @@ The build process is complex, e.g. managed by numerous Makefiles in a hierarchy,
 
 Read on for detailed steps below. 
 
-### Terms
+## Glossary
 **TA** Trusted applications, sometimes called trustlets. A TA is a binary to be executed in the secure world. 
 
 **CA** Trusted clients, or clients. A TA is a normal world apps invoking TAs. 
 
 **TEE supplicant**: the OPTEE daemon running in the normal world serving clients 
 
-**Host vs guest** The lingo of OPTEE source refers the normal world app as "host". Be aware though: in the context of virtual machines, the PC/server where we hack & develop OPTEE code is "host" and QEMU is a "guest". We will be explicit in differentiating them. 
+**Host & guest** The lingo of OPTEE source refers the normal world app as "host". Be aware though: in the context of virtual machines, the PC/server where we hack & develop OPTEE code is "host" and QEMU is a "guest". We will be explicit in differentiating them. 
 
-<img src="arch.png" alt="image-20200710111628521" style="zoom: 67%;" />
+
+
+![](arch.png)
 
 ## Setup steps
 
 You can choose one of two possible environments: an ARM platform with TrustZone as emulated by QEMU; Rpi3 which has TrustZone built in. 
 
-### Alternative environment 1: QEMU
+DO NOT REUSE QEMU FROM P1
 
-To run examples on the QEMU ARMv8 emulator, we need first build OP-TEE for QEMU that emulates ARMv8 and TrustZone. You can install dependencies with this [instruction](https://optee.readthedocs.io/en/latest/building/prerequisites.html). 
+### Environment choice 1: QEMU
 
-> If the installation fails, e.g. due to unmet dependency, it's likely that the source of your apt repository is not properly configured. A common cause is that you have previously installed packages from some third-party apt sources. Remove them from /etc/apt and do `apt update`. 
+To run examples on the QEMU ARMv8 emulator, we need first build OP-TEE for QEMU that emulates ARMv8 and TrustZone. 
 
-<!---- or use our [Dockerfile](https://github.com/mesalock-linux/rust-optee-trustzone-sdk/blob/master/Dockerfile). ---->
+For most students, we recommend to use the course servers. *For students who run QEMU on personal machines not the server:* You can install dependencies with this [instruction](https://optee.readthedocs.io/en/latest/building/prerequisites.html). If the installation fails, e.g. due to unmet dependency, it's likely that the source of your apt repository is not properly configured. A common cause is that you have previously installed packages from some third-party apt sources. Remove them from /etc/apt and do `apt update`. 
 
 Download the OPTEE source. We use version 3.9. 
-
-<!--- using version 3.9 --->
 
 ```sh
 $ mkdir -p ~/bin
 $ curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo && chmod a+x ~/bin/repo
 $ export PATH=~/bin:$PATH
 $ mkdir optee-qemuv8 && cd optee-qemuv8 && \
-  repo init -q -u https://github.com/OP-TEE/manifest.git -m qemu_v8.xml -b 3.9.0 && \
-  repo sync -j4 --no-clone-bundle
+  repo init -q -u https://github.com/OP-TEE/manifest.git -m qemu_v8.xml -b 3.9.0 
 ```
 
-[Sample command output](repo-output.md)
+Now modify `.repo/manifests/qemu_v8.xml`. The .xml file lists all required components and the corresponding versions [(source)](https://github.com/ForgeRock/optee-manifest/blob/master/qemu_v8.xml).
 
->
-> In case you are curious, the .xml file lists all the git repos and the corresponding commits that we refer to. Check it out: https://github.com/ForgeRock/optee-manifest/blob/master/qemu_v8.xml
+Now change the following line. [(Why?)](issues.md)
+
+```
+- <project path="linux"  name="linaro-swg/linux.git" revision="optee" clone-depth="1" />
++ <project path="linux"  name="linaro-swg/linux.git" revision="refs/tags/optee-3.10.0" clone-depth="1" />
+```
+
+Now fetch all the code: 
+```sh  
+$ repo sync -j4 --no-clone-bundle
+```
+
+If you suspect the code sync process goes wrong, here is the [sample command output](repo-output.md). 
+
 
 Build OPTEE for QEMU ARMv8: 
 
 ```sh
 $ cd build
 $ make -j2 toolchains
+# clean build: about 5 minutes on a 20-core machine
 $ make QEMU_VIRTFS_ENABLE=y CFG_TEE_RAM_VA_SIZE=0x00300000 -j `nproc`
 ```
 
 Additional notes on cleaning up OPTEE build: [here](cleanup.md) 
 
 #### Adjust the makefile  `qemu_v8.mk`
-
-Explanation: the first three lines attempt to launch local terminal emulators (e.g. xterm). These are useful only when you are developing on your local Linux machine. They do not apply when you connect to a remote server over SSH. 
-
-The last line specifies -s, which tells QEMU to listen for incoming GDB connection. The listened port is 1234 which seems to be hardcoded (?). If multiple students try to do the same thing, their commands will fail because only one student can bind to port 1234. 
 
 ```
 diff --git a/qemu_v8.mk b/qemu_v8.mk
@@ -124,6 +130,10 @@ index 8271590..1c4a91b 100644
 +               -S -machine virt,secure=on -cpu cortex-a57 \
 ```
 
+Explanation: the three changed lines launch local terminal emulators (e.g. xterm). These are useful only when you are developing on your local Linux machine. They do not apply when you connect to a remote server over SSH. So comment out if you use granger1/2.
+
+The last line specifies -s, which tells QEMU to listen for incoming GDB connection. The listened port is 1234. If multiple students try to do the same thing, their commands will fail because only one student can bind to port 1234. 
+
 #### Run netcat (nc)
 
 Run two `nc` to listen port `54320` and `54321`, which connect to consoles for normal & secure worlds of the ARM system emulated by QEMU, respectively. 
@@ -136,7 +146,7 @@ $ nc -l 127.0.0.1 54321
 NOTE on nc: 
 
 1. nc has slight variations in its command line syntax. If you run into issues, see [here](https://serverfault.com/questions/512333/how-can-i-configure-netcat-or-some-other-stock-linux-utility-to-listen-on-a-sp). 
-2. Apparently on the same server you cannot use the same ports, e.g. 54320/54321, being used by other students. Just pick your own "personal" ports. Set them up in the Makefile above and your command line. 
+2. Apparently on the same server you cannot use the same ports, e.g. 54320/54321, being used by other students. Just pick your own "personal" ports. Set them up in **qemu_v8.mk** above and your **command lines**. 
 
 #### Run QEMU
 
@@ -149,6 +159,8 @@ Once QEMU is launched, start the emulated guest by typing `c`.
 Here is my window (running tmux) split in three ways: 
 
 ![](qemu.png)
+
+![](dev.gif)
 
 ### Alternative environment 2: Rpi3
 
@@ -177,7 +189,7 @@ The build output will be `out-br/images/rootfs` which is the filesystem tree (an
 
 **Prepare the SD card:**
 
-In the following steps, we will load the filesystem tree to a microSD card. OPTEE's [instructions](https://optee.readthedocs.io/en/latest/building/devices/rpi3.html) for Rpi3 suggest you to go `build/` and run `make img-help` to see the list of commands. Here is a [sample output](rpi3-flash-sample-cmd.txt) from my computer; you should follow the commands displayed when you rum `make img-help` on your computer. 
+In the following steps, we will load the filesystem tree to a microSD card. OPTEE's [instructions](https://optee.readthedocs.io/en/latest/building/devices/rpi3.html) for Rpi3 suggest you to go `build/` and run `make img-help` to see the list of commands. Here is a [sample output](../rpi3-flash-sample-cmd.txt) from my computer; you should follow the commands displayed when you rum `make img-help` on your computer. 
 
 These commands are nothing magical: 
 
@@ -350,6 +362,14 @@ When we build & launch QEMU, pass in "VIRTFS" (virtual filesystem) arguments:
 ```
 $ make run-only QEMU_VIRTFS_ENABLE=y QEMU_VIRTFS_HOST_DIR=build/shared_folder
 ```
+Update (04/12/2021): if the above command complains "shared_folder" not found, try its full path, or 
+
+```
+$ make run-only QEMU_VIRTFS_ENABLE=y QEMU_VIRTFS_HOST_DIR=../../build/shared_folder/
+```
+
+
+
 After QEMU is launched, mount the shared folder in QEMU guest system (username: root).
 
 ```sh

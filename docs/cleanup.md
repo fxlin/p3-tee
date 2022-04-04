@@ -1,4 +1,4 @@
-# On cleaning up OPTEE build
+# Howto: cleaning up the OPTEE build
 
 I found it's quite painful. There seems no global target for cleaning up everything and do a rebuild. (e.g. if you rename your directories, things will break; and you want to do a clean build). 
 

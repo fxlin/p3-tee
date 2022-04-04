@@ -1,5 +1,9 @@
 # Exp 4: secure vision -- alpha
 
+*For reference only. UVA students: please refer to our formal assignments.* 
+
+
+
 Read the "secure vision" experiment document. 
 
 ## Design choices (20%)
