@@ -8,8 +8,7 @@ We will run a computer vision service in the secure world. This is useful when w
 
 We will create a TA that accepts **encrypted** images (in jpg) submitted from the CA. The TA will run license plate detection service on the input images; for each detected license plate on the image, the TA will return the results, e.g. coordinates of its bounding boxes, license plate info, etc. <!--- and the license plate text???--->
 
-![](exp-flow.png)
-
+<img src="exp-flow.png" alt="exp-flow" style="zoom: 67%;" />
 
 ## Challenges
 
@@ -44,7 +43,7 @@ You will choose the encryption/decryption algorithm used by the normal/secure wo
 <!------------- For example, prior to asking CA to submit the images to TA, you may have **your own code** to encrypt the images, which is considered trusted and shares a secret key with TA in secure world for decryption.    -------->
 
 1. Symmetric or asymmetric? Two families of crypto schema are at our hand: symmetric and asymmetric. The former uses only ***one*** key for both  encryption and decryption while the latter uses a public/private key pair: ***public*** key for encryption and ***private*** key for decryption.  The choice of these cryptos lead to different performance overhead. 
-2. Are there existing implementations for the crypto you chose? Notably, is it easy to port to OPTEE? Prior students report successful experience with "Tiny AES in C". Feel free to p
+2. Are there existing implementations for the crypto you chose? Notably, is it easy to port to OPTEE?
 3. How would you store the crypto key in the secure world? 
 
 ### Reasoning about security
