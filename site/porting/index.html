@@ -1,0 +1,684 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.2.3">
+    
+    
+      
+        <title>/porting - p3-tee</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.e8d9bf0c.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.e6a45f82.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#ffa724">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="orange" data-md-color-accent="orange">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#porting-libraries-to-trustzone" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="p3-tee" class="md-header__button md-logo" aria-label="p3-tee" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 89 89">
+  <path d="M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z" />
+  <path d="M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z" style="fill-opacity: 0.5" />
+  <path d="M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z" />
+  <path d="M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z" style="fill-opacity: 0.25" />
+</svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            p3-tee
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              /porting
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../quickstart/" class="md-tabs__link">
+      quickstart
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../helloworld/" class="md-tabs__link">
+      app examples
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../sod/" class="md-tabs__link">
+      lib
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../secure-vision/" class="md-tabs__link">
+      challenge
+    </a>
+  </li>
+
+      
+        
+  
+  
+    
+  
+
+
+  <li class="md-tabs__item">
+    <a href="./" class="md-tabs__link md-tabs__link--active">
+      /porting
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../cleanup/" class="md-tabs__link">
+      /cleanup
+    </a>
+  </li>
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="p3-tee" class="md-nav__button md-logo" aria-label="p3-tee" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 89 89">
+  <path d="M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z" />
+  <path d="M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z" style="fill-opacity: 0.5" />
+  <path d="M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z" />
+  <path d="M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z" style="fill-opacity: 0.25" />
+</svg>
+
+    </a>
+    p3-tee
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quickstart/" class="md-nav__link">
+        quickstart
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../helloworld/" class="md-nav__link">
+        app examples
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sod/" class="md-nav__link">
+        lib
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../secure-vision/" class="md-nav__link">
+        challenge
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          /porting
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        /porting
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-this-doc-about" class="md-nav__link">
+    What is this doc about?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-challenges" class="md-nav__link">
+    Key challenges
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#general-approach" class="md-nav__link">
+    General approach
+  </a>
+  
+    <nav class="md-nav" aria-label="General approach">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#finding-the-interfaces" class="md-nav__link">
+    Finding the interfaces
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#substitute-them-with-trustzone-implementation" class="md-nav__link">
+    Substitute them with TrustZone implementation
+  </a>
+  
+    <nav class="md-nav" aria-label="Substitute them with TrustZone implementation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-emulation" class="md-nav__link">
+    1. Emulation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-outsource" class="md-nav__link">
+    2. Outsource
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cleanup/" class="md-nav__link">
+        /cleanup
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-this-doc-about" class="md-nav__link">
+    What is this doc about?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-challenges" class="md-nav__link">
+    Key challenges
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#general-approach" class="md-nav__link">
+    General approach
+  </a>
+  
+    <nav class="md-nav" aria-label="General approach">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#finding-the-interfaces" class="md-nav__link">
+    Finding the interfaces
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#substitute-them-with-trustzone-implementation" class="md-nav__link">
+    Substitute them with TrustZone implementation
+  </a>
+  
+    <nav class="md-nav" aria-label="Substitute them with TrustZone implementation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-emulation" class="md-nav__link">
+    1. Emulation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-outsource" class="md-nav__link">
+    2. Outsource
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+
+
+<h1 id="porting-libraries-to-trustzone">Porting libraries to TrustZone</h1>
+<!----- ### Who are this doc for? 
+People who are trying to port existing codebase/libraries into TrustZone. But really the knowledge is general and can be transferred when porting any software on one runtime environment to another. ---->
+
+<h3 id="what-is-this-doc-about">What is this doc about?</h3>
+<p>This doc briefly describes the approaches and process of porting an existing codebase into TrustZone running OPTEE.</p>
+<h3 id="key-challenges">Key challenges</h3>
+<p>The challenges mainly come from OPTEE as a baremetal programming environment:</p>
+<ul>
+<li>No POSIX support. This means the application cannot simply call:</li>
+<li><code>open</code>, <code>read</code> , <code>write</code>,  <code>mmap</code>, etc.   </li>
+<li>This is the major challenge but can be addressed via emulation or outsourcing.</li>
+<li>Minimal C runtime library support. </li>
+<li>While some functions, e.g. string manipulations from <code>&lt;string.h&gt;</code>, are implemented, some functions, e.g. printf(), is absent. </li>
+<li>Poor-to-none debugging facility. You cannot debug TAs with <code>gdb</code>. Debugging mostly relies on printing. </li>
+<li>TA's crash log differs from what you already know of a normal world user application.</li>
+</ul>
+<h3 id="general-approach">General approach</h3>
+<p>The overall guideline for porting an application into TrustZone is simple: </p>
+<ul>
+<li><strong>Find</strong> the interfaces that the application interact with normal world <code>std</code> environment and </li>
+<li><strong>Substitute</strong> them with their secure world implementation</li>
+</ul>
+<h4 id="finding-the-interfaces">Finding the interfaces</h4>
+<p>It is easy to find the interfaces -- just compile and let the compiler tell you what interfaces are missing (e.g. undefined symbols). These interfaces/symbols include the ones as listed above,<code>open</code>, <code>mmap</code>, etc., and also some global variables defined by <code>libc</code> such as a per-app error number.</p>
+<h4 id="substitute-them-with-trustzone-implementation">Substitute them with TrustZone implementation</h4>
+<p>Once the interfaces are found, you only need to substitute them by linking them against their respective TrustZone implementations. </p>
+<p>For example, in the case of <code>open</code>, you only need to define the same function as <code>open</code> with identical arguments and return types, and link against the new <code>open</code> during compilation.</p>
+<p>The above is just an example of how to get it compiled, but how to get it work? There are two approaches towards getting the substituted interfaces functional:</p>
+<h5 id="1-emulation">1. Emulation</h5>
+<p>This approach implements substitute functions inside secure world which have the equivalent functionality as its original function. Since they only seek functional equivalence and their implementations can be entirely different, they <em>emulate</em> the behavior of the original functions.  The following example is useful for comprehending this approach:</p>
+<p>Imaging one function to be ported is <code>pow(a, n)</code> which calculates the <code>n</code>th exponent power of <code>a</code>. While its normal world implementation has comprehensive implementations for handling corner cases and optimizations, you know somehow (by profiling the normal world app and its workload) the function will only be called to calculate the square of <code>a</code> , that is, only <code>pow(a, 2)</code> will be called. </p>
+<p>To port, you only need to implement in secure world the same function with the same name <code>pow</code> that handles the square case with simplest possible implementation as follows:</p>
+<pre><code class="language-c">int pow(int a, int n) {
+    if (n != 2) {
+        abort();
+    }
+    return a * a;
+}
+</code></pre>
+<p>More complex use will be introduced in the case study section.  </p>
+<h5 id="2-outsource">2. Outsource</h5>
+<p>This offloads the function to normal world. For example, to <code>read</code> a file in normal world,  TrustZone may request a <code>read</code>  of the file to normal world, outsourcing the whole storage stack to normal world, and asking it to read the file for TrustZone. Once the file is <code>read</code> into normal world memory, TrustZone can thus pull the filedata into secure memory. </p>
+<p>In general, to implement this method, one has to setup a message passing channel between normal and secure world, following the below process:</p>
+<ul>
+<li>Secure world issues a request to execute a <code>func</code> </li>
+<li>Normal world receives the request and execute the <code>func</code> for secure world</li>
+<li>Once the execution finishes, normal world returns the results <strong>as byte streams</strong> back to secure world  </li>
+</ul>
+<p><strong>Security considerations</strong></p>
+<ul>
+<li>The approach gives away the <em>content</em> of the request (i.e. the requested function and its arguments) because they are not encryptable. Also the returned results are NOT to be trusted and be used when making security decisions. </li>
+<li>Sometimes more sophisticated data structure are returned (e.g. <code>struct stat</code> returned by <code>stat()</code> and <code>fstat</code>). They must be reconstructed from bytes stream once received by secure world.  </li>
+<li>Ideally, the outsourced functions shall be simple enough in the sense that their input/output can be easily serialized &amp; deserialized as messages passed between normal and secure world. </li>
+</ul>
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../secure-vision/" class="md-footer__link md-footer__link--prev" aria-label="Previous: challenge" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              challenge
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../cleanup/" class="md-footer__link md-footer__link--next" aria-label="Next: /cleanup" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              /cleanup
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.bd0b6b67.min.js"}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.b88e97c5.min.js"></script>
+      
+    
+  </body>
+</html>
