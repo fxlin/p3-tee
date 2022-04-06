@@ -130,6 +130,8 @@ index 8271590..1c4a91b 100644
 +               -S -machine virt,secure=on -cpu cortex-a57 \
 ```
 
+In the diff file above, lines starting with '-' **are to be deleted**; lines starting with "+" **are to be added**. Don't omit the last two lines.
+
 Explanation: the three changed lines launch local terminal emulators (e.g. xterm). These are useful only when you are developing on your local Linux machine. They do not apply when you connect to a remote server over SSH. So comment out if you use granger1/2.
 
 The last line specifies -s, which tells QEMU to listen for incoming GDB connection. The listened port is 1234. If multiple students try to do the same thing, their commands will fail because only one student can bind to port 1234. 
