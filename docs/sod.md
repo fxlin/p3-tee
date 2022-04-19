@@ -130,6 +130,10 @@ E/LD:   0x00000000400a6b90 __ta_entry at /home/liwei/optee-rpi3/optee_os/out/arm
 
 If the above does not work, e.g. showing "???" as function names, double check your CROSS_COMPILE environment variable. Do you miss the trailing -? 
 
+### TA debug messages
+
+The APIs are DMSG, EMSG, IMSG, etc. To control debug print levels, e.g. you can add `CFG_TEE_TA_LOG_LEVEL=4` during `make buildroot`.
+
 
 ## For those interested: what we did to port the lib? 
 
