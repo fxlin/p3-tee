@@ -14,7 +14,7 @@ We will create a TA that accepts **encrypted** images (in jpg) submitted from th
 
 ### Designing the CA/TA interface
 
-The basic interaction flow can be learnt from the helloworld example. Passing image data (large chunks, variable length) in/out can be learnt from the sdp (secure data path) example. 
+The basic interaction flow can be learnt from the helloworld example. Passing image data (large chunks, variable length) in/out can be learnt from the sdp (secure data path) example. **Note**: the sdp example uses a CA-allocated shared buffer, which requires the TA to be compiled with the TA_FLAG_SECURE_DATA_PATH flag ([discussion](https://github.com/OP-TEE/optee_os/issues/4572)); yet this is optional in order to implement the challenge -- the TA can allocate a secure world buffer for storing incoming data. 
 
 You will come up with the command(s) and the formats of parameters passed in/out of the secure world. 
 

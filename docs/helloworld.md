@@ -152,15 +152,22 @@ See [quickstart](quickstart.md#alternative-1-the-easiest-way-need-to-reboot-qemu
 
 ## App 2: Secure data path (sdp) basic 
 
-Another simple example worth looking at. It showcases how to copy a large chunk of data between normal/secure worlds, as OPTEE does not support passing large data as values in command parameters (for efficiency reason). 
-
-<!--- pta standards for "Pseudo Trusted Application". Because this is a TA for testing. --->
+Another simple example worth looking at. It showcases how to copy a large chunk of data between normal/secure worlds, as OPTEE does not support passing large data as values in command parameters (for efficiency reason).  
 
 ### The TA code 
 
 is at ./optee_test/ta/sdp_basic/ta_sdp_basic.c. We focus on  three commands and their callbacks: `TA_SDP_BASIC_CMD_INJECT`, `TA_SDP_BASIC_CMD_TRANSFORM`, and `TA_SDP_BASIC_CMD_DUMP`. Check the source code comments which are informative. 
 
-> The source code further include some commands for "Pseudo Trusted Application" which can be learnt [here](https://optee.readthedocs.io/en/latest/architecture/trusted_applications.html).
+> The source code further include some commands for "Pseudo Trusted Application" (PTA) which can be learnt [here](https://optee.readthedocs.io/en/latest/architecture/trusted_applications.html). PTA is meant to be invoked by regular TAs, but not to be directly invoked by CAs in the normal world.
+
+**Accessing shared buffer?** To implement the INJECT command, the TA accesses a shared memory buffer passed from the CA. This is only allowed when the TA is compiled with TA_FLAG_SECURE_DATA_PATH. Otherwise CA invoking the command will fail with "bad parameter" error (origin = 3, TEE). 
+
+```c
+//user_ta_header_defines.h
+#define TA_FLAGS			(TA_FLAG_EXEC_DDR|TA_FLAG_SECURE_DATA_PATH) 
+```
+
+[Related discussion](https://github.com/OP-TEE/optee_os/issues/4572)
 
 ### The CA code
 
@@ -203,7 +210,6 @@ $ xtest --sdp-basic -h
 
 * What's the overhead of each command invocation? Carefully plan & execute measurement. What are the major contributors to the overhead?
 * Add a command to helloworld, which will multiply a given integer by 2. 
-
 
 
 
