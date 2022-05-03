@@ -209,6 +209,8 @@ Power on Rpi3 and hook up a serial cable. We boot into a Linux console (root, em
 
 Then we can validate that OPTEE works by running the xtest suite. Hooray! :grin:
 
+Note: Both the normal and the secure worlds share the same console. Secure world has higher privilege and its output will overwrite that of the normal world. 
+
 ![](rpi3-xtest.gif)
 
 Reference: [here](https://github.com/piachristel/open-source-fabric-optee-chaincode/blob/master/documentation/chaincode-and-chaincode-proxy-rapi.md) and [here](https://optee.readthedocs.io/en/latest/building/gits/build.html)
