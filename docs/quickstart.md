@@ -149,6 +149,7 @@ NOTE on nc:
 
 1. nc has slight variations in its command line syntax. If you run into issues, see [here](https://serverfault.com/questions/512333/how-can-i-configure-netcat-or-some-other-stock-linux-utility-to-listen-on-a-sp). 
 2. Apparently on the same server you cannot use the same ports, e.g. 54320/54321, being used by other students. Just pick your own "personal" ports. Set them up in **qemu_v8.mk** above and your **command lines**. 
+3. Use `netstat --all | grep 54320` to see if a port, e.g. 54320, is in use. 
 
 #### Run QEMU
 
