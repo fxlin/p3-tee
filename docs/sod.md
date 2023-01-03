@@ -19,7 +19,7 @@ cd sod
 git checkout tz
 ```
 
-3. From the grabbed code, copy `libm.a` (the math library) to the OPTEE lib directory, the same directory as `libutee.a` and  `libteec.a`, so that `libm.a` can be linked. Copy all other source files (e.g. `sod.h`, `sod.c`) to the source path of your TA.
+3. From the grabbed code, copy `libm.a` (the math library) to the OPTEE lib directory, the same directory as `libutee.a` and  `libteec.a`, so that `libm.a` can be linked. (e.g. on my machine it is ./optee_os/out/arm/export-ta_arm64/lib/ but you need to verify yourself). Copy all other source files (e.g. `sod.h`, `sod.c`) to the source path of your TA.
 4. Modify your TA Makefile so that `sod.c` can be compiled and `libm.a` can be located and linked.
    * To add sod.c to your TA build, modify sub.mk in the TA's source directory
    * To link libm.a (and any other libs you may have), modify ./optee_os/ta/mk/ta_dev_kit.mk. Learn from examples there, e.g. how to add libmbedtls to the link process. 
