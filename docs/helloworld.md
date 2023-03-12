@@ -8,9 +8,7 @@ We will walk through the source of two minimalist OPTEE apps.
 
 Having completed the [quickstart](quickstart.md). 
 
-### Recall: the system architecture
 
-![](arch.png)
 
 ## App 1: Helloworld
 
@@ -160,7 +158,7 @@ is at ./optee_test/ta/sdp_basic/ta_sdp_basic.c. We focus on  three commands and 
 
 > The source code further include some commands for "Pseudo Trusted Application" (PTA) which can be learnt [here](https://optee.readthedocs.io/en/latest/architecture/trusted_applications.html). PTA is meant to be invoked by regular TAs, but not to be directly invoked by CAs in the normal world.
 
-**Accessing shared buffer?** To implement the INJECT command, the TA accesses a shared memory buffer passed from the CA. This is only allowed when the TA is compiled with TA_FLAG_SECURE_DATA_PATH. Otherwise CA invoking the command will fail with "bad parameter" error (origin = 3, TEE). 
+**Accessing shared buffer?** To implement the INJECT command, the TA accesses a shared memory buffer passed from the CA. This is only allowed when the TA is compiled with **TA_FLAG_SECURE_DATA_PATH**. Otherwise CA invoking the command will fail with "bad parameter" error (origin = 3, TEE). 
 
 ```c
 //user_ta_header_defines.h
@@ -182,8 +180,8 @@ The sdp functionalities are included in compilation when CFG_SECURE_DATA_PATH is
 ```
 # do the following from build/
 
-# only do this once, when you change the configuration. a clean build takes ~5 mins on a 20-core machine that no one is using
-$ make buildroot-cleaner  
+# optional: when you change the configuration. a clean build takes ~5 mins on a 20-core machine that no one is using
+# $ make buildroot-cleaner  
 
 # do this when you change the configuration or every time you change the source code 
 $ make buildroot CFG_SECURE_DATA_PATH=y CFG_TEE_RAM_VA_SIZE=0x00300000 -j `nproc`
@@ -194,22 +192,15 @@ Verify sdp functionalities are compiled:
 
 ```
 # on QEMU's normal world console
-$ xtest -h |grep --sdp-basic
+$ xtest -h |grep "sdp-basic"
 --sdp-basic [opts] Basic Secure Data Path test setup ('-h' for usage)
 ```
 Run the sdp example by: 
 ```
 $ xtest --sdp-basic
-# get help 
+# To get help 
 $ xtest --sdp-basic -h
 ```
-
-## Exercises
-
-*<u>CS4414/6456 students -- please refer to the formal assignment.</u>* 
-
-* What's the overhead of each command invocation? Carefully plan & execute measurement. What are the major contributors to the overhead?
-* Add a command to helloworld, which will multiply a given integer by 2. 
 
 
 

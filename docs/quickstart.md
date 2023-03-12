@@ -40,32 +40,18 @@ The build process is complex. It is managed by numerous Makefiles in a hierarchy
 4. Run QEMU and play with "Hello world", validating that our environment works properly.
 5. Repeated build: modify source code of normal world app and TAs, and build again. 
 
-Read on for detailed steps below. 
-
-## Glossary
-**TA** Trusted applications, sometimes called trustlets. A TA is a binary to be executed in the secure world. 
-
-**CA** Trusted clients, or clients. A TA is a normal world apps invoking TAs. 
-
-**TEE supplicant**: the OPTEE daemon running in the normal world serving clients 
-
-**Host & guest** The lingo of OPTEE source refers the normal world app as "host". Be aware though: in the context of virtual machines, the PC/server where we hack & develop OPTEE code is "host" and QEMU is a "guest". We will be explicit in differentiating them. 
-
-
-
-![](arch.png)
 
 ## Setup steps
 
 You can choose one of two possible environments: an ARM platform with TrustZone as emulated by QEMU; Rpi3 which has TrustZone built in. 
 
-DO NOT REUSE QEMU FROM P1
-
 ### Environment choice 1: QEMU
+
+DO NOT REUSE QEMU FROM P1
 
 To run examples on the QEMU ARMv8 emulator, we need first build OP-TEE for QEMU that emulates ARMv8 and TrustZone. 
 
-For most students, we recommend to use the course servers. *For students who run QEMU on personal machines not the server:* You can install dependencies with this [instruction](https://optee.readthedocs.io/en/latest/building/prerequisites.html). If the installation fails, e.g. due to unmet dependency, it's likely that the source of your apt repository is not properly configured. A common cause is that you have previously installed packages from some third-party apt sources. Remove them from /etc/apt and do `apt update`. 
+We recommend students to use the course servers. *For students who want to run QEMU on personal machines not the server:* You can install dependencies with this [instruction](https://optee.readthedocs.io/en/latest/building/prerequisites.html). 
 
 Download the OPTEE source. We use version 3.9. 
 
@@ -79,7 +65,7 @@ $ mkdir optee-qemuv8 && cd optee-qemuv8 && \
 
 Now modify `.repo/manifests/qemu_v8.xml`. The .xml file lists all required components and the corresponding versions [(source)](https://github.com/ForgeRock/optee-manifest/blob/master/qemu_v8.xml).
 
-Now change the following line. [(Why?)](issues.md)
+Change the following line. [(Why?)](issues.md)
 
 ```
 - <project path="linux"  name="linaro-swg/linux.git" revision="optee" clone-depth="1" />
@@ -100,10 +86,12 @@ Build OPTEE for QEMU ARMv8:
 $ cd build
 $ make -j2 toolchains
 # clean build: about 5 minutes on a 20-core machine
-$ make QEMU_VIRTFS_ENABLE=y CFG_TEE_RAM_VA_SIZE=0x00300000 -j `nproc`
+$ make QEMU_VIRTFS_ENABLE=y CFG_SECURE_DATA_PATH=y CFG_TEE_RAM_VA_SIZE=0x00300000 -j `nproc`
 ```
 
-Additional notes on cleaning up OPTEE build: [here](cleanup.md) 
+**Explanation**: QEMU_VIRTFS_ENABLE allows QEMU and the host (e.g. granger1) to share files; CFG_SECURE_DATA_PATH builds in the support for data copy between two worlds; CFG_TEE_RAM_VA_SIZE sets the virtual address range for TEE; -j `nproc` asks to use all cores for making. 
+
+**Want to clean an OPTEE build**? See [here](cleanup.md) 
 
 #### Adjust the makefile  `qemu_v8.mk`
 
@@ -130,7 +118,7 @@ index 8271590..1c4a91b 100644
 +               -S -machine virt,secure=on -cpu cortex-a57 \
 ```
 
-In the diff file above, lines starting with '-' **are to be deleted**; lines starting with "+" **are to be added**. Don't omit the last two lines.
+In the diff file above, lines starting with '-' **are to be deleted**; lines starting with "+" **are to be added**. **Don't omit the last two lines**.
 
 Explanation: the three changed lines launch local terminal emulators (e.g. xterm). These are useful only when you are developing on your local Linux machine. They do not apply when you connect to a remote server over SSH. So comment out if you use granger1/2.
 
@@ -164,7 +152,7 @@ Here is my window (running tmux) split in three ways:
 
 ![](dev.gif)
 
-### Alternative environment 2: Rpi3
+### Environment choice 2: Rpi3 hardware
 
 Read the instructions for QEMU above. We will follow a similar procedure with minor tweaks. 
 
@@ -245,7 +233,7 @@ Reference: [Official build instructions](https://optee.readthedocs.io/en/latest/
 
 ## Development workflow
 
-### Alternative 1: the easiest way (need to reboot QEMU every time)
+### Choice 1: easier to set up (but need to reboot QEMU every time)
 
 We will leverage an existing OPTEE example program: modify/add/delete its sources, rebuild the entire rootfs, and relaunch QEMU. In this way, we do not have deal with the Makefile hierarchy. 
 
@@ -291,23 +279,26 @@ Let's do some trivial changes to the helloworld app source:
 Then rebulid hello world: 
 ```
 $ cd build    
-$ make buildroot
+$ make buildroot QEMU_VIRTFS_ENABLE=y CFG_SECURE_DATA_PATH=y CFG_TEE_RAM_VA_SIZE=0x00300000 -j `nproc`
 ```
-> Note that `make optee-examples-common` seems obsoleted. See [discussion](https://github.com/OP-TEE/build/issues/282).
+Explanation: the "buildroot" target is for the entire filesystem, including CA/TA programs within. Note that `make optee-examples-common` seems obsoleted. See [discussion](https://github.com/OP-TEE/build/issues/282).
 
-The target will be at `./out-br/target/usr/bin/optee_example_hello_world`.
+Output location: `./out-br/target/usr/bin/optee_example_hello_world`
 
 Restart QEMU and invoke the CA  from within QEMU, showing that our modification is effective: 
 
 ```
-# in the normal world console 
+# (in the normal world console)
 $ optee_example_hello_world
 hello! ... Invoking TA to increment 42
 TA incremented value to 43
 ```
 
 #### TA (the secure world)
-./optee_examples/hello_world/ta/hello_world_ta.c. Again, do some trivial changes: 
+Source location: `./optee_examples/hello_world/ta/hello_world_ta.c` 
+
+Do some trivial changes: 
+
 ```
 @@ -108,7 +108,8 @@ static TEE_Result inc_value(uint32_t param_types,
                 return TEE_ERROR_BAD_PARAMETERS;
@@ -321,7 +312,7 @@ TA incremented value to 43
 Build: 
 ```
 $ cd build    
-$ make buildroot
+$ make buildroot QEMU_VIRTFS_ENABLE=y CFG_SECURE_DATA_PATH=y CFG_TEE_RAM_VA_SIZE=0x00300000 -j `nproc`
 ```
 
 Check the build outcome: 
@@ -332,20 +323,22 @@ $ ls -lh out-br/target/lib/optee_armtz/8aaaf200-2450-11e4-abe2-0002a5d5c51b.ta
 $ md5sum out-br/target/lib/optee_armtz/8aaaf200-2450-11e4-abe2-0002a5d5c51b.ta
 669e219e7381c842d80f3ba68db9368f  out-br/target/lib/optee_armtz/8aaaf200-2450-11e4-abe2-0002a5d5c51b.ta
 ```
-Why the magic filename? This is because each TA is named after a unique UUID. In this example, it is defined in `hello_world_ta.h`. The build script will pick the UUID up and name the output binary after it. 
+Why the magical filename? This is because each TA is named after a unique UUID. In this example, it is defined in `hello_world_ta.h`. The build script will pick the UUID up and name the output binary after it. 
 
 Restart QEMU, and check if the newly build TA is baked into our rootfs: 
 
-```
-# QEMU's normal world console: 
+```bash
+# (In the normal world console): 
 $ md5sum /lib/optee_armtz/8aaaf200-2450-11e4-abe2-0002a5d5c51b.ta
 669e219e7381c842d80f3ba68db9368f
 ```
 
+The md5sum (669e2...) matches what we saw above. 
+
 Now run helloworld again: 
 
-```
-# in QEMU's normal world console 
+```bash
+# (in the normal world console)
 $ optee_example_hello_world
 hello! ... Invoking TA to increment 42
 TA incremented value to 44
@@ -353,11 +346,11 @@ TA incremented value to 44
 
 The value is incremented by 2 -- our modification to TA works!
 
-### Alternative 2: A better way (shared binaries with QEMU, no reboot needed)
+### Choice 2: shared binaries with QEMU, no reboot needed
 
 With the above method, you will soon find it tedious to restart QEMU every time we change TA/CA sources. The solution is to share the TA/CA build outcome via a folder shared with the QEMU guest.
 
-On the development machine, from the OPTEE root: 
+On the development machine, from the root of OPTEE source code: 
 
 ```sh
 $ mkdir build/shared_folder
@@ -366,39 +359,30 @@ When we build & launch QEMU, pass in "VIRTFS" (virtual filesystem) arguments:
 ```
 $ make run-only QEMU_VIRTFS_ENABLE=y QEMU_VIRTFS_HOST_DIR=build/shared_folder
 ```
-Update (04/12/2021): if the above command complains "shared_folder" not found, try its full path, or 
-
-```
-$ make run-only QEMU_VIRTFS_ENABLE=y QEMU_VIRTFS_HOST_DIR=../../build/shared_folder/
-```
-
-
-
 After QEMU is launched, mount the shared folder in QEMU guest system (username: root).
 
 ```sh
-# inside the QEMU's normal world console
+# (in the normal world console)
 # this creates /root/shared/ which will be mapped to the host's build/shared_folder
 $ mkdir shared && mount -t 9p -o trans=virtio host shared
 ```
 
-
-Every time we rebuild a CA, copy its binary to the shared directory: 
+**To rebuild a CA:** Every time we rebuild a CA (see the command above `make buildroot...`), copy its binary to the shared directory: 
 
 ```
 $ cp ./out-br/target/usr/bin/optee_example_hello_world build/shared_folder/
 ```
 
-If we rebuild a TA, first copy TAs to the shared directory; then from within QEMU copy the TAs to the guest's `/lib` where OPTEE's daemon will look for TAs: 
+**To rebuilt a TA:** If we rebuild a TA, first copy TAs to the shared directory (similar to above); then in the normal world console, copy the TAs to the guest's `/lib` where OPTEE's daemon will look for TAs: 
 
 ```sh
-# from QEMU's normal world console: 
+# (in the normal world console) 
 $ cd shared && cp *.ta /lib/optee_armtz/
 ```
-Of course, you should write a script to automate the above workflow! 
+You are recommended to write a script to automate the above workflow. 
 
-Need extra software packages (e.g. strace) to be included in the rootfs image? either change `common.mk` or `out-br/.config` (may be overwritten). See [here](https://github.com/OP-TEE/optee_os/issues/2632). 
+**Need extra software packages (e.g. strace)** to be included in the rootfs image? Change `build/common.mk`. To see what packages are available & selected, check out file `out-br/.config`. See [here](https://github.com/OP-TEE/optee_os/issues/2632). 
 
-### Alternative 3: Rpi3: copying files over SSH
+### Choice 3: Rpi3 - copying files over SSH
 
 If we are running Rpi3, we copy over CA/TA over SSH connection. [This article](https://github.com/piachristel/open-source-fabric-optee-chaincode/blob/master/documentation/chaincode-and-chaincode-proxy-rapi.md) explains how to quickly configure an SSH server on Rpi3. 

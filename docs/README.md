@@ -24,6 +24,17 @@ Instead of writing baremetal TEE code, we will write our TEE code running atop a
   * [Case study: the SOD lib](sod.md)
 * [Programming challenge](secure-vision.md): an assignment in which you will build a machine learning service inside TrustZone. *(cs4414/6456 students: refer to formal assignment)*
 
+## Glossary
+**TA** Trusted applications, sometimes called trustlets. A TA is a binary to be executed in the secure world. 
+
+**CA** Trusted clients, or clients. A TA is a normal world apps invoking TAs. 
+
+**TEE supplicant**: the OPTEE daemon running in the normal world serving clients 
+
+**Host & guest** The lingo of OPTEE source refers the normal world app as "host". Be aware though: in the context of virtual machines, the PC/server where we hack & develop OPTEE code is "host" and QEMU is a "guest". We will be explicit in differentiating them. 
+
+![](arch.png)
+
 ## Assignment weights
 
 | Exp  | Weights |
