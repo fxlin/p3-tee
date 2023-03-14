@@ -8,8 +8,6 @@ We will walk through the source of two minimalist OPTEE apps.
 
 Having completed the [quickstart](quickstart.md). 
 
-
-
 ## App 1: Helloworld
 
 What it does: the TA takes an integer value passed from the CA, increments the value by 1, and passes the value back to the CA. 

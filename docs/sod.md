@@ -1,4 +1,4 @@
-# Use a vision library (SOD) inside TEE
+# How we ported a vision library (SOD) to TEE
 
 SOD is an embedded computer vision & ML library. It's mostly self-contained. 
 

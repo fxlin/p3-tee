@@ -42,7 +42,7 @@ nav:
   - lib: sod.md
   - challenge: secure-vision.md
   - /porting: porting.md  
-  - /cleanup: cleanup.md
+  - /troubleshoot: issues.md  
   
   #- Device:
    # - Hikey: devices/hikey.md

@@ -30,17 +30,15 @@ Compared to the codebase we have dealt with before, OPTEE is a complex project w
 
 Each component is versioned in its own git repository. Together, all these git repositories are managed (e.g. pull, push) by a tool called `repo`.  (`repo` is a by-product of Google's Android project)
 
-The build process is complex. It is managed by numerous Makefiles in a hierarchy; it also builds for various Arm boards and QEMU (called "targets''). To automate the build process, there is a dedicated component called `build` (see above), which has its own git repository. 
+The build process is complex. It is managed by numerous Makefiles in a hierarchy; it also builds for various Arm boards and QEMU (called ``targets''). To automate the build process, there is a dedicated component called `build` (see above), which has its own git repository. 
 
 ## Building the entire project: an overview
 
-1. Grab the source code:
-   1. `rsync -avxP portal.cs.virginia.edu:/u/xl6yq/cs4414/optee-qemuv8 ~` Will copy source to `~/optee-qemuv8`
-   2. Or, download the tarball from Collab/resources, upload to granger1/2 (scp, VScode, etc), and unzip there
-
-2. First time build: we will build everything including QEMU and normal/secure worlds binaries of OPTEE. The build process will pack these binaries into an Armv8 system image (rootfs image) to be launched by QEMU
-3. Run QEMU and play with "Hello world", validating that our environment works properly.
-4. Repeated build: modify source code of normal world app and TAs, and build again. 
+1. Install tools & libs required for building
+2. Pull the source of the entire project via `repo`. 
+3. First time build: we will build everything including QEMU and normal/secure worlds binaries of OPTEE. The build process will pack these binaries into an Armv8 system image (rootfs image) to be launched by QEMU
+4. Run QEMU and play with "Hello world", validating that our environment works properly.
+5. Repeated build: modify source code of normal world app and TAs, and build again. 
 
 
 ## Setup steps
@@ -53,13 +51,40 @@ DO NOT REUSE QEMU FROM P1
 
 To run examples on the QEMU ARMv8 emulator, we need first build OP-TEE for QEMU that emulates ARMv8 and TrustZone. 
 
-The following instructions assume `${OPTEE}` to be the top directory, e.g. `~/optee_qemuv8` 
+We recommend students to use the course servers. *For students who want to run QEMU on personal machines not the server:* You can install dependencies with this [instruction](https://optee.readthedocs.io/en/latest/building/prerequisites.html). 
+
+Download the OPTEE source. We use version 3.9. 
+
+```sh
+$ mkdir -p ~/bin
+$ curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo && chmod a+x ~/bin/repo
+$ export PATH=~/bin:$PATH
+$ mkdir optee-qemuv8 && cd optee-qemuv8 && \
+  repo init -q -u https://github.com/OP-TEE/manifest.git -m qemu_v8.xml -b 3.9.0 
+```
+
+Now modify `.repo/manifests/qemu_v8.xml`. The .xml file lists all required components and the corresponding versions [(source)](https://github.com/ForgeRock/optee-manifest/blob/master/qemu_v8.xml).
+
+Change the following line. [(Why?)](issues.md)
+
+```
+- <project path="linux"  name="linaro-swg/linux.git" revision="optee" clone-depth="1" />
++ <project path="linux"  name="linaro-swg/linux.git" revision="refs/tags/optee-3.10.0" clone-depth="1" />
+```
+
+Now fetch all the code: 
+```sh  
+$ repo sync -j4 --no-clone-bundle
+```
+
+If you suspect the code sync process goes wrong, here is the [sample command output](repo-output.md). 
 
 
 Build OPTEE for QEMU ARMv8: 
 
 ```sh
-$ cd ${OPTEE}/build
+$ cd build
+$ make -j2 toolchains
 # clean build: about 5 minutes on a 20-core machine
 $ make QEMU_VIRTFS_ENABLE=y CFG_SECURE_DATA_PATH=y CFG_TEE_RAM_VA_SIZE=0x00300000 -j `nproc`
 ```
@@ -70,7 +95,7 @@ If you want to clean up existing build, do `make clean` under `build/`
 
 #### Adjust the makefile  `qemu_v8.mk`
 
-```bash
+```
 diff --git a/qemu_v8.mk b/qemu_v8.mk
 index 8271590..1c4a91b 100644
 --- a/qemu_v8.mk
@@ -103,7 +128,7 @@ The last line specifies -s, which tells QEMU to listen for incoming GDB connecti
 
 Run two `nc` to listen port `54320` and `54321`, which connect to consoles for normal & secure worlds of the ARM system emulated by QEMU, respectively. 
 
-```bash
+```
 $ nc -l 127.0.0.1 54320
 $ nc -l 127.0.0.1 54321
 ```
@@ -181,17 +206,15 @@ Reference: [here](https://github.com/piachristel/open-source-fabric-optee-chainc
 
 ## Test apps
 
-Verify that OPTEE's normal-world daemon (`tee_supplicant`) is already started automatically as a service.
-```bash
-# In the normal world console: 
+Verify that OPTEE's normal-world daemon (`tee_supplicant`) is already started automatically as a service. In the normal world console: 
+```
 $ ps aux|grep supplicant
- 190 tee      /usr/sbin/tee-supplicant -d /dev/teepriv0b
+ 190 tee      /usr/sbin/tee-supplicant -d /dev/teepriv0
 ```
 
 Run OPTEE's test suite (`xtest`), which should have already been baked in the rootfs image in the build process: 
 
-```bash
-# In the normal world console: 
+```
 $ which xtest
 /usr/bin/xtest
 $ xtest
@@ -201,8 +224,7 @@ For more options for `xtest`, see its [reference](https://optee.readthedocs.io/e
 
 Now try examples for OPTEE, e.g. 
 
-```bash
-#  In the normal world console: 
+```
 $ optee_example_hello_world
 Invoking TA to increment 42
 TA incremented value to 43
@@ -245,7 +267,7 @@ Let's do some trivial changes to the helloworld app source:
 
 ./optee_examples/hello_world/host/main.c
 
-```c
+```
 @@ -82,7 +82,7 @@ int main(void)
          * TA_HELLO_WORLD_CMD_INC_VALUE is the actual function in the TA to be
          * called.
@@ -256,9 +278,8 @@ Let's do some trivial changes to the helloworld app source:
 ```
 
 Then rebulid hello world: 
-```bash
-# on dev machine:
-$ cd ${OPTEE}/build    
+```
+$ cd build    
 $ make buildroot QEMU_VIRTFS_ENABLE=y CFG_SECURE_DATA_PATH=y CFG_TEE_RAM_VA_SIZE=0x00300000 -j `nproc`
 ```
 Explanation: the "buildroot" target is for the entire filesystem, including CA/TA programs within. Note that `make optee-examples-common` seems obsoleted. See [discussion](https://github.com/OP-TEE/build/issues/282).
@@ -267,7 +288,7 @@ Output location: `./out-br/target/usr/bin/optee_example_hello_world`
 
 Restart QEMU and invoke the CA  from within QEMU, showing that our modification is effective: 
 
-```bash
+```
 # (in the normal world console)
 $ optee_example_hello_world
 hello! ... Invoking TA to increment 42
@@ -279,7 +300,7 @@ Source location: `./optee_examples/hello_world/ta/hello_world_ta.c`
 
 Do some trivial changes: 
 
-```c
+```
 @@ -108,7 +108,8 @@ static TEE_Result inc_value(uint32_t param_types,
                 return TEE_ERROR_BAD_PARAMETERS;
 
@@ -290,16 +311,13 @@ Do some trivial changes:
 ```
 
 Build: 
-```bash
-# On dev machine
-$ cd ${OPTEE}/build    
+```
+$ cd build    
 $ make buildroot QEMU_VIRTFS_ENABLE=y CFG_SECURE_DATA_PATH=y CFG_TEE_RAM_VA_SIZE=0x00300000 -j `nproc`
 ```
 
 Check the build outcome: 
-```bash
-# on dev machine
-# cd ${OPTEE}
+```
 $ ls -lh out-br/target/lib/optee_armtz/8aaaf200-2450-11e4-abe2-0002a5d5c51b.ta
 -r--r--r-- 1 xzl xzl 55K Jul 10 09:56 out-br/target/lib/optee_armtz/8aaaf200-2450-11e4-abe2-0002a5d5c51b.ta
 
@@ -339,7 +357,7 @@ On the development machine, from the root of OPTEE source code:
 $ mkdir build/shared_folder
 ```
 When we build & launch QEMU, pass in "VIRTFS" (virtual filesystem) arguments: 
-```bash
+```
 $ make run-only QEMU_VIRTFS_ENABLE=y QEMU_VIRTFS_HOST_DIR=build/shared_folder
 ```
 After QEMU is launched, mount the shared folder in QEMU guest system (username: root).
@@ -352,7 +370,7 @@ $ mkdir shared && mount -t 9p -o trans=virtio host shared
 
 **To rebuild a CA:** Every time we rebuild a CA (see the command above `make buildroot...`), copy its binary to the shared directory: 
 
-```bash
+```
 $ cp ./out-br/target/usr/bin/optee_example_hello_world build/shared_folder/
 ```
 
