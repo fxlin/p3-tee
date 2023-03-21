@@ -182,7 +182,7 @@ The sdp functionalities are included in compilation when CFG_SECURE_DATA_PATH is
 # $ make buildroot-cleaner  
 
 # do this when you change the configuration or every time you change the source code 
-$ make buildroot CFG_SECURE_DATA_PATH=y CFG_TEE_RAM_VA_SIZE=0x00300000 -j `nproc`
+$ make buildroot CFG_SECURE_DATA_PATH=y CFG_TEE_RAM_VA_SIZE=0x00300000 -j`nproc`
 ```
 Note that you should add other flags such as `QEMU_VIRTFS_ENABLE=y` as needed. 
 

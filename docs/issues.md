@@ -22,7 +22,7 @@ If the above command complains "shared_folder" not found, try passing an absolut
 ```
 make buildroot QEMU_VIRTFS_ENABLE=y CFG_SECURE_DATA_PATH=y \
 BR2_PACKAGE_BUSYBOX_SHOW_OTHERS=y \
-CFG_TEE_RAM_VA_SIZE=0x00300000 -j `nproc`
+CFG_TEE_RAM_VA_SIZE=0x00300000 -j`nproc`
 ```
 
 ## "No SOI" from SOD (secure world console)
