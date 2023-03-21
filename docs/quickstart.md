@@ -61,10 +61,10 @@ Build OPTEE for QEMU ARMv8:
 ```sh
 $ cd ${OPTEE}/build
 # clean build: about 5 minutes on a 20-core machine
-$ make QEMU_VIRTFS_ENABLE=y CFG_SECURE_DATA_PATH=y CFG_TEE_RAM_VA_SIZE=0x00300000 -j `nproc`
+$ make QEMU_VIRTFS_ENABLE=y CFG_SECURE_DATA_PATH=y CFG_TEE_RAM_VA_SIZE=0x00300000 -j`nproc`
 ```
 
-**Explanation**: QEMU_VIRTFS_ENABLE allows QEMU and the host (e.g. granger1) to share files; CFG_SECURE_DATA_PATH builds in the support for data copy between two worlds; CFG_TEE_RAM_VA_SIZE sets the virtual address range for TEE; -j `nproc` asks to use all cores for making. 
+**Explanation**: QEMU_VIRTFS_ENABLE allows QEMU and the host (e.g. granger1) to share files; CFG_SECURE_DATA_PATH builds in the support for data copy between two worlds; CFG_TEE_RAM_VA_SIZE sets the virtual address range for TEE; -j`nproc` asks to use all cores for making. 
 
 If you want to clean up existing build, do `make clean` under `build/`
 
@@ -148,7 +148,7 @@ $ mkdir optee-rpi3 && cd optee-rpi3 && \
 ```bash
 $ cd build
 $ make -j2 toolchains
-$ make -j `nproc` # note we don't need flags for VIRTFS, etc.
+$ make -j`nproc` # note we don't need flags for VIRTFS, etc.
 ```
 
 The build output will be `out-br/images/rootfs` which is the filesystem tree (and image) for Rpi3. 
@@ -259,7 +259,7 @@ Then rebulid hello world:
 ```bash
 # on dev machine:
 $ cd ${OPTEE}/build    
-$ make buildroot QEMU_VIRTFS_ENABLE=y CFG_SECURE_DATA_PATH=y CFG_TEE_RAM_VA_SIZE=0x00300000 -j `nproc`
+$ make buildroot QEMU_VIRTFS_ENABLE=y CFG_SECURE_DATA_PATH=y CFG_TEE_RAM_VA_SIZE=0x00300000 -j`nproc`
 ```
 Explanation: the "buildroot" target is for the entire filesystem, including CA/TA programs within. Note that `make optee-examples-common` seems obsoleted. See [discussion](https://github.com/OP-TEE/build/issues/282).
 
@@ -293,7 +293,7 @@ Build:
 ```bash
 # On dev machine
 $ cd ${OPTEE}/build    
-$ make buildroot QEMU_VIRTFS_ENABLE=y CFG_SECURE_DATA_PATH=y CFG_TEE_RAM_VA_SIZE=0x00300000 -j `nproc`
+$ make buildroot QEMU_VIRTFS_ENABLE=y CFG_SECURE_DATA_PATH=y CFG_TEE_RAM_VA_SIZE=0x00300000 -j`nproc`
 ```
 
 Check the build outcome: 
