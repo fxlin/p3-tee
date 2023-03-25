@@ -34,6 +34,9 @@ BR2_PACKAGE_BASH ?= y     # for some reason, not working
 
 Then do  "make..." 
 
+The effective config is:
+``out-br/defconfig``
+
 ## Automatic mount of shared fs
 Add to /etc/fstab (through buildroot overlay, see above):
 ```
