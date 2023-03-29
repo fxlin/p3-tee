@@ -44,5 +44,9 @@ Instead of writing baremetal TEE code, we will write our TEE code running atop a
 | 3 data path | 10     |
 | 4 secure vision -- alpha | 15    |
 | 5 secure vision -- beta | 15    |
+
+If exp4 and exp5 are combined, they will weight 30 in total.
+
 The weights are relative and may not necessarily add up to 100. 
+
 
