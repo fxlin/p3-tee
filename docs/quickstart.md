@@ -114,6 +114,12 @@ NOTE on nc:
 2. Apparently on the same server you cannot use the same ports, e.g. 54320/54321, being used by other students. Just pick your own "personal" ports. Set them up in **qemu_v8.mk** above and your **command lines**. 
 3. Use `netstat --all | grep 54320` to see if a port, e.g. 54320, is in use. 
 
+nc terminates whenever you exit QEMU. If you want to restart nc automatically to be ready for the next QEMU launch:
+
+```bash
+$ while true; do nc -l 127.0.0.1 54320; done
+```
+
 #### Run QEMU
 
 ```sh
