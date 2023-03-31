@@ -1,5 +1,9 @@
 ## How to add files to the qemu image
 
+The final filesystem tree is at
+``out-br/target/``
+But it will be overwritten. 
+
 The overlay filesystem is here, so add files and them do "make..."
 optee-qemuv8/build/br-ext/board/qemu/overlay/
 
@@ -43,6 +47,9 @@ Add to /etc/fstab (through buildroot overlay, see above):
 # xzl: cf https://unix.stackexchange.com/questions/377325/how-to-mount-9p-drive-using-etc-fstab
 host            /root/shared    9p      trans=virtio    0       0
 ```
+
+The original fstab can be grabbed from
+``out-br/target/etc/fstab``
 
 
 
