@@ -43,6 +43,7 @@ nav:
   - challenge: secure-vision.md
   - /porting: porting.md  
   - /troubleshoot: issues.md  
+  - /cleanup: cleanup.md  
   
   #- Device:
    # - Hikey: devices/hikey.md
