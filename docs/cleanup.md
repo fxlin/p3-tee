@@ -4,7 +4,7 @@ I found it's quite painful. There seems no global target for cleaning up everyth
 
 The best approach I found is to clean up individual targets. Go to build/. Then type `make <tab>`. It will list all targets. Execute targets end with -clean. e.g. `make optee-os-clean`
 
-edk2 seems to be in particular problematic. It's build environment, `edk2/Conf/BuildEnv.sh`, always contains stale configurations that will make `build edk2-clean` fail. To fix:
+edk2 seems to be in particular problematic. It's build environment, `edk2/Conf/BuildEnv.sh`, always contains stale configurations that will make botgh `make edk2` and `make edk2-clean` fail. (e.g. it will complain "cannot find command build"). To fix:
 
 * Just manually rename or remove it, then do a clean build of edk2. 
 * Go to the top directory, do `mkdir edk2-platform`. Just to make the clean script happy.
