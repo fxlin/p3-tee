@@ -1,4 +1,4 @@
-HOW TO USE -- FOR INSTRUCTOR/TA
+HOW TO PREPARE CODE FOR STUDENTS -- FOR INSTRUCTOR/TA
 ------------------------------------
 Put optee-qemuv8-teachingonly/ under here (too large to include in git repo)
 
