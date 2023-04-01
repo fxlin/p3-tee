@@ -1,4 +1,5 @@
 out-br
+out
 qemu/.git
 linux/.git
 edk/.git
@@ -6,7 +7,6 @@ buildroot/.git
 trusted-firmware-a/.git
 toolchains/*.xz
 .repo
-*.o
 *.cmd
 *.obj
 */.git
