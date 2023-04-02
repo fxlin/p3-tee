@@ -174,9 +174,9 @@ ln -sf os_test_lib 0os_test_lib
 Then ``make buildroot...``
 
 Explanation: optee_test-1.0 has a bunch of CAs/TAs, including os_test, which depends on os_test_lib. 
-For a reson that is beyond me, the dependency is not encoded in the build system. Instead, it seems to count on luck that shell picks 
+For a reson that is beyond me, the dependency is not encoded in the build system. Instead, it seems to count on luck that shell enumerates 
 os_test_lib before os_test and builds the former first. 
-I guess on a shell that discovers os_test the build will fail. 
+Apparently, on a shell that enumerates os_test before os_test_lib, the build will fail. 
 Solution: force the shell to discover os_test_lib first...
 
 
