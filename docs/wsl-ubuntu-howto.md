@@ -1,5 +1,6 @@
-First install WSL. Tons of info online. 
+# First install WSL. Tons of info online. 
 
+# Install Ubuntu 20.04 LTS
 Can list all available distros
 ```
 wsl --list --online
@@ -40,11 +41,23 @@ Codename:       focal
 
 ```
 
+## xterm 
+
+
 4/2/2023. FL: I got it work on my WSL. 
 * Windows 10 Education 21H2
 * AMD Ryzen 7 5800X
 * Ubuntu 20.04.1 LTS
 * WSL2
 
-![](tee-on-wsl.jpg)
+Zhiming Xu got it work on WSL (with xterms). 
+
+* Uncomment the three lines in build/Makefile, which launches xterms
+```
+	  $(call launch-terminal,54320,"Normal World")
+	  $(call launch-terminal,54321,"Secure World")
+	  $(call wait-for-ports,54320,54321)
+```
+
+![](tee-on-wsl-xterms.gif)
 
