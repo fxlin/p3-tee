@@ -40,3 +40,9 @@ Codename:       focal
 
 ```
 
+4/2/2023. FL: I got it work on my WSL. 
+* Windows 10 Education 21H2
+* AMD Ryzen 7 5800X
+* Ubuntu 20.04.1 LTS
+* WSL2
+
