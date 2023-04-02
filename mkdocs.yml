@@ -37,13 +37,14 @@ plugins:
 #  - git-revision-date-localized
 
 nav:
-  - quickstart: quickstart.md
-  - app examples: helloworld.md 
-  - lib: sod.md
-  - challenge: secure-vision.md
+  #- quickstart: quickstart.md
+  - setup(sp23): quickerstart.md
+  - app samples: helloworld.md 
+  - task: secure-vision.md
+  - troubleshoot: issues.md  
   - /porting: porting.md  
-  - /troubleshoot: issues.md  
   - /cleanup: cleanup.md  
+  - /lib: sod.md
   
   #- Device:
    # - Hikey: devices/hikey.md
