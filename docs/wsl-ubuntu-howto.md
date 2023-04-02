@@ -46,3 +46,4 @@ Codename:       focal
 * Ubuntu 20.04.1 LTS
 * WSL2
 
+!(tee-on-wsl.jpg)[tee-on-wsl.jpg]
