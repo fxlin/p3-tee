@@ -1,2 +1,4 @@
+optee-qemuv8
 optee-qemuv8-teachingonly
 site/
+*.tar

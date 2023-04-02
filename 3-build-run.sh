@@ -1,8 +1,16 @@
 TMPDIR=~/tmp/
 
 cd ${TMPDIR}/optee-qemuv8/build
+make cleaner
+# xzl -- do this??
+make QEMU_VIRTFS_ENABLE=y CFG_SECURE_DATA_PATH=y CFG_TEE_RAM_VA_SIZE=0x00300000 arm-tf -j20
+make QEMU_VIRTFS_ENABLE=y CFG_SECURE_DATA_PATH=y CFG_TEE_RAM_VA_SIZE=0x00300000 buildroot -j20
+make QEMU_VIRTFS_ENABLE=y CFG_SECURE_DATA_PATH=y CFG_TEE_RAM_VA_SIZE=0x00300000 linux -j20
+
 make QEMU_VIRTFS_ENABLE=y CFG_SECURE_DATA_PATH=y CFG_TEE_RAM_VA_SIZE=0x00300000 -j40
 
-# this will fail b/c no "nc..."
+
+nc -l 127.0.0.1 50324 & 
+nc -l 127.0.0.1 50323 & 
 make run-only QEMU_VIRTFS_ENABLE=y QEMU_VIRTFS_HOST_DIR=`readlink -f shared_folder`
 

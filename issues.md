@@ -93,11 +93,74 @@ make edk2-clean
 ```
 
 ### buildroot: ... external custom toolchain does not support SSP (stack protection)
-Toolchain problem. make sure toolchains/ are good, e.g. crt0.o must be there 
+Toolchain problem. test program for SSP failed to build. make sure toolchains/ are good, e.g. crt0.o must be there. 
+rename or remove toolchains/, then
+```
+make toolchains -j2
+```
+
 
 ### other buildroot failures
 If it's "host" packages, check versions of server libraries, toolchains, etc. 
 Otherwise check the cross compiler toolchain. 
 
+### qemu make clean failure
+
+#### symptom
+```
+xl6yq@granger2 (master)[qemu]$ make distclean
+/bin/sh: 1: cd: can't cd to /home/xzl/p3/optee-qemuv8-teachingonly/optee-qemuv8/qemu
+find: ‘/home/xzl/p3/optee-qemuv8-teachingonly/optee-qemuv8/qemu/scripts/tracetool’: No such file or directory
+```
+
+cause: config-host.mak constains stale paths, which causes ``make distclean`` to fail. (make distclean is supposed to clean up config-host.mak!)
+
+solution: 
+```
+mv config-host.mak /tmp
+```
+
 ### -j20 seems ignored for some modules (edk2, buildroot)
 TBD
+
+### ln: target '/u/xl6yq/tmp/optee-qemuv8/build/../out/bin/' is not a directory: No such file or directory
+likely edk2 failed to build (otherwise it will produce symlinks of bl1.bin etc under out/bin)
+
+do 
+```
+make edk2
+```
+See what happens
+
+### edk2:  error F002: Failed to build module .... FileExplorerLib/FileExplorerLib.inf
+Per the error message, do something like: 
+```
+make -C optee-qemuv8/build/../edk2/BaseTools/Source/C
+```
+
+### no symlinks (e.g. bl1.bin) under out/bin/ after a full `make`
+
+See if this helps: force building the arm-tf target, which is responsible for those links...
+
+```
+make QEMU_VIRTFS_ENABLE=y CFG_SECURE_DATA_PATH=y CFG_TEE_RAM_VA_SIZE=0x00300000 -j20 arm-tf
+```
+
+### (qemu) qemu-system-aarch64: -serial tcp:localhost:50324: Failed to connect socket: Connection refused
+Make sure two "nc" commands are running. Check the port numbers
+
+### (qemu) qemu-system-aarch64: failed to load "rootfs.cpio.gz"
+do you have rootfs.cpio.gz under out-br/images/? If not, ``make buildroot`` seems incomplete or fail. Try build it. 
+
+### buildroot: "You seem to have the current working directory in your LD_LIBRARY_PATH environment variable. This doesn't work."
+```
+export LD_LIBRARY_PATH=
+# make sure nothing
+echo $LD_LIBRARY_PATH
+```
+
+### (qemu) qemu-system-aarch64: failed to load "Image"
+Linux kernel missing. Likely not built or linked. See out/bin/Image. If missing, force build:
+```
+make QEMU_VIRTFS_ENABLE=y CFG_SECURE_DATA_PATH=y CFG_TEE_RAM_VA_SIZE=0x00300000 -j20 linux
+```

@@ -39,10 +39,10 @@ SOC_TERM_PATH		?= $(ROOT)/soc_term
 ################################################################################
 # Targets
 ################################################################################
+all: arm-tf buildroot edk2 linux optee-os qemu soc-term
+
 # xzl: for cs4414, no building arm-tf, edk2, qemu ...
 all-less: buildroot linux optee-os soc-term
-
-all: arm-tf buildroot edk2 linux optee-os qemu soc-term
 
 # xzl: for cs4414, avoid arm-tf, edk2, qemu ...
 less-clean: buildroot-clean linux-clean optee-os-clean \

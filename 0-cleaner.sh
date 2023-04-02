@@ -2,11 +2,14 @@
 #  Often unnecessary for students, as building edk2, arm-tf can be funky
 
 cd optee-qemuv8
+
 rm -rf out-br
 
 # contain abs symlinks, wont be useful
 rm -rf out/
 
+# edk2 business...
+mkdir -p edk2-platforms
 mv -f edk2/Conf/BuildEnv.sh edk2/Conf/BuildEnv.sh.old
 #cd edk2 && make clean
 cd build && make edk2-clean

@@ -1,8 +1,10 @@
 out-br
 out
 qemu/.git
+qemu/config-host.mak
 linux/.git
 edk/.git
+edk2/Conf/BuildEnv.sh
 buildroot/.git
 trusted-firmware-a/.git
 toolchains/*.xz
