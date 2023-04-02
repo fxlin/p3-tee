@@ -164,3 +164,19 @@ Linux kernel missing. Likely not built or linked. See out/bin/Image. If missing,
 ```
 make QEMU_VIRTFS_ENABLE=y CFG_SECURE_DATA_PATH=y CFG_TEE_RAM_VA_SIZE=0x00300000 -j20 linux
 ```
+
+### buildroot: "/home/bfr4xr/optee-qemuv8/build/../toolchains/aarch64/bin/aarch64-linux-gnu-ld.bfd: cannot find -los_test"
+Need a dirty hack: 
+```bash
+cd out-br/build/optee_test-1.0/ta
+ln -sf os_test_lib 0os_test_lib
+```
+Then ``make buildroot...``
+
+Explanation: optee_test-1.0 has a bunch of CAs/TAs, including os_test, which depends on os_test_lib. 
+For a reson that is beyond me, the dependency is not encoded in the build system. Instead, it seems to count on luck that shell picks 
+os_test_lib before os_test and builds the former first. 
+I guess on a shell that discovers os_test the build will fail. 
+Solution: force the shell to discover os_test_lib first...
+
+
