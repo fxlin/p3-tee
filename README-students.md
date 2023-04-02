@@ -3,7 +3,11 @@
 cd build 
 make clean
 ```
-For 1st time build or troubleshotting, may run `make cleaner`
+For 1st time build or troubleshotting:
+```
+cd build 
+make cleaner
+```
 
 # to build
 ```

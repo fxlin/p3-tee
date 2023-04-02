@@ -1,19 +1,31 @@
-HOW TO PREPARE CODE FOR STUDENTS -- FOR INSTRUCTOR/TA
+# FOR INSTRUCTORS: HOW TO PREPARE CODE FOR STUDENTS
 ------------------------------------
-Put optee-qemuv8-teachingonly/ under here (too large to include in git repo)
+Put optee-qemuv8/ under here (too large to include in git repo)
 
-* Go to optee-qemuv8-teachingonly/optee_examples, pull our example code 
+* Update qemu_v8.mk, which contains things like ``make cleaner``
+
+```bash
+mv -f optee-qemuv8/build/qemu_v8.mk optee-qemuv8/build/qemu_v8.mk.saved
+cp qemu_v8.mk optee-qemuv8/build/
+```
+
+* Go to optee-qemuv8-teachingonly/optee_examples, pull our example code, e.g. 
 ```
 git pull git@github.com:fxlin/p3-tee-sample.git
 ```
 
 * Run 0-XXX.sh 1-XX.sh, which will generate a tarball. (we avoid zipping for speed). It is like ~6GB. 
 
-* Run 2-XX.sh is for testing. will unpack to ~/tmp/ and build the whole thing. do "make-run..." to test it. 
+* Run 2/3-XX.sh is for testing. will unpack to ~/tmp/ and build the whole thing. 
 
-* Distribute the tarball to students. 
+* Distribute the tarball to students, e.g. 
 
-WHAT'S HERE
+```bash
+# on granger1/2
+cp optee-qemuv8-student.tar /home/students/``
+```
+
+# WHAT'S HERE
 --------------------------
 docs: the doc (website) 
 
