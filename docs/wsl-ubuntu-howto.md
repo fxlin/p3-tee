@@ -47,10 +47,61 @@ Release:        20.04
 Codename:       focal
 
 ```
+# Install OPTEE Dependencies
+Install all the softwares listed on [OPTEE doc](https://optee.readthedocs.io/en/latest/building/prerequisites.html), in the tab corresponding to Ubuntu 20.04. Run the following two commands on WSL Ubuntu terminal.
+```
+$ sudo apt update
+$ sudo apt install \
+  android-tools-adb \
+  android-tools-fastboot \
+  autoconf \
+  automake \
+  bc \
+  bison \
+  build-essential \
+  ccache \
+  cscope \
+  curl \
+  device-tree-compiler \
+  expect \
+  flex \
+  ftp-upload \
+  gdisk \
+  iasl \
+  libattr1-dev \
+  libcap-dev \
+  libfdt-dev \
+  libftdi-dev \
+  libglib2.0-dev \
+  libgmp3-dev \
+  libhidapi-dev \
+  libmpc-dev \
+  libncurses5-dev \
+  libpixman-1-dev \
+  libssl-dev \
+  libtool \
+  make \
+  mtools \
+  netcat \
+  ninja-build \
+  python3-crypto \
+  python3-cryptography \
+  python3-pip \
+  python3-pyelftools \
+  python3-serial \
+  rsync \
+  unzip \
+  uuid-dev \
+  xdg-utils \
+  xterm \
+  xz-utils \
+  zlib1g-dev
+```
+An important thing here is that after installing the softwares, the name `python` should be recognized as `python2`. Manually install `python2` may be needed.
 
 ## Build opteev8-qemu 
 
-As usual... Check troubleshoot if needed.
+As usual... Check [troubleshoot](issues.md) if needed.
 
 ## Run 
 
