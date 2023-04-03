@@ -53,7 +53,7 @@ You can choose one of two possible environments: an ARM platform with TrustZone 
 To run examples on the QEMU ARMv8 emulator, we need first build OP-TEE for QEMU that emulates ARMv8 and TrustZone. 
 
 We recommend granger1/2. But you own Linux or Windows box also works, which must run Ubuntu 20.04. See [WSL](wsl-ubuntu-howto.md) and 
-package dependencies [instruction](https://optee.readthedocs.io/en/latest/building/prerequisites.html). You also need ``sudo apt install python3-pycryptodome python-is-python3``.
+package dependencies [instruction](https://optee.readthedocs.io/en/latest/building/prerequisites.html). You also need ``sudo apt install python3-pycryptodome python-is-python3 python2``.
 
 You can install dependencies with this instruction.
 
