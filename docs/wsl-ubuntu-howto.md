@@ -1,36 +1,40 @@
-# First install WSL. Tons of info online. 
-
-Make sure do WSL2, not WSL1.
+# Recommended System Specs
+- Up-to-date Windows version. Windows 10 Pro (or similar) 21H2 and newer
+- 4 or more core processor
+- 8G or more system memory, 50G or more free disk space
+# First install WSL.
+Make sure do WSL2, not WSL1. Install in one of the following ways
+- Follow [Microsoft's installation guide](https://learn.microsoft.com/en-us/windows/wsl/install)
+- Open Microsft Store in Windows (Windows' App Store), search "Windows Subsystem for Linux" and click on "Install". The direct link is [here](https://www.microsoft.com/store/productId/9P9TQF7MRM4R)
 
 # Install Ubuntu 20.04 LTS
+- Install through command line in Powershell
+  - Can list all available distros
+    ```
+    wsl --list --online
+    ```
+  - Then install Ubuntu 20.04
+    ```
+    wsl --install Ubuntu-20.04
+    ```
 
-Can list all available distros
-```
-wsl --list --online
-```
+  - If see an error at the end of installation, try
+    ```
+    wsl --update
+    ```
+  - To list installed distros
+    ```
+    wsl --list
+    ```
+  - To set the default distro for wsl, do
+    ```
+    wsl -s Ubuntu-20.04
+    ```
+- Install through Microsoft Store
+  
+  Search for "Ubuntu 20.04" in the store and click on Install. The direct link is [here](https://www.microsoft.com/store/productId/9MTTCL66CPXJ)
 
-Then install Ubuntu 20.04
-
-```
-wsl --install Ubuntu-20.04
-```
-
-If see an error at the end of installation, try
-```
-wsl --update
-```
-
-To list installed distros
-```
-wsl --list
-```
-
-To set the default distro for wsl, do
-```
-wsl -s Ubuntu-20.04
-```
-
-Then launch and check version: 
+# Launch and check version: 
 ```
 bash
 
