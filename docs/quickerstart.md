@@ -35,9 +35,8 @@ The build process is complex. It is managed by numerous Makefiles in a hierarchy
 ## Building the entire project: an overview
 
 1. Grab the source code:
-        1. grab the tarball (optee-qemuv8-students-MMDDYY.tar) from /home/students/ on granger1/2.
-        1. Or, download the tarball from Collab/resources, upload to granger1/2 (scp, VScode, etc), and unzip there
-
+        1. Access the tarball (optee-qemuv8-students-MMDDYY.tar) from /home/students/ on granger1/2. Don't need to copy to your home dir. Directly untar it like ```cd ~/; tar xvf /home/students/optee-qemuv8-students.tar```.
+        2. If you use own machine, you can download the tarball over SSH.        
 2. First time build: we will build everything including QEMU and normal/secure worlds binaries of OPTEE. The build process will pack these binaries into an OS image (rootfs image) to be launched by QEMU
 3. Run QEMU and play with "Hello world", validating that our environment works properly.
 4. Repeated build: modify source code of normal world app and TAs, and build again. 
@@ -52,10 +51,11 @@ You can choose one of two possible environments: an ARM platform with TrustZone 
 
 To run examples on the QEMU ARMv8 emulator, we need first build OP-TEE for QEMU that emulates ARMv8 and TrustZone. 
 
-We recommend granger1/2. But you own Linux or Windows box also works, which must run Ubuntu 20.04. See [WSL](wsl-ubuntu-howto.md) and 
-package dependencies [instruction](https://optee.readthedocs.io/en/latest/building/prerequisites.html). You also need ``sudo apt install python3-pycryptodome python-is-python3 python2``.
+Recommended options:
 
-You can install dependencies with this instruction.
+1. granger1/2. 
+1. You own Linux or Windows box also works. Code builds faster than granger1/2. And you also have nice xterm. It must run Ubuntu 20.04. See [WSL](wsl-ubuntu-howto.md) and 
+package dependencies [instruction](https://optee.readthedocs.io/en/latest/building/prerequisites.html). You also need ``sudo apt install python3-pycryptodome python-is-python3 python2``.
 
 The following instructions assume `${OPTEE}` to be the top directory, e.g. `~/optee_qemuv8` 
 
