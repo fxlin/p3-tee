@@ -2,6 +2,7 @@
 - Up-to-date Windows version. Windows 10 Pro (or similar) 21H2 and newer
 - 4 or more core processor
 - 8G or more system memory, 50G or more free disk space
+
 # First install WSL.
 Make sure do WSL2, not WSL1. Install in one of the following ways
 - Follow [Microsoft's installation guide](https://learn.microsoft.com/en-us/windows/wsl/install)
