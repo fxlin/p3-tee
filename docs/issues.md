@@ -164,3 +164,6 @@ Linux kernel missing. Likely not built or linked. See out/bin/Image. If missing,
 ```
 make QEMU_VIRTFS_ENABLE=y CFG_SECURE_DATA_PATH=y CFG_TEE_RAM_VA_SIZE=0x00300000 -j20 linux
 ```
+
+### Linux build asks for configuration 
+(TBD)
