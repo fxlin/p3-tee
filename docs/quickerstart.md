@@ -100,25 +100,9 @@ The line `-serial tcp:localhost:50324 -serial tcp:localhost:50323` tells QEMU to
 THE TWO PORTS MUST BE CHANGED to your choice (e.g. 58888/59999): if multiple students bind to the same ports, all but one will fail. 
 
 **Check if a port is in use** `netstat --all | grep 54320` (port 54320)
-
-
-#### Run QEMU
-
-```sh
-cd build
-make run-only QEMU_VIRTFS_ENABLE=y QEMU_VIRTFS_HOST_DIR=`readlink -f shared_folder`
-```
-
-Explanation: QEMU_VIRTFS_HOST_DIR means the emulated OS and granger1/2 will share a directory. Easy for file exchange. 
-
-QEMU must be launched without errors. For troubleshooting, see [](issues.md).
-
-Start the emulated guest by typing `c`.
-
-
 #### Run netcat (nc)
 
-If the above succeeds, run two `nc` to listen port `50324` and `50323`, which connect to consoles for normal & secure worlds of the ARM system emulated by QEMU, respectively. 
+Run two `nc` to listen port `50324` and `50323`, which connect to consoles for normal & secure worlds of the ARM system emulated by QEMU, respectively. 
 
 ```bash
 $ nc -l 127.0.0.1 50324
@@ -137,6 +121,23 @@ NOTE on nc:
 ```bash
 $ while true; do nc -l 127.0.0.1 50324; done
 ```
+
+#### Run QEMU
+
+YOU MUST HAVE THE TWO nc instances running already. 
+
+```sh
+cd build
+make run-only QEMU_VIRTFS_ENABLE=y QEMU_VIRTFS_HOST_DIR=`readlink -f shared_folder`
+```
+
+Explanation: QEMU_VIRTFS_HOST_DIR means the emulated OS and granger1/2 will share a directory. Easy for file exchange. 
+
+QEMU must be launched without errors. For troubleshooting, see [](issues.md).
+
+Start the emulated guest by typing `c`.
+
+#### Results
 
 Here is my window (running tmux) split in three ways: 
 
