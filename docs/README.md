@@ -4,7 +4,7 @@
 
 **Code: https://github.com/fxlin/p3-tee** As well as the tarball that TA will distribute.
 
-**This project is to be completed on: server granger1/2 (recommended), your own Linux, your own WSL, or Rpi3**
+**This project is to be completed on: server granger1/2 (recommended), your own Linux (recommended), your own WSL (recommended), or Rpi3**
 
 In this project, we will experience with Arm's TEE - TrustZone. 
 
