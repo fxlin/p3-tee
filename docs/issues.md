@@ -1,6 +1,13 @@
 # Common issues
 
+## (qemu) failed to launch
+
+![image.png](qemu-fail-to-launch.png)
+have you run the two 'nc' instances? are they still alive?
+
+
 ## (qemu) qemu-system-aarch64: Could not find ROM image 'bl1.bin'
+
 arm-tf missing. Rebuild it. ``make arm-tf''.
 
 ##  (qemu) qemu-system-aarch64: failed to load "Image"
