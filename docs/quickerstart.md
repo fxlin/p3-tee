@@ -133,7 +133,7 @@ make run-only QEMU_VIRTFS_ENABLE=y QEMU_VIRTFS_HOST_DIR=`readlink -f shared_fold
 
 Explanation: QEMU_VIRTFS_HOST_DIR means the emulated OS and granger1/2 will share a directory. Easy for file exchange. 
 
-QEMU must be launched without errors. For troubleshooting, see [](issues.md).
+QEMU must be launched without errors. Also see [troubleshooting](issues.md).
 
 Start the emulated guest by typing `c`.
 
