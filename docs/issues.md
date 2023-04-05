@@ -191,3 +191,14 @@ Solution: force the shell to discover os_test_lib first...
 
 ### make edk2-clean: python complains lack of "UserDict"
 It is a Python2 thing. Some edk2 library expects python2. Make sure you have it. It is ok that the default python is python3.
+
+## ModuleNotFoundError: No module named 'Crypto'
+It's a python script complaining you don't have Crypto. To see if that's the case, do 
+`python -c "import Crypto"`
+There shouldn't be any error. 
+Strange enough, I cannot find crypto for python2.7. So it has to be python3. Solution: 
+`sudo apt get install python-is-python3` (must be done by root); then `sudo apt get install python3-pycryptodome` (done by root) or `pip install pycryptodome`
+
+
+
+
