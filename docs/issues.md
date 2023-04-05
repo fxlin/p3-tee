@@ -131,13 +131,15 @@ mv config-host.mak /tmp
 TBD
 
 ### ln: target '/u/xl6yq/tmp/optee-qemuv8/build/../out/bin/' is not a directory: No such file or directory
-likely edk2 failed to build (otherwise it will produce symlinks of bl1.bin etc under out/bin)
+likely some targets failed to build (otherwise they will produce symlinks such as bl1.bin etc under out/bin)
 
-do 
+```                                                                                             
+cd build                                                                                        
+make QEMU_VIRTFS_ENABLE=y CFG_SECURE_DATA_PATH=y CFG_TEE_RAM_VA_SIZE=0x00300000 arm-tf -j20     
+make QEMU_VIRTFS_ENABLE=y CFG_SECURE_DATA_PATH=y CFG_TEE_RAM_VA_SIZE=0x00300000 buildroot -j20  
+make QEMU_VIRTFS_ENABLE=y CFG_SECURE_DATA_PATH=y CFG_TEE_RAM_VA_SIZE=0x00300000 linux -j20      
 ```
-make edk2
-```
-See what happens
+See which target fails and the error messages. 
 
 ### edk2:  error F002: Failed to build module .... FileExplorerLib/FileExplorerLib.inf
 Per the error message, do something like: 
