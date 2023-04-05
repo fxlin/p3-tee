@@ -110,7 +110,7 @@ $ sudo apt install \
   zlib1g-dev
 ```
 
-An important thing here is that after installing the softwares, the name `python` should be recognized as `python2`. Manually install `python2` may be needed.
+An important thing here is to have both python2 and python3 installed. They're both needed to build the project. Besides, install "Crypto" package for python2 by `apt install python-crypto`.
 
 ### Build opteev8-qemu 
 
