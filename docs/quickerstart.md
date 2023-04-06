@@ -196,7 +196,7 @@ Run QEMU with exactly the same commad, but no `nc` is needed since the terminals
 
 ##### Troubleshoot
 
-If the port is already in use, "make run-only" just hangs (I guess xterm hangs) with no output, unlike `nc` which tells you "Address aready in use". If that happens, use `netstat` to check for port and try a unused one. 
+If the port is already in use, "make run-only" just hangs (I guess xterm hangs) with no output, unlike `nc` which tells you "Address aready in use". If that happens, use `netstat` to verify and try an unused one. 
 
 ##### Result
 
