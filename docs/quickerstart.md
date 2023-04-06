@@ -194,6 +194,10 @@ Make sure you change all the port numbers in two `call launch-terminal` and `cal
 
 Run QEMU with exactly the same commad, but no `nc` is needed since the terminals launch on your local machine. There might be delays because of the Internet communication, but the overall experience is good.
 
+##### Troubleshoot
+
+If the port is already in use, "make run-only" just hangs (I guess xterm hangs) with no output, unlike `nc` which tells you "Address aready in use". If that happens, use `netstat` to check for port and try a unused one. 
+
 ##### Result
 
 The screenshot below shows the end result on Windows with `ssh` client `OpenSSH_for_Windows_8.1p1, LibreSSL 3.0.2`. No separate xserver installation is required to make it work.
