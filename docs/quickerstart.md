@@ -147,6 +147,59 @@ Here is my window (running tmux) split in three ways:
 
 That's it!
 
+#### (Optional) Xterm Addon
+
+In the previous way, the normal and secure world terminals are launched inside QEMU. We can instead launch Xterms and forward them to our local machine. It's not necessary but looks cooler and provides a little more functionality. The setup steps are as follows.
+
+##### Enable X11 forwarding on the server's `sshd` (this steps is done by instructor/TA)
+
+Open `/etc/ssh/sshd_config` with root, add `X11Forwarding yes` to this file if it's not there, and lastly restart `sshd` with `sudo systemctl restart ssh`.
+
+##### Enable X11 forwarding on the client
+
+`ssh` to the server with `ssh -X user@ip`, i.e., adding the `-X` option to your usual login command. You can also consider adding `ForwardX11 yes` to ssh config file `~/.ssh/config` so that you don't need the extra `-X` option every time.
+
+##### Set `DISPLAY` variable on the server
+
+Once you login the server after the previous, run `export DISPLAY=localhost:10.0` in the server terminal. This will tell the server which display to go to when Xterm launches.
+
+##### Modify `qemu_v8.mk`
+
+The last step is to modify the Makefile so it launches the two terminals automatically. In the guide above, we comment out the lines to launch terminals `(call launch-terminal)`. We'll restore them here. The corresponding region becomes:
+
+```bash
+run-only:
+	ln -sf $(ROOT)/out-br/images/rootfs.cpio.gz $(BINARIES_PATH)/
+	$(call check-terminal)
+	$(call run-help)
+	$(call launch-terminal,50323,"Normal World")
+	$(call launch-terminal,50324,"Secure World")
+	$(call wait-for-ports,50324,50323)
+	cd $(BINARIES_PATH) && $(QEMU_PATH)/aarch64-softmmu/qemu-system-aarch64 \
+		-nographic \
+		-serial tcp:localhost:50324 -serial tcp:localhost:50323 \
+		-smp $(QEMU_SMP) \
+		-S -machine virt,secure=on -cpu cortex-a57 \
+		-d unimp -semihosting-config enable,target=native \
+		-m 1057 \
+		-bios bl1.bin \
+		-initrd rootfs.cpio.gz \
+		-kernel Image -no-acpi \
+		-append 'console=ttyAMA0,38400 keep_bootcon root=/dev/vda2' \
+		$(QEMU_EXTRA_ARGS)
+```
+Make sure you change all the port numbers in two `call launch-terminal` and `call wait-for-ports` to those you choose in `-serial tcp:localhost:50324 -serial tcp:localhost:50323`.
+
+##### Run
+
+You'll run QEMU with exactly the same commad, but no `nc` is needed since the terminals launch on your local machine. There might be delays because of the Internet communication, but the overall experience is good.
+
+##### Result
+
+The end result on Windows is shown below. The `ssh` client is `OpenSSH_for_Windows_8.1p1, LibreSSL 3.0.2`. No separate xserver installation is required to make it work.
+
+![](win-xterm.png)
+
 ### Environment choice 2: Rpi3 hardware
 
 Read the instructions for QEMU above. We will follow a similar procedure with minor tweaks. 
