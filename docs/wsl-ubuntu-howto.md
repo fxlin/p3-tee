@@ -14,6 +14,7 @@ Make sure do WSL2, not WSL1. Install in one of the following ways
 - Open Microsft Store in Windows (Windows' App Store), search "Windows Subsystem for Linux" and click on "Install". The direct link is [here](https://www.microsoft.com/store/productId/9P9TQF7MRM4R)
 
 ### Install Ubuntu 20.04 LTS
+If you have a previous installation, it's recommended that you still install a new copy of Ubuntu (search "install multiple instances of Ubuntu"). In this way, you can keep your own Linux development environment and reduce the chances of conflicting package versions.
 
 #### Install through command line in Powershell
 
