@@ -157,27 +157,27 @@ Open `/etc/ssh/sshd_config` with root, add `X11Forwarding yes` to this file if i
 
 ##### Enable X11 forwarding on the client
 
-`ssh` to the server with `ssh -X user@ip`, i.e., adding the `-X` option to your usual login command. You can also consider adding `ForwardX11 yes` to ssh config file `~/.ssh/config` so that you don't need the extra `-X` option every time.
+Login the server with `ssh -X user@ip`, i.e., adding the `-X` option to your usual login command. You can also consider adding `ForwardX11 yes` to ssh config file `~/.ssh/config` so that you don't need the extra `-X` option every time.
 
 ##### Set `DISPLAY` variable on the server
 
-Once you login the server after the previous, run `export DISPLAY=localhost:10.0` in the server terminal. This will tell the server which display to go to when Xterm launches.
+Once you login the server using `ssh -X ...`, run `export DISPLAY=localhost:10.0` in the server terminal. This will tell the server which display to go to when Xterm launches. You can add it to your bash config file `~/.bashrc` to skip the manual execution.
 
-##### Modify `qemu_v8.mk`
+##### Modify Makefile
 
-The last step is to modify the Makefile so it launches the two terminals automatically. In the guide above, we comment out the lines to launch terminals `(call launch-terminal)`. We'll restore them here. The corresponding region becomes:
+The last step is to modify `qemu_v8.mk` so it launches the two terminals automatically. In the guide above, we comment out the lines to launch and wait for terminals `(call launch-terminal)`. We'll restore them here. The corresponding region becomes:
 
 ```bash
 run-only:
 	ln -sf $(ROOT)/out-br/images/rootfs.cpio.gz $(BINARIES_PATH)/
 	$(call check-terminal)
 	$(call run-help)
-	$(call launch-terminal,50323,"Normal World")
-	$(call launch-terminal,50324,"Secure World")
-	$(call wait-for-ports,50324,50323)
+	$(call launch-terminal,50323,"Normal World") # uncomment this line and use the port # of normal world
+	$(call launch-terminal,50324,"Secure World") # uncomment this line and use the port # of secure world
+	$(call wait-for-ports,50324,50323)	     # uncomment this line and let xterm waits for output
 	cd $(BINARIES_PATH) && $(QEMU_PATH)/aarch64-softmmu/qemu-system-aarch64 \
 		-nographic \
-		-serial tcp:localhost:50324 -serial tcp:localhost:50323 \
+		-serial tcp:localhost:50324 -serial tcp:localhost:50323 \ # make sure to use the ports you choose here
 		-smp $(QEMU_SMP) \
 		-S -machine virt,secure=on -cpu cortex-a57 \
 		-d unimp -semihosting-config enable,target=native \
@@ -190,13 +190,13 @@ run-only:
 ```
 Make sure you change all the port numbers in two `call launch-terminal` and `call wait-for-ports` to those you choose in `-serial tcp:localhost:50324 -serial tcp:localhost:50323`.
 
-##### Run
+##### Run QEMU
 
-You'll run QEMU with exactly the same commad, but no `nc` is needed since the terminals launch on your local machine. There might be delays because of the Internet communication, but the overall experience is good.
+Run QEMU with exactly the same commad, but no `nc` is needed since the terminals launch on your local machine. There might be delays because of the Internet communication, but the overall experience is good.
 
 ##### Result
 
-The end result on Windows is shown below. The `ssh` client is `OpenSSH_for_Windows_8.1p1, LibreSSL 3.0.2`. No separate xserver installation is required to make it work.
+The screenshot below shows the end result on Windows with `ssh` client `OpenSSH_for_Windows_8.1p1, LibreSSL 3.0.2`. No separate xserver installation is required to make it work.
 
 ![](win-xterm.png)
 
