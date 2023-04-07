@@ -205,17 +205,21 @@ run: all
 
 QEMU_SMP ?= 2
 
+MY_NW_PORT := $(shell echo $$((RANDOM % 15000 + 50000)))     # port: 50000-65000
+MY_SW_PORT := $(shell expr $(MY_NW_PORT) + 1)
+
 .PHONY: run-only
 run-only:
+	$(info USE ports: normal world: $(MY_NW_PORT)  sec world :$(MY_SW_PORT))
 	ln -sf $(ROOT)/out-br/images/rootfs.cpio.gz $(BINARIES_PATH)/
 	$(call check-terminal)
 	$(call run-help)
-	# $(call launch-terminal,54320,"Normal World")
-	# $(call launch-terminal,54321,"Secure World")
-	# $(call wait-for-ports,54320,54321)
+#	$(call launch-terminal,$(MY_NW_PORT),"Normal World")
+#	$(call launch-terminal,$(MY_SW_PORT),"Secure World")
+#	$(call wait-for-ports,$(MY_NW_PORT),$(MY_SW_PORT))
 	cd $(BINARIES_PATH) && $(QEMU_PATH)/aarch64-softmmu/qemu-system-aarch64 \
 		-nographic \
-		-serial tcp:localhost:50324 -serial tcp:localhost:50323 \
+		-serial tcp:localhost:$(MY_NW_PORT) -serial tcp:localhost:$(MY_SW_PORT) \
 		-smp $(QEMU_SMP) \
 		-S -machine virt,secure=on -cpu cortex-a57 \
 		-d unimp -semihosting-config enable,target=native \
