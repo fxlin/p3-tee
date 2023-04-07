@@ -200,9 +200,9 @@ If the port is already in use, "make run-only" just hangs (I guess xterm hangs) 
 
 ##### Result
 
-The screenshot below shows the end result on Windows with `ssh` client `OpenSSH_for_Windows_8.1p1, LibreSSL 3.0.2`. No separate xserver installation is required to make it work.
+The screenshot below shows the end result on WSL. It;s recommended to connect with WSL's `ssh` client on Windows.
 
-![](win-xterm.png)
+![](wsl-xterm.png)
 
 ### Environment choice 2: Rpi3 hardware
 
