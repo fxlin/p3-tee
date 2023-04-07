@@ -1,6 +1,13 @@
 # Common issues
 
+## (qemu) failed to launch
+
+![image.png](qemu-fail-to-launch.png)
+have you run the two 'nc' instances? are they still alive?
+
+
 ## (qemu) qemu-system-aarch64: Could not find ROM image 'bl1.bin'
+
 arm-tf missing. Rebuild it. ``make arm-tf''.
 
 ##  (qemu) qemu-system-aarch64: failed to load "Image"
@@ -124,13 +131,15 @@ mv config-host.mak /tmp
 TBD
 
 ### ln: target '/u/xl6yq/tmp/optee-qemuv8/build/../out/bin/' is not a directory: No such file or directory
-likely edk2 failed to build (otherwise it will produce symlinks of bl1.bin etc under out/bin)
+likely some targets failed to build (otherwise they will produce symlinks such as bl1.bin etc under out/bin)
 
-do 
+```                                                                                             
+cd build                                                                                        
+make QEMU_VIRTFS_ENABLE=y CFG_SECURE_DATA_PATH=y CFG_TEE_RAM_VA_SIZE=0x00300000 arm-tf -j20     
+make QEMU_VIRTFS_ENABLE=y CFG_SECURE_DATA_PATH=y CFG_TEE_RAM_VA_SIZE=0x00300000 buildroot -j20  
+make QEMU_VIRTFS_ENABLE=y CFG_SECURE_DATA_PATH=y CFG_TEE_RAM_VA_SIZE=0x00300000 linux -j20      
 ```
-make edk2
-```
-See what happens
+See which target fails and the error messages. 
 
 ### edk2:  error F002: Failed to build module .... FileExplorerLib/FileExplorerLib.inf
 Per the error message, do something like: 
@@ -184,3 +193,9 @@ Solution: force the shell to discover os_test_lib first...
 
 ### make edk2-clean: python complains lack of "UserDict"
 It is a Python2 thing. Some edk2 library expects python2. Make sure you have it. It is ok that the default python is python3.
+
+## ModuleNotFoundError: No module named 'Crypto'
+It's a python script complaining you don't have Crypto. To see if that's the case, do 
+`python -c "import Crypto"`
+There shouldn't be any error. Solution: 
+`sudo apt get install python-is-python3`; then `sudo apt get install python3-pycrypto` to install Crypto for python3; lastly `sudo apt install python-crypto` to install it for python2. All needs to be done with `root`.

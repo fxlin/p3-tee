@@ -144,7 +144,7 @@ This function further dispatches to `inc_value()` and `dec_value()`, depending o
 
 ### Compile & run
 
-See [quickstart](quickstart.md#alternative-1-the-easiest-way-need-to-reboot-qemu-every-time).
+See the setup guide. 
 
 ## App 2: Secure data path (sdp) basic 
 

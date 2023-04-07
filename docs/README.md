@@ -1,10 +1,8 @@
 # Trusted Execution Environment (TEE)
 
-<img src="https://www.thefastmode.com/media/k2/items/src/7df193d5a2be86814850ef16aacb19d6.jpg?t=20200606_093102?date=13042020" alt="Enterprises Need To Focus On IoT Security" style="zoom: 67%;" />
-
 **Code: https://github.com/fxlin/p3-tee** As well as the tarball that TA will distribute.
 
-**This project is to be completed on: server granger1/2 (recommended), your own Linux, your own WSL, or Rpi3**
+**This project is to be completed on: server granger1/2 (recommended), your own Linux (recommended), your own WSL (recommended), or Rpi3**
 
 In this project, we will experience with Arm's TEE - TrustZone. 
 

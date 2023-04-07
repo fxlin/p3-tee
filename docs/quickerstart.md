@@ -2,7 +2,7 @@
 
 NEW: Sp23 CS4414. We provide a source tarball for all. 
 
-**This project is to be completed on granger1/2 or rpi3**
+**This project is to be completed on granger1/2; or your own Linux/Windows box; or rpi3**
 
 ## Source code overview
 
@@ -35,9 +35,8 @@ The build process is complex. It is managed by numerous Makefiles in a hierarchy
 ## Building the entire project: an overview
 
 1. Grab the source code:
-        1. grab the tarball (optee-qemuv8-students-MMDDYY.tar) from /home/students/ on granger1/2.
-        1. Or, download the tarball from Collab/resources, upload to granger1/2 (scp, VScode, etc), and unzip there
-
+        1. Access the tarball (optee-qemuv8-students-MMDDYY.tar) from /home/students/ on granger1/2. Don't need to copy to your home dir. Directly untar it like ```cd ~/; tar xvf /home/students/optee-qemuv8-students.tar```.
+        2. If you use own machine, you can download the tarball over SSH.        
 2. First time build: we will build everything including QEMU and normal/secure worlds binaries of OPTEE. The build process will pack these binaries into an OS image (rootfs image) to be launched by QEMU
 3. Run QEMU and play with "Hello world", validating that our environment works properly.
 4. Repeated build: modify source code of normal world app and TAs, and build again. 
@@ -52,10 +51,11 @@ You can choose one of two possible environments: an ARM platform with TrustZone 
 
 To run examples on the QEMU ARMv8 emulator, we need first build OP-TEE for QEMU that emulates ARMv8 and TrustZone. 
 
-We recommend granger1/2. But you own Linux or Windows box also works, which must run Ubuntu 20.04. See [WSL](wsl-ubuntu-howto.md) and 
-package dependencies [instruction](https://optee.readthedocs.io/en/latest/building/prerequisites.html). You also need ``sudo apt install python3-pycryptodome python-is-python3``.
+Recommended options:
 
-You can install dependencies with this instruction.
+1. granger1/2. 
+1. You own Linux or Windows box also works. Code builds faster than granger1/2. And you also have nice xterm. It must run Ubuntu 20.04. See [WSL](wsl-ubuntu-howto.md) and 
+package dependencies [instruction](https://optee.readthedocs.io/en/latest/building/prerequisites.html). You also need ``sudo apt install python3-pycryptodome python-is-python3 python2``.
 
 The following instructions assume `${OPTEE}` to be the top directory, e.g. `~/optee_qemuv8` 
 
@@ -100,25 +100,9 @@ The line `-serial tcp:localhost:50324 -serial tcp:localhost:50323` tells QEMU to
 THE TWO PORTS MUST BE CHANGED to your choice (e.g. 58888/59999): if multiple students bind to the same ports, all but one will fail. 
 
 **Check if a port is in use** `netstat --all | grep 54320` (port 54320)
-
-
-#### Run QEMU
-
-```sh
-cd build
-make run-only QEMU_VIRTFS_ENABLE=y QEMU_VIRTFS_HOST_DIR=`readlink -f shared_folder`
-```
-
-Explanation: QEMU_VIRTFS_HOST_DIR means the emulated OS and granger1/2 will share a directory. Easy for file exchange. 
-
-QEMU must be launched without errors. For troubleshooting, see [](issues.md).
-
-Start the emulated guest by typing `c`.
-
-
 #### Run netcat (nc)
 
-If the above succeeds, run two `nc` to listen port `50324` and `50323`, which connect to consoles for normal & secure worlds of the ARM system emulated by QEMU, respectively. 
+Run two `nc` to listen port `50324` and `50323`, which connect to consoles for normal & secure worlds of the ARM system emulated by QEMU, respectively. 
 
 ```bash
 $ nc -l 127.0.0.1 50324
@@ -138,6 +122,23 @@ NOTE on nc:
 $ while true; do nc -l 127.0.0.1 50324; done
 ```
 
+#### Run QEMU
+
+YOU MUST HAVE THE TWO nc instances running already. 
+
+```sh
+cd build
+make run-only QEMU_VIRTFS_ENABLE=y QEMU_VIRTFS_HOST_DIR=`readlink -f shared_folder`
+```
+
+Explanation: QEMU_VIRTFS_HOST_DIR means the emulated OS and granger1/2 will share a directory. Easy for file exchange. 
+
+QEMU must be launched without errors. Also see [troubleshooting](issues.md).
+
+Start the emulated guest by typing `c`.
+
+#### Results
+
 Here is my window (running tmux) split in three ways: 
 
 ![](qemu.png)
@@ -145,6 +146,63 @@ Here is my window (running tmux) split in three ways:
 ![](dev.gif)
 
 That's it!
+
+#### (Optional) Xterm Addon
+
+In the previous way, the normal and secure world terminals are launched inside QEMU. We can instead launch Xterms and forward them to our local machine. It's not necessary but looks cooler and provides a little more functionality. The setup steps are as follows.
+
+##### Enable X11 forwarding on the server's `sshd` (this steps is done by instructor/TA)
+
+Open `/etc/ssh/sshd_config` with root, add `X11Forwarding yes` to this file if it's not there, and lastly restart `sshd` with `sudo systemctl restart ssh`.
+
+##### Enable X11 forwarding on the client
+
+Login the server with `ssh -X user@ip`, i.e., adding the `-X` option to your usual login command. You can also consider adding `ForwardX11 yes` to ssh config file `~/.ssh/config` so that you don't need the extra `-X` option every time.
+
+##### Set `DISPLAY` variable on the server
+
+Once you login the server using `ssh -X ...`, run `export DISPLAY=localhost:10.0` in the server terminal. This will tell the server which display to go to when Xterm launches. You can add it to your bash config file `~/.bashrc` to skip the manual execution.
+
+##### Modify Makefile
+
+The last step is to modify `qemu_v8.mk` so it launches the two terminals automatically. In the guide above, we comment out the lines to launch and wait for terminals `(call launch-terminal)`. We'll restore them here. The corresponding region becomes:
+
+```bash
+run-only:
+	ln -sf $(ROOT)/out-br/images/rootfs.cpio.gz $(BINARIES_PATH)/
+	$(call check-terminal)
+	$(call run-help)
+	$(call launch-terminal,50323,"Normal World") # uncomment this line and use the port # of normal world
+	$(call launch-terminal,50324,"Secure World") # uncomment this line and use the port # of secure world
+	$(call wait-for-ports,50324,50323)	     # uncomment this line and let xterm waits for output
+	cd $(BINARIES_PATH) && $(QEMU_PATH)/aarch64-softmmu/qemu-system-aarch64 \
+		-nographic \
+		-serial tcp:localhost:50324 -serial tcp:localhost:50323 \ # make sure to use the ports you choose here
+		-smp $(QEMU_SMP) \
+		-S -machine virt,secure=on -cpu cortex-a57 \
+		-d unimp -semihosting-config enable,target=native \
+		-m 1057 \
+		-bios bl1.bin \
+		-initrd rootfs.cpio.gz \
+		-kernel Image -no-acpi \
+		-append 'console=ttyAMA0,38400 keep_bootcon root=/dev/vda2' \
+		$(QEMU_EXTRA_ARGS)
+```
+Make sure you change all the port numbers in two `call launch-terminal` and `call wait-for-ports` to those you choose in `-serial tcp:localhost:50324 -serial tcp:localhost:50323`.
+
+##### Run QEMU
+
+Run QEMU with exactly the same commad, but no `nc` is needed since the terminals launch on your local machine. There might be delays because of the Internet communication, but the overall experience is good.
+
+##### Troubleshoot
+
+If the port is already in use, "make run-only" just hangs (I guess xterm hangs) with no output, unlike `nc` which tells you "Address aready in use". If that happens, use `netstat` to verify and try an unused one. 
+
+##### Result
+
+The screenshot below shows the end result on WSL. It's recommended to connect with WSL's `ssh` client on Windows.
+
+![](wsl-xterm.png)
 
 ### Environment choice 2: Rpi3 hardware
 

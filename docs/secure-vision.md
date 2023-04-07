@@ -1,6 +1,6 @@
 # Experiment: secure vision 
 
-*Mar/2023: updated based on boilerplate code.*
+*April/2023: updated based on boilerplate code.*
 
 We will run a computer vision service in the secure world. This is useful when we want to ensure the confidentiality of the input data and also the integrity of the service code in the face of the untrusted normal world.  
 
@@ -8,7 +8,7 @@ We will run a computer vision service in the secure world. This is useful when w
 
 ## Task overview
 
-We will create a TA that accepts **encrypted** images (in jpg) submitted from the CA. The TA will run license plate detection service on the input images; for each detected license plate on the image, the TA will return the results, e.g. coordinates of its bounding boxes. 
+We will create a TA that accepts **encrypted** images (sRGB, jpg or png format) submitted from the CA. The TA will run face detection service on the input images; for each detected face on the image, the TA will print the bounding box coordinates in the secure world consoles, and circles the face in the output images. 
 
 ![](exp-flow.png)
 
@@ -18,17 +18,17 @@ We will create a TA that accepts **encrypted** images (in jpg) submitted from th
 
 The basic interactions can be learnt from example 1 (helloworld). Passing image data (large chunks, variable length) in/out can be learnt from example 2 (secure data path) . **Note**: the sdp example uses a CA-allocated shared buffer, which requires the TA to be compiled with the TA_FLAG_SECURE_DATA_PATH flag ([discussion](https://github.com/OP-TEE/optee_os/issues/4572)); yet this is optional in order to implement the challenge -- the TA can allocate a secure world buffer for storing incoming data. 
 
-You will come up with the command(s) and the formats of parameters passed in/out of the secure world. 
+We have provided the skeleton of TA commands and how CA invokes in the boilerplate code. You can complete the code snippets. You're also welcome to come up with your own command(s) and data paths to implement the same functionality.
 
 #### Computer vision library for TEE
 
-We need to run code inside the TA for image decoding and simple vision algorithms. On one hand, we do not want to reinvent the wheel. On the other hand, we cannot use popular frameworks such as Tensorflow or nCNN. Why? Optimized for speed and rich features, they are large and have extensive external dependency. Porting them to the secure world will be tedious, if not impossible. Furthermore, we are limited to libraries implemented in C as OPTEE does not have libs and runtimes, e.g. for C++ or Python. 
+We need to run code inside the TA for image decoding and face detection via convolutional neural networks (CNNs). On one hand, we do not want to reinvent the wheel. On the other hand, we cannot use popular frameworks such as Tensorflow or nCNN. Why? Optimized for speed and rich features, they are large and have extensive external dependency. Porting them to the secure world will be tedious, if not impossible. Furthermore, we are limited to libraries implemented in C as OPTEE does not have libs and runtimes, e.g. for C++ or Python. 
 
-Indeed, we are looking for an "embedded" library that is lightweight, self-sufficient, and in C. To this end, SOD seems a good choice. It provides simple sample programs and good documentation. 
+Indeed, we are looking for an "embedded" library that is lightweight, self-contained, and in C. To this end, SOD seems a good choice. It provides simple sample programs and good documentation. 
 
 https://sod.pixlab.io/intro.html
 
-![license](license.png)
+![cavman](cavman.jpg)
 
 For those who wish to use the SOD library, we have ported the library to the secure world. The library source is included in the boilerplate that we give to you. 
 
