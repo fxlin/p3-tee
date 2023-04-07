@@ -204,6 +204,13 @@ The screenshot below shows the end result on WSL. It's recommended to connect wi
 
 ![](wsl-xterm.png)
 
+(Optional) to make xterm looks nicer, you can create `~/.Xresources` on server with lines:
+```
+xterm*faceName: Monospace
+xterm*faceSize: 14
+```
+Then run on server `xrdb -merge ~/.Xresources`. Then you can do `make run-only...`
+
 ### Environment choice 2: Rpi3 hardware
 
 Read the instructions for QEMU above. We will follow a similar procedure with minor tweaks. 
