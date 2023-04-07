@@ -159,9 +159,9 @@ Open `/etc/ssh/sshd_config` with root, add `X11Forwarding yes` to this file if i
 
 Login the server with `ssh -X user@ip`, i.e., adding the `-X` option to your usual login command. You can also consider adding `ForwardX11 yes` to ssh config file `~/.ssh/config` so that you don't need the extra `-X` option every time.
 
-##### Set `DISPLAY` variable on the server
+##### Check `DISPLAY` variable on the server
 
-Once you login the server using `ssh -X ...`, run `export DISPLAY=localhost:10.0` in the server terminal. This will tell the server which display to go to when Xterm launches. You can add it to your bash config file `~/.bashrc` to skip the manual execution.
+Once you login the server using `ssh -X ...`, check if the `DISPLAY` variable is automatically set by ssh client with `echo $DISPLAY`. If `DISPLAY` is not set, try manually adding it: `export DISPLAY=127.0.0.1:10.0` (or `11.0` if `10.0` doesn't work). If it's there, skip the check next time.
 
 ##### Modify Makefile
 
