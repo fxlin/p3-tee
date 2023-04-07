@@ -200,7 +200,7 @@ If the port is already in use, "make run-only" just hangs (I guess xterm hangs) 
 
 ##### Result
 
-The screenshot below shows the end result on WSL. It;s recommended to connect with WSL's `ssh` client on Windows.
+The screenshot below shows the end result on WSL. It's recommended to connect with WSL's `ssh` client on Windows.
 
 ![](wsl-xterm.png)
 
