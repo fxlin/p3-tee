@@ -62,14 +62,15 @@ Below,
 
 #### 1.2 Install Software 
 
-* **Win owner.** Install WSL2 [instructions](https://docs.google.com/document/d/1EseVrjfDBpFcz5_TETV7HQXRptpMQO6MJoI2Qq7vB2E/edit?usp=sharing). 
-  * Local build choice: Install software [here](quickstart-req.md).
-  * Remote build choice: WSL2 with Ubuntu >= 20.04. Other distro/version: unsupported. 
-* **Linux owner**: 
-  * Local build choice: Install software [here](quickstart-req.md).
-  * Remote build choice: Just make sure you have a local X desktop. 
-* **Mac owner**
-  * Remote build choice. Install & configure X server. [instructions](https://docs.google.com/document/d/1MVOJzVWuJeYznnzXg1C6Pe6bLi1KlmXik2FiPB1mKlE/edit?usp=sharing)
+* Local build choice:
+  * Win owner: Install WSL2 [instructions](https://docs.google.com/document/d/1EseVrjfDBpFcz5_TETV7HQXRptpMQO6MJoI2Qq7vB2E/edit?usp=sharing). Install Ubuntu == 20.04. Install software dependencies [here](quickstart-req.md).
+  * Linux owner: Install software dependencies [here](quickstart-req.md).
+
+* Remote build choice: 
+  * Win owner: Install WSL2 [instructions](https://docs.google.com/document/d/1EseVrjfDBpFcz5_TETV7HQXRptpMQO6MJoI2Qq7vB2E/edit?usp=sharing). Can do with Ubuntu >= 20.04
+  * Linux owner: make sure you have a local X desktop. 
+  * Mac owner: Install & configure X server. [instructions](https://docs.google.com/document/d/1MVOJzVWuJeYznnzXg1C6Pe6bLi1KlmXik2FiPB1mKlE/edit?usp=sharing)
+
 
 
 ### Step 2: build OP-TEE for QEMU
