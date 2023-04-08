@@ -1,5 +1,35 @@
 # Common issues
 
+## (from normal world) optee_example_hello_world: TEEC_Opensession failed with code 0xffff0008 origin 0x3 
+(from sec world): init_with_ldeff:232 ldelf failed with res: 0xffff0008 <--- meaning item no found
+
+xtests all failed. 
+
+meanwhile, the tee supplicant log: 
+```
+cat /data/tee/teec.log                      
+ERR [190] TSUP:load_ta:284:   TA not found  
+```
+Related functions: tee_supplicant.c: TEECI_LoadSecureModule() and try_load_secure_module(). 
+
+**Solution**: 
+* Make sure all TAs are in place (/lib/optee_armtz/...)
+* Make sure /lib/optee_armtz/ has right permission (755), allowing user "tee" to access. Otherwise TEE supplicant will fail. (THIS IS THE REASON)
+```
+xl6yq@granger2[optee-qemuv8]$ ll out-br/target/lib |grep optee_armtz
+drwxr-xr-x 2 xl6yq fax   28 Apr  7 22:57 optee_armtz
+```
+Otherwise, fix in boot/optee-os/optee-os.mk
+```
+ifeq ($(BR2_TARGET_OPTEE_OS_SERVICES),y)
+define OPTEE_OS_INSTALL_IMAGES_SERVICES
+        mkdir -p $(TARGET_DIR)/lib/optee_armtz
+        chmod 755 $(TARGET_DIR)/lib/optee_armtz  # FL: otherwise dir permission is 700, owned by root. user `tee` (tee-supplicant) can't read   
+        ...
+```                
+
+Related (but not our cause): https://github.com/mofanv/darknetz/issues/7
+
 ## (qemu) failed to launch
 
 ![image.png](qemu-fail-to-launch.png)
