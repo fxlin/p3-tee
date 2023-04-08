@@ -21,14 +21,17 @@ drwxr-xr-x 2 xl6yq fax   28 Apr  7 22:57 optee_armtz
 ```
 
 **Solution**
-Fix boot/optee-os/optee-os.mk
+build/br-ext/package/optee_examples/optee_examples.mk
+add the chmod line
 ```
-ifeq ($(BR2_TARGET_OPTEE_OS_SERVICES),y)
-define OPTEE_OS_INSTALL_IMAGES_SERVICES
-        mkdir -p $(TARGET_DIR)/lib/optee_armtz
-        # FL: otherwise dir permission can be default as 700 (in some host OS?), owned by root. user `tee` (tee-supplicant) can't read   
-        chmod 755 $(TARGET_DIR)/lib/optee_armtz  
-        ...
+define OPTEE_EXAMPLES_INSTALL_TAS
+        @$(foreach f,$(wildcard $(@D)/*/ta/out/*.ta), \
+                mkdir -p $(TARGET_DIR)/lib/optee_armtz && \
+                chmod 755 $(TARGET_DIR)/lib/optee_armtz && \
+                $(INSTALL) -v -p  --mode=444 \
+                        --target-directory=$(TARGET_DIR)/lib/optee_armtz $f \
+                        &&) true
+endef
 ```                
 
 Related (but not our cause): https://github.com/mofanv/darknetz/issues/7
