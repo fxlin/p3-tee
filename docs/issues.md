@@ -12,19 +12,22 @@ ERR [190] TSUP:load_ta:284:   TA not found
 ```
 Related functions: tee_supplicant.c: TEECI_LoadSecureModule() and try_load_secure_module(). 
 
-**Solution**: 
+**Cause**: 
 * Make sure all TAs are in place (/lib/optee_armtz/...)
 * Make sure /lib/optee_armtz/ has right permission (755), allowing user "tee" to access. Otherwise TEE supplicant will fail. (THIS IS THE REASON)
 ```
 xl6yq@granger2[optee-qemuv8]$ ll out-br/target/lib |grep optee_armtz
 drwxr-xr-x 2 xl6yq fax   28 Apr  7 22:57 optee_armtz
 ```
-Otherwise, fix in boot/optee-os/optee-os.mk
+
+**Solution**
+Fix boot/optee-os/optee-os.mk
 ```
 ifeq ($(BR2_TARGET_OPTEE_OS_SERVICES),y)
 define OPTEE_OS_INSTALL_IMAGES_SERVICES
         mkdir -p $(TARGET_DIR)/lib/optee_armtz
-        chmod 755 $(TARGET_DIR)/lib/optee_armtz  # FL: otherwise dir permission is 700, owned by root. user `tee` (tee-supplicant) can't read   
+        # FL: otherwise dir permission can be default as 700 (in some host OS?), owned by root. user `tee` (tee-supplicant) can't read   
+        chmod 755 $(TARGET_DIR)/lib/optee_armtz  
         ...
 ```                
 
