@@ -78,8 +78,9 @@ p3-run
 
 Here is my window (running tmux) split in three ways. **WATCH THE GIF ANIMATION CAREFULLY.**
 
-![](C:\Users\xzl\Desktop\p3-tee\docs\qemu.png)
+![](qemu.png)
 
-![](C:\Users\xzl\Desktop\p3-tee\docs\dev.gif)
+![](dev.gif)
 
 That's it!
+
