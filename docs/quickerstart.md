@@ -56,15 +56,15 @@ Most students may develop an ARM platform with TrustZone as emulated by QEMU. Fo
 #### 1.1. Make your choice:
 
 1. **Local build choice: (Recommended for Win/Linux owners)**. Linux or Windows (WSL); must run Ubuntu 20.04; 50GB disk space. Pros: code builds fast; nice xterm. 
-1. **Remote build choice: (Win/Linux/Mac)**. Personal machine connected to course servers; build everything on servers. 
+1. **Remote build choice: (possible to Win/Linux/Mac)**. Personal machine connected to course servers; build everything on servers. 
 
 #### 1.2 Install Software 
 
 * **Win owner.** Install WSL2 ([instructions)](wsl-ubuntu-howto.md). 
-  * Local build choice: Install software [here](quickstar-req.md).
+  * Local build choice: Install software [here](quickstart-req.md).
   * Remote build choice: WSL2 with Ubuntu >= 20.04. Other distro/version: unsupported. 
 * **Linux owner**: 
-  * Local build choice: Install software [here](quickstar-req.md).
+  * Local build choice: Install software [here](quickstart-req.md).
   * Remote build choice: Just make sure you have a local X desktop. 
 * **Mac owner**
   * Remote build choice. Install & configure X server. [instructions](https://docs.google.com/document/d/1MVOJzVWuJeYznnzXg1C6Pe6bLi1KlmXik2FiPB1mKlE/edit?usp=sharing)
