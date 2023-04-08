@@ -1,6 +1,18 @@
 # Common issues
 
+## Address already in use
+
+In qemu_v8.mk, the line `-serial tcp:localhost:50324 -serial tcp:localhost:50323` tells QEMU to listen on two ports for incoming GDB connection. 
+THE TWO PORTS MUST BE CHANGED to your choice (e.g. 58888/59999): if multiple students bind to the same ports, all but one will fail. 
+
+Check if a port is in use `netstat --all | grep 54320` (port 54320)
+
+Sp23: we provide env.sh and update qemu_v8.mk to use random ports. Run `p3-gen-ranom-ports` to refresh ports. 
+
+
+
 ## (from normal world) optee_example_hello_world: TEEC_Opensession failed with code 0xffff0008 origin 0x3 
+
 (from sec world): init_with_ldeff:232 ldelf failed with res: 0xffff0008 <--- meaning item no found
 
 xtests all failed. 
@@ -32,7 +44,7 @@ define OPTEE_EXAMPLES_INSTALL_TAS
                         --target-directory=$(TARGET_DIR)/lib/optee_armtz $f \
                         &&) true
 endef
-```                
+```
 
 Related (but not our cause): https://github.com/mofanv/darknetz/issues/7
 
@@ -235,3 +247,6 @@ It's a python script complaining you don't have Crypto. To see if that's the cas
 `python -c "import Crypto"`
 There shouldn't be any error. Solution: 
 `sudo apt get install python-is-python3`; then `sudo apt get install python3-pycrypto` to install Crypto for python3; lastly `sudo apt install python-crypto` to install it for python2. All needs to be done with `root`.
+
+(FL: Above may need update)
+
