@@ -77,6 +77,16 @@ Below,
 
 The following instructions assume `${OPTEE}` to be the top directory, e.g. `~/optee_qemuv8` 
 
+Apr 2023: update the two newest files
+```bash
+cd ${OPTEE}
+wget https://raw.githubusercontent.com/fxlin/p3-tee/master/env.sh
+cd build
+mv qemu_v8.mk qemu_v8.mk.orig
+wget https://raw.githubusercontent.com/fxlin/p3-tee/master/qemu_v8.mk
+```
+
+Every time you log in: 
 ```bash
 $ cd ${OPTEE}
 $ source env.sh  # will load commands, gen random ports, etc.
