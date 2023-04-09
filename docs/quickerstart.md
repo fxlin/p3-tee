@@ -77,7 +77,7 @@ Below,
 
 The following instructions assume `${OPTEE}` to be the top directory, e.g. `~/optee_qemuv8` 
 
-Apr 2023: update the two newest files
+**(Apr 2023)**: update the two newest files (executed once) 
 ```bash
 cd ${OPTEE}
 wget https://raw.githubusercontent.com/fxlin/p3-tee/master/env.sh
