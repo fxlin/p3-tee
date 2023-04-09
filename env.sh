@@ -56,6 +56,7 @@ p3-gen-ranom-ports      Update the random ports
 p3-console-normal       Launch the normal-world console
 p3-console-sec          Launch the secure-world console
 p3-build-all            Build everything. (In case of failure, see proj desc troubleshooting)
+p3-rebuild-all          Clean everything then build everything 
 p3-run-noxterm          Run qemu. the normal/secure world consoles must be running 
 p3-run                  Run qemu with normal/secure world consoles as xterms. Local machine must have x server (see proj desc)
 
