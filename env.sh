@@ -52,6 +52,13 @@ p3-console-sec          Launch the secure-world console
 p3-build-all            Build everything. (In case of failure, see proj desc troubleshooting)
 p3-run-noxterm          Run qemu. the normal/secure world consoles must be running 
 p3-run                  Run qemu with normal/secure world consoles as xterms. Local machine must have x server (see proj desc)
+
+APR 2023: FOR THE ABOVE TO WORK, MAKE SURE YOU HAVE UPDATED THE MAKEFILE
+
+    cd build
+    mv qemu_v8.mk qemu_v8.mk.orig
+    wget https://raw.githubusercontent.com/fxlin/p3-tee/master/qemu_v8.mk
+
 EOF
 }
 
