@@ -35,8 +35,8 @@ The build process is complex. It is managed by numerous Makefiles in a hierarchy
 ## Building the entire project: an overview
 
 1. Grab the source code:
-        1. Access the tarball (optee-qemuv8-students-MMDDYY.tar) from /home/students/ on granger1/2. Don't need to copy to your home dir. Directly untar it like ```cd ~/; tar xvf /home/students/optee-qemuv8-students.tar```.
-        2. If you use own machine, you can download the tarball over SSH.        
+	1. Access the tarball (optee-qemuv8-students-MMDDYY.tar) from /home/students/ on granger1/2. **Don't need to copy to your home dir**. Directly untar it like ```cd ~/; tar xvf /home/students/optee-qemuv8-students.tar```.
+	2. If you use own machine, you can download the tarball over SSH.        
 2. First time build: we will build everything including QEMU and normal/secure worlds binaries of OPTEE. The build process will pack these binaries into an OS image (rootfs image) to be launched by QEMU
 3. Run QEMU and play with "Hello world", validating that our environment works properly.
 4. Repeated build: modify source code of normal world app and TAs, and build again. 
@@ -63,13 +63,13 @@ Below,
 #### 1.2 Install Software 
 
 * Local build choice:
-  * Win owner: Install WSL2 [instructions](https://docs.google.com/document/d/1EseVrjfDBpFcz5_TETV7HQXRptpMQO6MJoI2Qq7vB2E/edit?usp=sharing). Install Ubuntu == 20.04. Install software dependencies [here](quickstart-req.md).
-  * Linux owner: Install software dependencies [here](quickstart-req.md).
+	* Win owner: Install WSL2 [instructions](https://docs.google.com/document/d/1EseVrjfDBpFcz5_TETV7HQXRptpMQO6MJoI2Qq7vB2E/edit?usp=sharing). Install Ubuntu == 20.04. Install software dependencies [here](quickstart-req.md).
+	* Linux owner: Install software dependencies [here](quickstart-req.md).
 
 * Remote build choice: 
-  * Win owner: Install WSL2 [instructions](https://docs.google.com/document/d/1EseVrjfDBpFcz5_TETV7HQXRptpMQO6MJoI2Qq7vB2E/edit?usp=sharing). Can do with Ubuntu >= 20.04
-  * Linux owner: make sure you have a local X desktop. 
-  * Mac owner: Install & configure X server. [instructions](https://docs.google.com/document/d/1MVOJzVWuJeYznnzXg1C6Pe6bLi1KlmXik2FiPB1mKlE/edit?usp=sharing)
+	* Win owner: Install WSL2 [instructions](https://docs.google.com/document/d/1EseVrjfDBpFcz5_TETV7HQXRptpMQO6MJoI2Qq7vB2E/edit?usp=sharing). Can do with Ubuntu >= 20.04
+	* Linux owner: make sure you have a local X desktop. 
+	* Mac owner: Install & configure X server. [instructions](https://docs.google.com/document/d/1MVOJzVWuJeYznnzXg1C6Pe6bLi1KlmXik2FiPB1mKlE/edit?usp=sharing)
 
 
 
@@ -90,9 +90,11 @@ $ cd ${OPTEE}/build
 $ make QEMU_VIRTFS_ENABLE=y CFG_SECURE_DATA_PATH=y CFG_TEE_RAM_VA_SIZE=0x00300000 -j`nproc`
 ```
 
+Or just type `p3-build-all` which runs the above command.
+
 **Explanation**: QEMU_VIRTFS_ENABLE allows QEMU and the host (e.g. granger1) to share files; CFG_SECURE_DATA_PATH builds in the support for data copy between two worlds; CFG_TEE_RAM_VA_SIZE sets the virtual address range for TEE; -j`nproc` asks to use all cores for making. 
 
-If you want to clean up existing build, do `make clean` under `build/`. `make cleaner` further cleans up configuration files. 
+If you want to clean up existing build, do `cd build && make clean`. To further cleans up configuration files, do `cd build && make cleaner`. 
 
 ### Step 3: run OPTEE
 
@@ -101,15 +103,17 @@ cd build
 make run-only QEMU_VIRTFS_ENABLE=y QEMU_VIRTFS_HOST_DIR=`readlink -f shared_folder`
 ```
 
-Explanation: QEMU_VIRTFS_HOST_DIR means the emulated OS and granger1/2 will share a directory. Easy for file exchange. 
+Or just type `p3-run` which runs the above command.
 
-QEMU must be launched without errors. See [troubleshooting](issues.md).
+**Explanation**: QEMU_VIRTFS_HOST_DIR means the emulated OS and server (e.g. gr1/2) will share a directory. Easy for file exchange. 
 
-Start the emulation: typing `c` in the GDB command window. There might be delay of 1-2 secs because of the Internet communication, but the overall experience is good.
+QEMU must be launched without errors. In case of errors, see [troubleshooting](issues.md).
+
+Start the emulation: typing `c` in the QEMU console. There might be delay of 1-2 secs because of the Internet communication, but the overall experience is good.
 
 ##### Troubleshoot
 
-If the port is already in use, "make run-only" just hangs (I guess xterm hangs) with no output, unlike `nc` which tells you "Address aready in use". If that happens, use `netstat` to verify and try an unused one. 
+If the port is already in use, "make run-only" may just hang (likely b/c xterm hangs) with no output. If that happens, use `netstat` to verify and try an unused one (`p3-gen-ranom-ports`).
 
 ### Results
 
@@ -187,7 +191,7 @@ hello_world/
 
 ```
 
-#### CA (the normal world): 
+#### 1. CA (the normal world): 
 
 Let's do some trivial changes to the helloworld app source: 
 
@@ -222,7 +226,7 @@ hello! ... Invoking TA to increment 42
 TA incremented value to 43
 ```
 
-#### TA (the secure world)
+#### 2. TA (the secure world)
 Source location: `./optee_examples/hello_world/ta/hello_world_ta.c` 
 
 Do some trivial changes: 
@@ -281,30 +285,43 @@ The value is incremented by 2 -- our modification to TA works!
 
 With the above method, you will soon find it tedious to restart QEMU every time we change TA/CA sources. The solution is to share the TA/CA build outcome via a folder shared with the QEMU guest.
 
-On the development machine, from the root of OPTEE source code: 
+**0.Prep**
+
+On the development machine, from the root of OPTEE source code (sp23: already done by TA): 
 
 ```sh
-$ mkdir build/shared_folder
+$ mkdir -p build/shared_folder
 ```
-When we build & launch QEMU, pass in "VIRTFS" (virtual filesystem) arguments: 
+When we build & launch QEMU, make sure to pass in "VIRTFS" (virtual filesystem) arguments: 
 ```bash
 $ make run-only QEMU_VIRTFS_ENABLE=y QEMU_VIRTFS_HOST_DIR=build/shared_folder
 ```
-After QEMU is launched, mount the shared folder in QEMU guest system (username: root).
+After QEMU is launched, Linux mounts the shared folder in QEMU guest system automatically. To verify: 
+```bash
+# in normal world console
+$ mount -a 
+...
+host on /root/shared type 9p (rw,sync,dirsync,relatime,access-client,trans=virtio)
+```
+**Explanation:** automatic mount is done by the following line in `/etc/fstab`
 
-```sh
-# (in the normal world console)
-# this creates /root/shared/ which will be mapped to the host's build/shared_folder
-$ mkdir shared && mount -t 9p -o trans=virtio host shared
+```bash
+# in normal world console
+$ cat /etc/fstab | tail -n 1
+host 	/root/shared 9p trans=virtio 0 0
 ```
 
-**To rebuild a CA:** Every time we rebuild a CA (see the command above `make buildroot...`), copy its binary to the shared directory: 
+which is done by add that file to the overlay filesystem `${OPTEE}/build/br-ext/board/qemu/overlay/etc/fstab`
+
+Should you want to mount manually, do `mkdir shared && mount -t 9p -o trans=virtio host shared`
+
+**1. To rebuild a CA:** Every time we rebuild a CA (see the command above `make buildroot...`), copy its binary to the shared directory: 
 
 ```bash
 $ cp ./out-br/target/usr/bin/optee_example_hello_world build/shared_folder/
 ```
 
-**To rebuilt a TA:** If we rebuild a TA, first copy TAs to the shared directory (similar to above); then in the normal world console, copy the TAs to the guest's `/lib` where OPTEE's daemon will look for TAs: 
+**2. To rebuilt a TA:** If we rebuild a TA, first copy TAs to the shared directory (similar to above); then in the normal world console, copy the TAs to the guest's `/lib` where OPTEE's daemon will look for TAs: 
 
 ```sh
 # (in the normal world console) 
@@ -312,7 +329,7 @@ $ cd shared && cp *.ta /lib/optee_armtz/
 ```
 You are recommended to write a script to automate the above workflow. 
 
-**Need extra software packages (e.g. strace)** to be included in the rootfs image? Change `build/common.mk`. To see what packages are available & selected, check out file `out-br/.config`. See [here](https://github.com/OP-TEE/optee_os/issues/2632). 
+(Optional) Need extra software packages (e.g. strace) to be included in the rootfs image? Change `build/common.mk`. To see what packages are available & selected, check out file `out-br/.config`. See [here](https://github.com/OP-TEE/optee_os/issues/2632). 
 
 ### Choice 3: Rpi3 - copying files over SSH
 

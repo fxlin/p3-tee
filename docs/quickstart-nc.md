@@ -73,7 +73,7 @@ $ while true; do nc -l 127.0.0.1 50324; done
 YOU MUST HAVE THE TWO nc instances running already. Then: 
 
 ```
-p3-run
+p3-run-noxterm
 ```
 
 Here is my window (running tmux) split in three ways. **WATCH THE GIF ANIMATION CAREFULLY.**
