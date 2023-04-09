@@ -1,5 +1,53 @@
 # Common issues
 
+## Address already in use
+
+In qemu_v8.mk, the line `-serial tcp:localhost:50324 -serial tcp:localhost:50323` tells QEMU to listen on two ports for incoming GDB connection. 
+THE TWO PORTS MUST BE CHANGED to your choice (e.g. 58888/59999): if multiple students bind to the same ports, all but one will fail. 
+
+Check if a port is in use `netstat --all | grep 54320` (port 54320)
+
+Sp23: we provide env.sh and update qemu_v8.mk to use random ports. Run `p3-gen-ranom-ports` to refresh ports. 
+
+
+
+## (from normal world) optee_example_hello_world: TEEC_Opensession failed with code 0xffff0008 origin 0x3 
+
+(from sec world): init_with_ldeff:232 ldelf failed with res: 0xffff0008 <--- meaning item no found
+
+xtests all failed. 
+
+meanwhile, the tee supplicant log: 
+```
+cat /data/tee/teec.log                      
+ERR [190] TSUP:load_ta:284:   TA not found  
+```
+Related functions: tee_supplicant.c: TEECI_LoadSecureModule() and try_load_secure_module(). 
+
+**Cause**: 
+* Make sure all TAs are in place (/lib/optee_armtz/...)
+* Make sure /lib/optee_armtz/ has right permission (755), allowing user "tee" to access. Otherwise TEE supplicant will fail. (THIS IS THE REASON)
+```
+xl6yq@granger2[optee-qemuv8]$ ll out-br/target/lib |grep optee_armtz
+drwxr-xr-x 2 xl6yq fax   28 Apr  7 22:57 optee_armtz
+```
+
+**Solution**
+build/br-ext/package/optee_examples/optee_examples.mk
+add the chmod line
+```
+define OPTEE_EXAMPLES_INSTALL_TAS
+        @$(foreach f,$(wildcard $(@D)/*/ta/out/*.ta), \
+                mkdir -p $(TARGET_DIR)/lib/optee_armtz && \
+                chmod 755 $(TARGET_DIR)/lib/optee_armtz && \
+                $(INSTALL) -v -p  --mode=444 \
+                        --target-directory=$(TARGET_DIR)/lib/optee_armtz $f \
+                        &&) true
+endef
+```
+
+Related (but not our cause): https://github.com/mofanv/darknetz/issues/7
+
 ## (qemu) failed to launch
 
 ![image.png](qemu-fail-to-launch.png)
@@ -199,3 +247,6 @@ It's a python script complaining you don't have Crypto. To see if that's the cas
 `python -c "import Crypto"`
 There shouldn't be any error. Solution: 
 `sudo apt get install python-is-python3`; then `sudo apt get install python3-pycrypto` to install Crypto for python3; lastly `sudo apt install python-crypto` to install it for python2. All needs to be done with `root`.
+
+(FL: Above may need update)
+
