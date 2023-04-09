@@ -32,6 +32,12 @@ p3-build-all() {
     make QEMU_VIRTFS_ENABLE=y CFG_SECURE_DATA_PATH=y CFG_TEE_RAM_VA_SIZE=0x00300000 -j`nproc`
 }
 
+p3-rebuild-all() {
+    cd ${BUILD_PATH}
+    make cleaner
+    p3-build-all
+}
+
 p3-run-noxterm() {
     cd ${BUILD_PATH}
     make run-only QEMU_VIRTFS_ENABLE=y QEMU_VIRTFS_HOST_DIR=`readlink -f shared_folder`
