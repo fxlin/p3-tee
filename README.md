@@ -9,6 +9,12 @@ mv -f optee-qemuv8/build/qemu_v8.mk optee-qemuv8/build/qemu_v8.mk.saved
 cp qemu_v8.mk optee-qemuv8/build/
 ```
 
+* More patches...
+```
+mv build/br-ext/package/optee_examples/optee_examples.mk  build/br-ext/package/optee_examples/optee_examples.mk.saved
+cp optee_examples.mk build/br-ext/package/optee_examples/
+```
+
 * Go to optee-qemuv8-teachingonly/optee_examples, pull our example code, e.g. 
 ```
 git pull git@github.com:fxlin/p3-tee-sample.git
