@@ -24,11 +24,12 @@ We have provided the skeleton of TA commands and how CA invokes in the boilerpla
 
 We need to run code inside the TA for image decoding and face detection via convolutional neural networks (CNNs). On one hand, we do not want to reinvent the wheel. On the other hand, we cannot use popular frameworks such as Tensorflow or nCNN. Why? Optimized for speed and rich features, they are large and have extensive external dependency. Porting them to the secure world will be tedious, if not impossible. Furthermore, we are limited to libraries implemented in C as OPTEE does not have libs and runtimes, e.g. for C++ or Python. 
 
-Indeed, we are looking for an "embedded" library that is lightweight, self-contained, and in C. To this end, SOD seems a good choice. It provides simple sample programs and good documentation. 
+Indeed, we are looking for an "embedded" library that is lightweight, self-contained, and in C. To this end, SOD seems a good choice. It provides simple sample programs and good documentation. The official page of this project is at https://sod.pixlab.io/intro.html.
 
-https://sod.pixlab.io/intro.html
 
-![cavman](cavman.jpg)
+<div style="text-align:center">
+    <img src="cavman.jpg" alt="The result of reference answer after decryption.">
+</div>
 
 For those who wish to use the SOD library, we have ported the library to the secure world. The library source is included in the boilerplate that we give to you. 
 
@@ -55,10 +56,18 @@ Secure world console:
 ## The artifacts we give to you: 
 * Boilerplate code of TA, which should be copied to optee_examples/. 
 * A Python program for encrypting images and decrypting images
-## You develop: 
-* TA
-* CA
+## You'll need to implement: 
+* TA: `ta/cnn_ta.c`
+* CA: `host/main.c`
+* Helper functions for TA/CA if necessary
 * Any scripts you need to automate your development and test
+
+## Roadmap
+There are three commands available in the given code, but only one is complete. It takes unencrypted images and CNN model parameters from the normal and passes them to the secure world. In the secure world, a CNN model in SOD library is built. It detects the faces in input images, draws the circle, and passes the encrypted result out of the secure world.
+
+To achieve the security objective, two additional commands need to be implemented. The first one takes encrypted model parameters, and passes it to the secure world where they are decrypted and saved in the secure storage. This command helps you understand how the encryption and decryption work, and check if your crypto operations are working properly.
+
+The second command takes encrypted images and passes them to the secure world. The secure world creates the CNN model with saved parameters, decrypts images, detect faces, encrypts the circled images, and passes them out to the normal world. 
 
 ## Reason about security
 
@@ -69,4 +78,3 @@ Each design decision you made above is crucial to the security of the system. Co
 * With your choice of crypto, what additional assumptions you **must** make to ensure security? Hints: 
   * Symmetric encryption uses only one key. Can you expose it to normal world? If you have to do so to encrypt images, what assumption you must make to ensure the images are still confidential?  
   * How do you store the key(s)? Can you bake them into TA and why?   
-
