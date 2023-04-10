@@ -239,6 +239,8 @@ os_test_lib before os_test and builds the former first.
 Apparently, on a shell that enumerates os_test before os_test_lib, the build will fail. 
 Solution: force the shell to discover os_test_lib first...
 
+TBD: fix this permanently
+
 ### make edk2-clean: python complains lack of "UserDict"
 It is a Python2 thing. Some edk2 library expects python2. Make sure you have it. It is ok that the default python is python3.
 
