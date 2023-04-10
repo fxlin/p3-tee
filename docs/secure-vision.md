@@ -28,7 +28,7 @@ Indeed, we are looking for an "embedded" library that is lightweight, self-conta
 
 
 <div style="text-align:center">
-    <img src="cavman.jpg" alt="The result of reference answer after decryption.">
+    <img src="/p3-tee/cavman.jpg" alt="The result of reference answer after decryption.">
 </div>
 
 For those who wish to use the SOD library, we have ported the library to the secure world. The library source is included in the boilerplate that we give to you. 
