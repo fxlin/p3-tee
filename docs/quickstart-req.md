@@ -69,12 +69,12 @@ In addition:
 sudo apt install python3-pycryptodome python-is-python3 python2
 ```
 
-## Check python versions 
+## Check Python versions 
 
 On shell, do 
 
 ```
-# It's okay this defaults to Python3.x
+# should be Python3.x. If not, install python-is-python3 (see above)
 python --version
 ```
 
@@ -84,7 +84,8 @@ python2
 ```
 
 ```
-# Should not see any errors
+# Should not see any errors. On shell, do 
 python -c "import Crypto"
+python -c "from elftools.elf.elffile import ELFFile"
 ```
 
