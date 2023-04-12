@@ -1,5 +1,11 @@
 # Common issues
 
+## make run-only... xterm problems
+/usr/bin/xterm: Xt error Can't open display; DISPLAY is not set etc. 
+Can be strange even if xterm is not being launched. 
+
+Try to comment out `$(call check-terminal)` in build/qemu_v8.mk
+
 ## Address already in use
 
 In qemu_v8.mk, the line `-serial tcp:localhost:50324 -serial tcp:localhost:50323` tells QEMU to listen on two ports for incoming GDB connection. 
