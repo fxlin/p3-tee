@@ -14,6 +14,14 @@ p3-gen-random-ports() {
     echo "set ports: normal world: ${MY_NW_PORT}  sec world :${MY_SW_PORT}"
 }
 
+# will gen deterministic ports instead
+p3-gen-hash-ports() {
+    export MY_NW_PORT=`echo -n ${USER} | md5sum | cut -c1-8 | printf "%d\n" 0x$(cat -) | awk '{printf "%.0f\n", 50000 + (($1 / 0xffffffff) * 10000)}'`
+    export MY_SW_PORT=$(expr ${MY_NW_PORT} + 1)
+    echo "set ports: normal world: ${MY_NW_PORT}  sec world :${MY_SW_PORT}"
+}
+
+
 p3-console-normal() {
     nc -l 127.0.0.1 ${MY_NW_PORT}
     # also ... 
@@ -52,7 +60,6 @@ usage() {
     cat << EOF 
 AVAILABLE COMMANDS
 ------------------    
-p3-gen-ranom-ports      Update the random ports
 p3-console-normal       Launch the normal-world console
 p3-console-sec          Launch the secure-world console
 p3-build-all            Build everything. (In case of failure, see proj desc troubleshooting)
@@ -69,5 +76,6 @@ APR 2023: FOR THE ABOVE TO WORK, MAKE SURE YOU HAVE UPDATED THE MAKEFILE
 EOF
 }
 
-p3-gen-random-ports
+#p3-gen-random-ports
+p3-gen-hash-ports
 usage
