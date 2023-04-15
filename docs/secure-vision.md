@@ -53,9 +53,11 @@ Secure world console:
 
 **To implement your own CA:** we will give you Python code that encrypts given images with AES. In this way, your CA only needs to load the encrypted images and send to the secure world for processing. 
 
-## The artifacts we give to you: 
-* Boilerplate code of TA, which should be copied to optee_examples/. 
+## We give you a tarball including: 
+* Boilerplate code of TA/CA. 
 * A Python program for encrypting images and decrypting images
+* See its README for details. 
+*
 ## You'll need to implement: 
 * TA: `ta/cnn_ta.c`
 * CA: `host/main.c`
