@@ -1,10 +1,9 @@
 # Common issues
 
-## (from sec world) Error: ... failed ffff000? 3
-The way to debug is to understand the optee error code definition ffff000? See table below. Also GIYF. Go from there. 
+## (from sec world) Error: ... failed ffff000? from origin ?
+The way to debug is to understand the optee error code definition ffff000? and its origin ?. See table below. Also GIYF. You may find the [doc for developing CA](https://globalplatform.org/wp-content/uploads/2010/07/TEE_Client_API_Specification-V1.0.pdf) and [doc for developing TA](https://globalplatform.org/wp-content/uploads/2018/06/GPD_TEE_Internal_Core_API_Specification_v1.1.2.50_PublicReview.pdf) exceptionally helpful. Search your error code, function name, etc in these two docs.
 
 ![image.png](optee-error-codes.png)
-
 
 ## make run-only... xterm problems
 
