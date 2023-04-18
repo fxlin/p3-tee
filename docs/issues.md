@@ -1,6 +1,13 @@
 # Common issues
 
+## (from sec world) Error: ... failed ffff000? 3
+The way to debug is to understand the optee error code definition ffff000? See table below. Also GIYF. Go from there. 
+
+![image.png](optee-error-codes.png)
+
+
 ## make run-only... xterm problems
+
 /usr/bin/xterm: Xt error Can't open display; DISPLAY is not set etc. 
 Can be strange even if xterm is not being launched. 
 
