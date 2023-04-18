@@ -68,6 +68,7 @@ arm-tf missing. Rebuild it. ``make arm-tf''.
 Kernel missing. 
 
 ## regression_1000.c:(.text+0x3300): undefined reference to `sdp_basic_test'
+## Error: open session to target test TA failed ffff0008 3 Test failed!"
 missing CFG_SECURE_DATA_PATH=y  in make command
 
 ## Failure to install dependencies of QEMU
