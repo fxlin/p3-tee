@@ -69,6 +69,12 @@ In addition:
 sudo apt install python3-pycryptodome python-is-python3 python2
 ```
 
+In addition, to support the debugging script: 
+
+```
+sudo apt install binutils-aarch64-linux-gnu
+```
+
 ## Check Python versions 
 
 On shell, do 
