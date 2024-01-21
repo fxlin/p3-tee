@@ -1,6 +1,14 @@
 # to be executed under the root of the student dir
 
+
 ROOT=~/optee-qemuv8
+
+
+if [ -d ${ROOT} ]; then
+    echo "${ROOT} already exists. rename or remove it, and retry"
+    exit 1
+fi
+
 mkdir -p ${ROOT}
 cd ${ROOT}
 
