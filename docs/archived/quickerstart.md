@@ -1,7 +1,5 @@
 # Quickstart: OPTEE 
 
-NEW: Sp23 CS4414. We provide a source tarball for all. 
-
 **This project is to be completed on servers; or your own Linux/Windows box; or rpi3**
 
 ## Source code overview

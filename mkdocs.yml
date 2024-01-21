@@ -37,8 +37,8 @@ plugins:
 #  - git-revision-date-localized
 
 nav:
-  #- quickstart: quickstart.md
-  - setup(sp23): quickerstart.md
+  - quickstart: quickstart.md
+  #- setup(sp23): quickerstart.md
   - app samples: helloworld.md 
   - task: secure-vision.md
   - troubleshoot: issues.md  

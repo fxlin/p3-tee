@@ -5,7 +5,7 @@ The final filesystem tree is at
 But it will be overwritten. 
 
 The overlay filesystem is below, so add files and them do "make..."
-``optee-qemuv8/build/br-ext/board/qemu/overlay/``
+optee-qemuv8/build/br-ext/board/qemu/overlay/
 
 
 ## Boot without typing username "root"

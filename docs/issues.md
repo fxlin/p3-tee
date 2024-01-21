@@ -37,14 +37,20 @@ Try to comment out `$(call check-terminal)` in build/qemu_v8.mk
 
 ## Address already in use
 
-In qemu_v8.mk, the line `-serial tcp:localhost:50324 -serial tcp:localhost:50323` tells QEMU to listen on two ports for incoming GDB connection. 
+When you run qemu (p3-run), the command line `-serial tcp:localhost:XXXXX -serial tcp:localhost:XXXXX` tells QEMU to listen on two ports for incoming GDB connection. 
+
 THE TWO PORTS MUST BE CHANGED to your choice (e.g. 58888/59999): if multiple students bind to the same ports, all but one will fail. 
 
-Check if a port is in use `netstat --all | grep 54320` (port 54320)
+Here is our solution. When you run "source env.sh", it (cf: p3-gen-hash-ports) will generate two ports from a hash function of your user ID. The hope is that students will use different ports without collision. 
 
-Sp23: we provide env.sh and update qemu_v8.mk to use random ports. Run `p3-gen-ranom-ports` to refresh ports. 
+```
+$ source env.sh
+set ports: normal world: 54198  sec world :54199
+```
 
+The two ports above are just examples. You should have different ports. If for some reasons, the ports are used (by yourself or by another user), qemu will fail to start. 
 
+To debug the issue, check if a port is in use by `netstat --all | grep 54198` . 
 
 ## (from normal world) optee_example_hello_world: TEEC_Opensession failed with code 0xffff0008 origin 0x3 
 
