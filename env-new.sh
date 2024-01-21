@@ -3,10 +3,22 @@
 # To use: 
 # go to the root dir of optee-qemuv8, 
 # $ source env.sh
-# will override many env variables in qemu_v8.mk
+#
+# will override many env variables in build/qemu_v8.mk and build/common.mk
 
 ROOT_PATH=`pwd`
 BUILD_PATH=${ROOT_PATH}/build
+
+PREBUILT_ROOT=/cs4414-shared/optee-qemuv8
+
+# build/common.mk
+LINUX_PATH=${PREBUILT_ROOT}/linux
+
+#  build/qemu_v8.mk
+TF_A_PATH=${PREBUILT_ROOT}/trusted-firmware-a
+EDK2_PATH=${PREBUILT_ROOT}/edk2
+QEMU_PATH=${PREBUILT_ROOT}/qemu
+SOC_TERM_PATH=${PREBUILT_ROOT}/soc_term
 
 p3-gen-random-ports() {
     export MY_NW_PORT=$((50000 + RANDOM % 15000)) # port: 50000-65000
@@ -38,12 +50,6 @@ p3-build-all() {
     export LD_LIBRARY_PATH=     # often cause problems in building...
     cd ${BUILD_PATH}
     make QEMU_VIRTFS_ENABLE=y CFG_SECURE_DATA_PATH=y CFG_TEE_RAM_VA_SIZE=0x00300000 -j`nproc`
-}
-
-p3-build-optee() {
-    export LD_LIBRARY_PATH=     # often cause problems in building...
-    cd ${BUILD_PATH}
-    make buildroot QEMU_VIRTFS_ENABLE=y CFG_SECURE_DATA_PATH=y CFG_TEE_RAM_VA_SIZE=0x00300000 -j`nproc`
 }
 
 p3-rebuild-all() {
