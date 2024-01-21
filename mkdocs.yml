@@ -45,7 +45,6 @@ nav:
   - /porting: porting.md  
   - /cleanup: cleanup.md  
   - /lib: sod.md
-  - /wsl: wsl-ubuntu-howto.md
   
   #- Device:
    # - Hikey: devices/hikey.md

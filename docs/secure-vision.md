@@ -1,5 +1,7 @@
 # Experiment: secure vision 
 
+*Sp 2024: this is for p3exp4 (bonus) only*
+
 *April/2023: updated based on boilerplate code.*
 
 We will run a computer vision service in the secure world. This is useful when we want to ensure the confidentiality of the input data and also the integrity of the service code in the face of the untrusted normal world.  

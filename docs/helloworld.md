@@ -1,4 +1,4 @@
-# OPTEE app examples
+# Sample app code walkthrough
 
 ## Objective
 
@@ -173,18 +173,7 @@ The entry function is `sdp_basic_runner_cmd_parser()` which will be invoked by t
 
 ### Compile & run
 
-The sdp functionalities are included in compilation when CFG_SECURE_DATA_PATH is set. To do that, do 
-
-```
-# do the following from build/
-
-# optional: when you change the configuration. a clean build takes ~5 mins on a 20-core machine that no one is using
-# $ make buildroot-cleaner  
-
-# do this when you change the configuration or every time you change the source code 
-$ make buildroot CFG_SECURE_DATA_PATH=y CFG_TEE_RAM_VA_SIZE=0x00300000 -j`nproc`
-```
-Note that you should add other flags such as `QEMU_VIRTFS_ENABLE=y` as needed. 
+See the setup guide. Make sure CFG_SECURE_DATA_PATH is set, which should have been taken care by env.sh already. 
 
 Verify sdp functionalities are compiled: 
 
