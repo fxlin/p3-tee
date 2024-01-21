@@ -1,5 +1,19 @@
 # Common issues
 
+## python version mismatch
+Jan 2024
+
+Symptom:
+```
+/sw/ubuntu-22.04/python/3.10.11/bin/python3: /lib/x86_64-linux-gnu/libm.so.6: version `GLIBC_2.35' not found (required by /sw/ubuntu-22.04/python/3.10.11/bin/python3)
+... 
+```
+Cause: granger1/2 run Ubuntu 20.04, while python3 for Ubuntu 22.04 (as managed by the ``module'' system, /sw/...) somehow gets invoked. The newer python3 expects GLIBC versions that do not exist on Ubuntu 20.04
+
+Solution: only use Python3 that comes with Ubuntu20.04. $PATH is clean, not containing anything like "/sw/...". Also unload any python ("module unload python..."). No conda env ("conda deactivate"). This should solve most of the problem. 
+
+FL: some errors were seen in "make buildroot", which I did not fully eliminate. It does not breaking the build.
+
 ## (from sec world) Error: ... failed ffff000? from origin ?
 The way to debug is to understand the optee error code definition ffff000? and its origin ?. See table below. Also GIYF. You may find the [doc for developing CA](https://globalplatform.org/wp-content/uploads/2010/07/TEE_Client_API_Specification-V1.0.pdf) and [doc for developing TA](https://globalplatform.org/wp-content/uploads/2018/06/GPD_TEE_Internal_Core_API_Specification_v1.1.2.50_PublicReview.pdf) exceptionally helpful. Search your error code, function name, etc in these two docs.
 
