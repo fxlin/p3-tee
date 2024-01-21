@@ -40,10 +40,16 @@ p3-build-all() {
     make QEMU_VIRTFS_ENABLE=y CFG_SECURE_DATA_PATH=y CFG_TEE_RAM_VA_SIZE=0x00300000 -j`nproc`
 }
 
-p3-build-optee() {
+p3-buildroot() {
     export LD_LIBRARY_PATH=     # often cause problems in building...
     cd ${BUILD_PATH}
     make buildroot QEMU_VIRTFS_ENABLE=y CFG_SECURE_DATA_PATH=y CFG_TEE_RAM_VA_SIZE=0x00300000 -j`nproc`
+}
+
+p3-buildroot-clean() {
+    cd ${BUILD_PATH}
+    make buildroot-cleaner
+    p3-buildroot
 }
 
 p3-rebuild-all() {
@@ -62,23 +68,20 @@ p3-run() {
     make run-only-xterm QEMU_VIRTFS_ENABLE=y QEMU_VIRTFS_HOST_DIR=`readlink -f shared_folder`
 }
 
+#   p3-build-all            Build everything. (In case of failure, see proj desc troubleshooting)
+#   p3-rebuild-all          Clean everything then build everything 
+
 usage() {
     cat << EOF 
 AVAILABLE COMMANDS
 ------------------    
-p3-console-normal       Launch the normal-world console
-p3-console-sec          Launch the secure-world console
-p3-build-all            Build everything. (In case of failure, see proj desc troubleshooting)
-p3-rebuild-all          Clean everything then build everything 
-p3-run-noxterm          Run qemu. the normal/secure world consoles must be running 
+p3-buildroot            Build the root filesystem (inc. OPTEE)
+p3-buildroot-clean      Clean the root filesystem (inc. OPTEE)
 p3-run                  Run qemu with normal/secure world consoles as xterms. Local machine must have x server (see proj desc)
 
-APR 2023: FOR THE ABOVE TO WORK, MAKE SURE YOU HAVE UPDATED THE MAKEFILE
-
-    cd build
-    mv qemu_v8.mk qemu_v8.mk.orig
-    wget https://raw.githubusercontent.com/fxlin/p3-tee/master/qemu_v8.mk
-
+p3-run-noxterm          Run qemu. the normal/secure world consoles must be running 
+p3-console-normal       Launch the normal-world console
+p3-console-sec          Launch the secure-world console
 EOF
 }
 
