@@ -9,6 +9,8 @@ The overlay filesystem is below, so add files and them do "make..."
 
 
 ## Boot without typing username "root"
+1/21/2024: DON'T DO THIS. IT CANNOT RUN init.d/ services, therefore no /procfs, /dev, etc.
+
 cf: https://unix.stackexchange.com/questions/299408/how-to-login-automatically-without-typing-the-root-username-or-password-in-build
 
 ```
@@ -42,7 +44,12 @@ The effective config is:
 ``out-br/defconfig``
 
 ## Automatic mount of shared fs
+Create the mount point in the overlay fs: 
+
+`mkdir -p optee-qemuv8/build/br-ext/board/qemu/overlay/root/shared`
+
 Add to /etc/fstab (through buildroot overlay, see above):
+
 ```
 # xzl: cf https://unix.stackexchange.com/questions/377325/how-to-mount-9p-drive-using-etc-fstab
 host            /root/shared    9p      trans=virtio    0       0
@@ -51,5 +58,5 @@ host            /root/shared    9p      trans=virtio    0       0
 The original fstab can be grabbed from
 ``out-br/target/etc/fstab``
 
-
+After booting, from the normal world `mount -a`  (why still need this)
 
