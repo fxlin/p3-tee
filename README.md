@@ -11,8 +11,8 @@ cp qemu_v8.mk optee-qemuv8/build/
 
 * More patches...
 ```
-mv build/br-ext/package/optee_examples/optee_examples.mk  build/br-ext/package/optee_examples/optee_examples.mk.saved
-cp optee_examples.mk build/br-ext/package/optee_examples/
+mv optee-qemuv8/build/br-ext/package/optee_examples/optee_examples.mk  optee-qemuv8/build/br-ext/package/optee_examples/optee_examples.mk.saved
+cp optee_examples.mk optee-qemuv8/build/br-ext/package/optee_examples/
 ```
 
 * Go to optee-qemuv8-teachingonly/optee_examples, pull our example code, e.g. 
@@ -42,5 +42,4 @@ docs: the doc (website)
 exclude_file.txt: used by tar command in packing
 
 ubuntu-22.04-patches: in mar 2023 we attempted to build this thing on 22.04. a number of host packages of buildroot failed. here are some patches to keep the build going. there may be more down the road but we decided to fall back to 20.04
-
 

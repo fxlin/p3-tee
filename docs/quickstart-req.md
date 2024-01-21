@@ -82,16 +82,28 @@ On shell, do
 ```
 # should be Python3.x. If not, install python-is-python3 (see above)
 python --version
+# python3 should work fine, 
+python3
+which python3
+# if missing .so, do "module unload python3-xxx" and fallback to Ubuntu's python3 (insteawd of the one in modules under /sw/..)
+# also, deactivate conda, if any
+conda deactivate
 ```
 
 ```
-# Must exist
+# Check python2, which must exist
 python2 
 ```
 
 ```
 # Should not see any errors. On shell, do 
 python -c "import Crypto"
+python -c "import Cryptodome"
 python -c "from elftools.elf.elffile import ELFFile"
+
+# if elftools is missing, must do (why python3-pyelftools inadequate?)
+# this only installs locally, but that's recommended
+pip3 install pyelftools
+pip3 install pycryptodome
 ```
 

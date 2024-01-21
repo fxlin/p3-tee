@@ -5,6 +5,15 @@ The way to debug is to understand the optee error code definition ffff000? and i
 
 ![image.png](optee-error-codes.png)
 
+## CA (e.g xtest, optee_example_hello_world) hangs 
+The secure world console shows "Loading TA ...." then nothing. 
+Is tee-supplicant running? `ps aux|grep tee`. 
+Manual launch by `/usr/sbin/tee-supplicant -d /dev/teepriv0` Make sure it is running via ps, then retry the CA. 
+
+sometimes fs init failures seem to block it from launch. if `top` or `ps` fail to work, /procfs is likely not working. do `mount -a` and try again. 
+
+
+
 ## make run-only... xterm problems
 
 /usr/bin/xterm: Xt error Can't open display; DISPLAY is not set etc. 

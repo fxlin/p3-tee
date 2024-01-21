@@ -3,7 +3,7 @@
 # To use: 
 # go to the root dir of optee-qemuv8, 
 # $ source env.sh
-#
+# will override many env variables in qemu_v8.mk
 
 ROOT_PATH=`pwd`
 BUILD_PATH=${ROOT_PATH}/build

@@ -4,8 +4,8 @@ The final filesystem tree is at
 ``out-br/target/``
 But it will be overwritten. 
 
-The overlay filesystem is here, so add files and them do "make..."
-optee-qemuv8/build/br-ext/board/qemu/overlay/
+The overlay filesystem is below, so add files and them do "make..."
+``optee-qemuv8/build/br-ext/board/qemu/overlay/``
 
 
 ## Boot without typing username "root"
@@ -50,7 +50,6 @@ host            /root/shared    9p      trans=virtio    0       0
 
 The original fstab can be grabbed from
 ``out-br/target/etc/fstab``
-
 
 
 
