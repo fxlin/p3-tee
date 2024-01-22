@@ -61,7 +61,7 @@ We will pull code to ~/optee-qemuv8, so make sure there is no pre-existing direc
 1. **Grab the source code.** From granger1 or granger2, run
 
   ```
-/cs4414-shared/optee-qemuv8/student-pull-proj.sh
+/cs4414-shared/optee-qemuv8/student-pull-dir.sh
   ```
 
   If everything works fine, it will create ~/optee-qemuv8 with the [following contents](student-dir-files.txt).

@@ -35,6 +35,7 @@ Can be strange even if xterm is not being launched.
 
 Try to comment out `$(call check-terminal)` in build/qemu_v8.mk
 
+
 ## Address already in use
 
 When you run qemu (p3-run), the command line `-serial tcp:localhost:XXXXX -serial tcp:localhost:XXXXX` tells QEMU to listen on two ports for incoming GDB connection. 
@@ -51,6 +52,12 @@ set ports: normal world: 54198  sec world :54199
 The two ports above are just examples. You should have different ports. If for some reasons, the ports are used (by yourself or by another user), qemu will fail to start. 
 
 To debug the issue, check if a port is in use by `netstat --all | grep 54198` . 
+
+## p3-run hangs, no xterm, etc. 
+This is also related to the tcp port issues above. 
+Check if any previous qemu instances hang. e.g. 
+``ps aux|grep qemu``
+If so, kill them manually. Then retry the command. 
 
 ## (from normal world) optee_example_hello_world: TEEC_Opensession failed with code 0xffff0008 origin 0x3 
 
