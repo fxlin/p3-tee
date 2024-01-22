@@ -1,0 +1,20 @@
+cs6456ta@granger1:~/optee-qemuv8$ ls -lh
+total 36K
+drwxr-xr-x 10 cs6456ta cs6456ta 4.0K Jan 20 22:12 build
+drwxr-xr-x 16 cs6456ta cs6456ta 4.0K Mar 13  2023 buildroot
+lrwxrwxrwx  1 cs6456ta cs6456ta   32 Jan 21 12:31 edk2 -> /cs4414-shared/optee-qemuv8/edk2
+lrwxrwxrwx  1 cs6456ta cs6456ta   42 Jan 21 12:31 edk2-platforms -> /cs4414-shared/optee-qemuv8/edk2-platforms
+lrwxrwxrwx  1 cs6456ta cs6456ta   34 Jan 21 12:31 env.sh -> /cs4414-shared/optee-qemuv8/env.sh
+lrwxrwxrwx  1 cs6456ta cs6456ta   33 Jan 21 12:31 linux -> /cs4414-shared/optee-qemuv8/linux
+lrwxrwxrwx  1 cs6456ta cs6456ta   35 Jan 21 12:31 mbedtls -> /cs4414-shared/optee-qemuv8/mbedtls
+drwxr-xr-x  3 cs6456ta cs6456ta 4.0K Mar 12  2023 optee_benchmark
+drwxr-xr-x  7 cs6456ta cs6456ta 4.0K Mar 12  2023 optee_client
+drwxr-xr-x  9 cs6456ta cs6456ta 4.0K Mar 13  2023 optee_examples
+drwxr-xr-x 11 cs6456ta cs6456ta 4.0K Mar 12  2023 optee_os
+drwxr-xr-x 12 cs6456ta cs6456ta 4.0K Jan 20 00:08 optee_test
+drwxr-xr-x  3 cs6456ta cs6456ta 4.0K Jan 19 15:20 out
+drwxrwxr-x  6 cs6456ta cs6456ta 4.0K Jan 21 12:59 out-br
+lrwxrwxrwx  1 cs6456ta cs6456ta   32 Jan 21 12:31 qemu -> /cs4414-shared/optee-qemuv8/qemu
+lrwxrwxrwx  1 cs6456ta cs6456ta   36 Jan 21 12:31 soc_term -> /cs4414-shared/optee-qemuv8/soc_term
+lrwxrwxrwx  1 cs6456ta cs6456ta   38 Jan 21 12:31 toolchains -> /cs4414-shared/optee-qemuv8/toolchains
+lrwxrwxrwx  1 cs6456ta cs6456ta   46 Jan 21 12:31 trusted-firmware-a -> /cs4414-shared/optee-qemuv8/trusted-firmware-a

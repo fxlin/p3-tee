@@ -1,0 +1,542 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      
+      <link rel="icon" href="../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.6">
+    
+    
+      
+        <title>Repo output - p3-tee</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.558e4712.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.2505c338.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="orange" data-md-color-accent="orange">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="p3-tee" class="md-header__button md-logo" aria-label="p3-tee" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 89 89">
+  <path d="M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z" />
+  <path d="M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z" style="fill-opacity: 0.5" />
+  <path d="M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z" />
+  <path d="M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z" style="fill-opacity: 0.25" />
+</svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            p3-tee
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Repo output
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../quickstart/" class="md-tabs__link">
+      quickstart
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../helloworld/" class="md-tabs__link">
+      app samples
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../secure-vision/" class="md-tabs__link">
+      task
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../issues/" class="md-tabs__link">
+      troubleshoot
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../porting/" class="md-tabs__link">
+      /porting
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../cleanup/" class="md-tabs__link">
+      /cleanup
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../sod/" class="md-tabs__link">
+      /lib
+    </a>
+  </li>
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="p3-tee" class="md-nav__button md-logo" aria-label="p3-tee" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 89 89">
+  <path d="M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z" />
+  <path d="M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z" style="fill-opacity: 0.5" />
+  <path d="M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z" />
+  <path d="M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z" style="fill-opacity: 0.25" />
+</svg>
+
+    </a>
+    p3-tee
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quickstart/" class="md-nav__link">
+        quickstart
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../helloworld/" class="md-nav__link">
+        app samples
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../secure-vision/" class="md-nav__link">
+        task
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../issues/" class="md-nav__link">
+        troubleshoot
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../porting/" class="md-nav__link">
+        /porting
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cleanup/" class="md-nav__link">
+        /cleanup
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sod/" class="md-nav__link">
+        /lib
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<pre><code class="language-bash">xzl@granger1[p3]$ mkdir optee-qemuv8 &amp;&amp; cd optee-qemuv8 &amp;&amp; \
+repo init -q -u https://github.com/OP-TEE/manifest.git -m qemu_v8.xml -b 3.9.0 &amp;&amp; \
+repo sync -j4 --no-clone-bundle
+
+remote: Enumerating objects: 360, done.
+remote: Counting objects: 100% (360/360), done.
+remote: Compressing objects: 100% (256/256), done.
+remote: Enumerating objects: 124, done.
+remote: Counting objects: 100% (124/124), done.
+remote: Compressing objects: 100% (94/94), done.
+remote: Total 124 (delta 15), reused 73 (delta 7), pack-reused 0
+Receiving objects: 100% (124/124), 52.77 KiB | 6.60 MiB/s, done.
+Resolving deltas: 100% (15/15), done.
+remote: Enumerating objects: 74386, done.         | 23.27 MiB/s
+remote: Enumerating objects: 7, done.         MiB | 23.27 MiB/s
+remote: Counting objects: 100% (7/7), done.
+remote: Compressing objects: 100% (7/7), done.
+remote: Total 393713 (delta 161), reused 221 (delta 104), pack-reused 393353
+Receiving objects: 100% (393713/393713), 115.01 MiB | 29.39 MiB/s, done.
+remote: Counting objects: 100% (74386/74386), done.        iB/s
+remote: Enumerating objects: 977, done.         MiB | 16.78 MiB/sg objects:  21% (14590/69476)
+remote: Counting objects: 100% (977/977), done.        6.78 MiB/s
+Resolving deltas: 100% (261566/261566), done.       | 16.78 MiB/s
+remote: Compressing objects: 100% (818/818), done.        2 MiB/s
+remote: Total 977 (delta 269), reused 517 (delta 149), pack-reused 0
+Receiving objects: 100% (977/977), 2.49 MiB | 10.44 MiB/s, done.
+Resolving deltas: 100% (269/269), done.
+remote: Total 348883 (delta 0), reused 1 (delta 0), pack-reused 348876
+Receiving objects: 100% (348883/348883), 288.77 MiB | 21.27 MiB/s, done.
+remote: Enumerating objects: 95, done.        )        ving deltas:  16% (41754/251879)
+remote: Counting objects: 100% (95/95), done.
+remote: Compressing objects: 100% (75/75), done.
+remote: Total 95 (delta 10), reused 88 (delta 10), pack-reused 0
+remote: Enumerating objects: 81, done.        )        rk.gitResolving deltas:  42% (105795/251879)
+remote: Counting objects: 100% (81/81), done.
+remote: Compressing objects: 100% (74/74), done.
+remote: Total 81 (delta 19), reused 28 (delta 5), pack-reused 0
+Resolving deltas: 100% (251879/251879), done.6)        esolving deltas:  65% (163757/251879)
+remote: Enumerating objects: 98, done.        )
+remote: Counting objects: 100% (98/98), done.
+remote: Compressing objects: 100% (74/74), done.
+remote: Total 98 (delta 34), reused 50 (delta 14), pack-reused 0
+Fetching projects:  46% (6/13) buildroot/buildroot.gitremote: Compressing objects:  72% (50467/69476) remote: Enumerating objects: 2382, done.
+remote: Counting objects: 100% (2382/2382), done.
+remote: Enumerating objects: 554, done.
+remote: Counting objects: 100% (554/554), done.
+remote: Compressing objects: 100% (424/424), done.
+remote: Total 554 (delta 102), reused 376 (delta 77), pack-reused 0
+Receiving objects: 100% (554/554), 3.16 MiB | 22.65 MiB/s, done.
+remote: Compressing objects: 100% (1809/1809), done.
+Resolving deltas: 100% (102/102), done.
+remote: Total 2382 (delta 624), reused 1354 (delta 527), pack-reused 0
+Receiving objects: 100% (2382/2382), 3.23 MiB | 12.34 MiB/s, done.
+Resolving deltas: 100% (624/624), done.
+Fetching projects:  61% (8/13) OP-TEE/optee_os.gitremote: Compressing objects:  92% (63918/69476)     remote: Enumerating objects: 4, done.        6)
+remote: Counting objects: 100% (4/4), done.
+remote: Compressing objects: 100% (3/3), done.
+remote: Total 19 (delta 0), reused 2 (delta 0), pack-reused 15
+Fetching projects:  69% (9/13) linaro-swg/soc_term.gitremote: Compressing objects:  94% (65308/69476) remote: Enumerating objects: 6435, done.
+remote: Compressing objects: 100% (69476/69476), done.
+remote: Counting objects: 100% (6435/6435), done.
+remote: Enumerating objects: 3061, done.
+remote: Counting objects: 100% (3061/3061), done.
+remote: Compressing objects: 100% (2664/2664), done.        mpressing objects:  32% (853/2664)
+remote: Total 3061 (delta 618), reused 1127 (delta 174), pack-reused 0
+Receiving objects: 100% (3061/3061), 4.17 MiB | 15.89 MiB/s, done.
+Resolving deltas: 100% (618/618), done..33 MiB | 14.60 MiB/s
+Fetching projects:  84% (11/13) TF-A/trusted-firmware-a.gitremote: Compressing objects:  59% (3505/586remote: Compressing objects: 100% (5862/5862), done.        /s
+remote: Total 6435 (delta 850), reused 2407 (delta 443), pack-reused 0
+Receiving objects: 100% (6435/6435), 17.53 MiB | 9.36 MiB/s, done.
+Resolving deltas: 100% (850/850), done.
+Fetching projects:  92% (12/13) qemu/qemu.gitReceiving objects:  39% (29397/74386), 46.33 MiB | 10.29 remote: Total 74386 (delta 6219), reused 23125 (delta 4128), pack-reused 0
+Receiving objects: 100% (74386/74386), 195.83 MiB | 8.05 MiB/s, done.
+Resolving deltas: 100% (6219/6219), done.
+Fetching projects: 100% (13/13), done.
+Updating files: 100% (15361/15361), done.oot/buildroot.gitUpdating files:  63% (9680/15361)
+Updating files: 100% (70014/70014), done.ore/edk2.gitUpdating files:  27% (19547/70014)
+Checking out projects: 100% (13/13), done.
+repo sync has finished successfully.
+xzl@granger1[optee-qemuv8]$
+xzl@granger1[optee-qemuv8]$ ls
+build      edk2   mbedtls          optee_client    optee_os    qemu      trusted-firmware-a
+buildroot  linux  optee_benchmark  optee_examples  optee_test  soc_term
+</code></pre>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs"], "search": "../assets/javascripts/workers/search.e5c33ebb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.51d95adb.min.js"></script>
+      
+    
+  </body>
+</html>
