@@ -1,0 +1,944 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      
+        <link rel="next" href="../helloworld/">
+      
+      <link rel="icon" href="../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.6">
+    
+    
+      
+        <title>quickstart - p3-tee</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.558e4712.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.2505c338.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="orange" data-md-color-accent="orange">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#quickstart-optee" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="p3-tee" class="md-header__button md-logo" aria-label="p3-tee" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 89 89">
+  <path d="M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z" />
+  <path d="M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z" style="fill-opacity: 0.5" />
+  <path d="M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z" />
+  <path d="M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z" style="fill-opacity: 0.25" />
+</svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            p3-tee
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              quickstart
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+    
+  
+
+
+  <li class="md-tabs__item">
+    <a href="./" class="md-tabs__link md-tabs__link--active">
+      quickstart
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../helloworld/" class="md-tabs__link">
+      app samples
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../secure-vision/" class="md-tabs__link">
+      task
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../issues/" class="md-tabs__link">
+      troubleshoot
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../porting/" class="md-tabs__link">
+      /porting
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../cleanup/" class="md-tabs__link">
+      /cleanup
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../sod/" class="md-tabs__link">
+      /lib
+    </a>
+  </li>
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="p3-tee" class="md-nav__button md-logo" aria-label="p3-tee" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 89 89">
+  <path d="M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z" />
+  <path d="M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z" style="fill-opacity: 0.5" />
+  <path d="M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z" />
+  <path d="M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z" style="fill-opacity: 0.25" />
+</svg>
+
+    </a>
+    p3-tee
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          quickstart
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        quickstart
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#source-code-overview" class="md-nav__link">
+    Source code overview
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setup-steps" class="md-nav__link">
+    Setup steps
+  </a>
+  
+    <nav class="md-nav" aria-label="Setup steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-prep-personal-machine" class="md-nav__link">
+    Step 1: Prep personal machine
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 1: Prep personal machine">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install-software" class="md-nav__link">
+    Install Software
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-build-op-tee-for-qemu" class="md-nav__link">
+    Step 2: build OP-TEE for QEMU
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-run-optee" class="md-nav__link">
+    Step 3: run OPTEE
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#if-you-cannot-get-local-x-server-to-work" class="md-nav__link">
+    If you cannot get local X server to work
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-sample-apps" class="md-nav__link">
+    Run sample apps
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#modify-run-sample-apps" class="md-nav__link">
+    Modify &amp; run sample apps
+  </a>
+  
+    <nav class="md-nav" aria-label="Modify &amp; run sample apps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-change-the-ca-the-normal-world" class="md-nav__link">
+    1. Change the CA (the normal world):
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-change-the-ta-the-secure-world" class="md-nav__link">
+    2. Change the TA (the secure world)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pro-tips-share-files-with-qemu-no-reboot-needed" class="md-nav__link">
+    Pro tips: share files with QEMU, no reboot needed
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../helloworld/" class="md-nav__link">
+        app samples
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../secure-vision/" class="md-nav__link">
+        task
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../issues/" class="md-nav__link">
+        troubleshoot
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../porting/" class="md-nav__link">
+        /porting
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cleanup/" class="md-nav__link">
+        /cleanup
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sod/" class="md-nav__link">
+        /lib
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#source-code-overview" class="md-nav__link">
+    Source code overview
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#setup-steps" class="md-nav__link">
+    Setup steps
+  </a>
+  
+    <nav class="md-nav" aria-label="Setup steps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-prep-personal-machine" class="md-nav__link">
+    Step 1: Prep personal machine
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 1: Prep personal machine">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install-software" class="md-nav__link">
+    Install Software
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-build-op-tee-for-qemu" class="md-nav__link">
+    Step 2: build OP-TEE for QEMU
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-run-optee" class="md-nav__link">
+    Step 3: run OPTEE
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#if-you-cannot-get-local-x-server-to-work" class="md-nav__link">
+    If you cannot get local X server to work
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-sample-apps" class="md-nav__link">
+    Run sample apps
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#modify-run-sample-apps" class="md-nav__link">
+    Modify &amp; run sample apps
+  </a>
+  
+    <nav class="md-nav" aria-label="Modify &amp; run sample apps">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-change-the-ca-the-normal-world" class="md-nav__link">
+    1. Change the CA (the normal world):
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-change-the-ta-the-secure-world" class="md-nav__link">
+    2. Change the TA (the secure world)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pro-tips-share-files-with-qemu-no-reboot-needed" class="md-nav__link">
+    Pro tips: share files with QEMU, no reboot needed
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="quickstart-optee">Quickstart: OPTEE</h1>
+<p>This project can be completed on: </p>
+<ul>
+<li><strong>(recommended)</strong>: CS servers running QEMU emulation; or </li>
+<li>(adventurous): your own Linux/Windows machine running QEMU emulation; or</li>
+<li>(adventurous): real rpi3 hardware. </li>
+</ul>
+<p>This article describes the <strong>recommended route</strong>: use a personal machine connected to course servers; build everything on servers; the servers run QEMU which emulates the TrustZone hardware. For adv routes, see docs/archived/ and <a href="../quickstart-rpi3/">here</a>. </p>
+<p><strong>NOTE: QEMU from p1 cannot be used.</strong></p>
+<h2 id="source-code-overview">Source code overview</h2>
+<p>OPTEE is a complex project with a myriad of components, including QEMU, a normal world daemon, trustlets (TAs), etc. The sources of all these components are organized in a directory with the following structure. </p>
+<pre><code>($optee ROOT)
+├── build (this is where we execute the build command)
+    ├── shared_folder/ (will be shared with the QEMU)
+    ├── (other artifacts)
+├── buildroot
+├── edk2 (a firmware SDK)
+├── linux
+├── mbedtls
+├── optee_benchmark
+├── optee_client
+├── optee_examples
+├── optee_os
+├── optee_test
+├── out
+├── out-br (the build outcome)
+├── qemu (a qemu version with TrustZone support)
+├── soc_term
+├── toolchains
+└── trusted-firmware-a
+</code></pre>
+<p>The build process is complex. It is managed by numerous Makefiles in a hierarchy; it also builds for various Arm boards and QEMU (called "targets''). To automate the build process, there is a dedicated component called <code>build</code> (see above), which has its own git repository. </p>
+<h2 id="setup-steps">Setup steps</h2>
+<h3 id="step-1-prep-personal-machine">Step 1: Prep personal machine</h3>
+<p>Your local machine may run Windows, Mac, or Linux. </p>
+<p>"owner" == you have a local machine with admin access</p>
+<p>"unsupported" == it may work; but the course staff cannot provide support</p>
+<h4 id="install-software">Install Software</h4>
+<ul>
+<li>Win owner: Install WSL2 <a href="https://docs.google.com/document/d/1EseVrjfDBpFcz5_TETV7HQXRptpMQO6MJoI2Qq7vB2E/edit?usp=sharing">instructions</a>; the Linux version for WSL can be Ubuntu &gt;= 20.04. Also see <a href="https://docs.google.com/document/d/1MVOJzVWuJeYznnzXg1C6Pe6bLi1KlmXik2FiPB1mKlE/edit?usp=sharing">instructions</a>. <strong>Warning</strong>: you must use WSL terminals, not "cmd" or "Powershell" as you have have been doing before. </li>
+<li>Mac owner: Install &amp; configure X server. <a href="https://docs.google.com/document/d/1MVOJzVWuJeYznnzXg1C6Pe6bLi1KlmXik2FiPB1mKlE/edit?usp=sharing">instructions</a></li>
+<li>Linux owner: make sure you have a local X desktop. </li>
+</ul>
+<h3 id="step-2-build-op-tee-for-qemu">Step 2: build OP-TEE for QEMU</h3>
+<p><strong>NOTE: QEMU from p1 cannot be used.</strong></p>
+<p>We will pull code to ~/optee-qemuv8, so make sure there is no pre-existing directory with the same name. </p>
+<ol>
+<li><strong>Grab the source code.</strong> From granger1 or granger2, run</li>
+</ol>
+<p><code>/cs4414-shared/optee-qemuv8/student-pull-dir.sh</code></p>
+<p><strong>Check:</strong> If everything works fine, it will create ~/optee-qemuv8 with the <a href="../student-dir-files.txt">following contents</a>.</p>
+<p>Explanation: most of the software stack (toolchains, secure firmware, the Linux kernel...) are prebuilt and placed under /cs4414-shared/optee-qemuv8 which you just use as symbolic links. You will modify your own copy of OPTEE and the OS root filesystem (rootfs), via a framework called buildroot. </p>
+<ol>
+<li><strong>Load build commands.</strong> </li>
+</ol>
+<pre><code>cd ~/optee-qemuv8/
+source env.sh
+</code></pre>
+<p>Explanation: env.sh conveniently defines makefile commands as shell functions, which you can invoke from command line. </p>
+<ol>
+<li><strong>Build OPTEE for QEMU ARMv8</strong>: </li>
+</ol>
+<pre><code>p3-buildroot
+</code></pre>
+<p>Explanation: under the hood (see env.sh), the above command runs: </p>
+<pre><code>make buildroot QEMU_VIRTFS_ENABLE=y CFG_SECURE_DATA_PATH=y CFG_TEE_RAM_VA_SIZE=0x00300000 -j`nproc`
+</code></pre>
+<p>QEMU_VIRTFS_ENABLE allows QEMU and the host (e.g. granger1) to share files; CFG_SECURE_DATA_PATH builds in the support for data copy between two worlds; CFG_TEE_RAM_VA_SIZE sets the virtual address range for TEE; -j<code>nproc</code> asks to use all cores for making. <code>buildroot</code> is a Makefile target for building the whole root filesystem (rootfs). </p>
+<p>If you want to clean up existing build, do <code>p3-buildroot-clean</code></p>
+<ol>
+<li><strong>Verify build artifacts</strong>. Check: if everything builds ok, the rootfs image (rootfs.cpio.gz) must exists, and with a recent timestamp:</li>
+</ol>
+<pre><code># cd ~/optee-qemuv8
+$ ls -lh out-br/images/rootfs.cpio.gz
+-rw-r--r-- 1 cs6456ta cs6456ta 7.5M Jan 21 12:59 out-br/images/rootfs.cpio.gz
+</code></pre>
+<h3 id="step-3-run-optee">Step 3: run OPTEE</h3>
+<pre><code class="language-sh">p3-run
+</code></pre>
+<p>Explanation: it will invoke the following command: </p>
+<pre><code>make run-only QEMU_VIRTFS_ENABLE=y QEMU_VIRTFS_HOST_DIR=`readlink -f shared_folder`
+</code></pre>
+<p>QEMU_VIRTFS_HOST_DIR means the emulated OS and the host (e.g. granger1/2) will share a directory. This eases exchanging files between the emulated OS and host. </p>
+<p>On the server, you should see QEMU run without errors. On your local machine, you should see two terminal windows pop up. We will refer to them as "normal world console" and "secure world console".</p>
+<p><strong>Windows (WSL2):</strong> </p>
+<p><img alt="" src="../wsl-xterm.png" /></p>
+<p><strong>Mac:</strong> </p>
+<p><img alt="img" src="../4-_pohrywkT4meL6-tUb4Wu7ynU1qFBQGLbQ7elcD801GejotXQIbnti6wfDjqiaKAVirY6R4tPA9wyiTQYgwaGwUgiias8VRDUY4TDYn9YdrAOrn5KLWpR8yLAmqTX4zwRjudu6rh0Ax7M7WdxBAyk.png" /></p>
+<p>Start the emulation: typing <code>c</code> in the QEMU console (see the screenshot above, near the bottom). </p>
+<p>From the normal world console, login Linux. Username "root", no password. </p>
+<p>In case of errors, see <a href="../issues/">troubleshooting</a>.</p>
+<h3 id="if-you-cannot-get-local-x-server-to-work">If you cannot get local X server to work</h3>
+<p>If in a pinch, you may run nc on server. See <a href="../quickstart-nc/">quickstart-nc.md</a>. Warning: much more rudimentary than X servers.</p>
+<h2 id="run-sample-apps">Run sample apps</h2>
+<p>Once the above is done, verify that OPTEE's normal-world daemon (<code>tee_supplicant</code>) is already started automatically as a service. Check: </p>
+<pre><code class="language-bash"># In the normal world console: 
+$ ps aux|grep supplicant
+ 190 tee      /usr/sbin/tee-supplicant -d /dev/teepriv0
+</code></pre>
+<p>Next, try OPTEE's test suite (<code>xtest</code>), which should have been built in the rootfs image (rootfs.cpio.gz): </p>
+<pre><code class="language-bash"># In the normal world console: 
+$ which xtest
+/usr/bin/xtest
+$ xtest
+(output...)
+</code></pre>
+<p>For more options for <code>xtest</code>, see its <a href="https://optee.readthedocs.io/en/latest/building/gits/optee_test.html#optee-test-run-xtest">reference</a></p>
+<p>Now, try examples for OPTEE, e.g. </p>
+<pre><code class="language-bash">#  In the normal world console: 
+$ optee_example_hello_world
+Invoking TA to increment 42
+TA incremented value to 43
+</code></pre>
+<p>Reference: <a href="https://optee.readthedocs.io/en/latest/building/gits/build.html#root-fs">Official build instructions</a></p>
+<h2 id="modify-run-sample-apps">Modify &amp; run sample apps</h2>
+<p>Next, test the development workflow: modify an app source, rebuild rootfs, &amp; run the whole system with our modification. </p>
+<p>We will leverage an existing OPTEE example program ("helloworld"): modify its sources, rebuild the entire rootfs, and relaunch QEMU. Here's its code: </p>
+<pre><code class="language-bash">$ tree ./optee_examples/hello_world/
+hello_world/
+├── Android.mk
+├── CMakeLists.txt
+├── host (the normal world)
+│   ├── main.c
+│   └── Makefile
+├── Makefile
+└── ta (the secure world)
+    ├── Android.mk
+    ├── hello_world_ta.c
+    ├── include
+    │   └── hello_world_ta.h
+    ├── Makefile
+    ├── sub.mk
+    └── user_ta_header_defines.h
+3 directories, 11 files
+
+</code></pre>
+<h4 id="1-change-the-ca-the-normal-world">1. Change the CA (the normal world):</h4>
+<p>Make trivial changes to the app source: ./optee_examples/hello_world/host/main.c</p>
+<pre><code class="language-c">@@ -82,7 +82,7 @@ int main(void)
+         * TA_HELLO_WORLD_CMD_INC_VALUE is the actual function in the TA to be
+         * called.
+         */
+-       printf(&quot;Invoking TA to increment %d\n&quot;, op.params[0].value.a);
++       printf(&quot;hello! ... Invoking TA to increment %d\n&quot;, op.params[0].value.a);
++       
+</code></pre>
+<p>Then rebuild helloworld (included in rootfs): </p>
+<pre><code class="language-bash">p3-buildroot
+</code></pre>
+<p>Check the output: <code>./out-br/target/usr/bin/optee_example_hello_world</code>. Does the file have a recent timestamp? </p>
+<p>Restart QEMU and invoke the CA from within QEMU, see if our modification is effective: </p>
+<pre><code class="language-bash"># (in the normal world console)
+$ optee_example_hello_world
+hello! ... Invoking TA to increment 42
+TA incremented value to 43
+</code></pre>
+<h4 id="2-change-the-ta-the-secure-world">2. Change the TA (the secure world)</h4>
+<p>Source location: <code>./optee_examples/hello_world/ta/hello_world_ta.c</code> </p>
+<p>Do some trivial changes: </p>
+<pre><code class="language-c">@@ -108,7 +108,8 @@ static TEE_Result inc_value(uint32_t param_types,
+                return TEE_ERROR_BAD_PARAMETERS;
+
+        IMSG(&quot;Got value: %u from NW&quot;, params[0].value.a);
+-       params[0].value.a++;
++       params[0].value.a+=2;
+        IMSG(&quot;Increase value to: %u&quot;, params[0].value.a);
+</code></pre>
+<p>Build: </p>
+<pre><code class="language-bash">p3-buildroot
+</code></pre>
+<p>Check the build outcome: </p>
+<pre><code class="language-bash"># on dev machine
+$ ls -lh out-br/target/lib/optee_armtz/8aaaf200-2450-11e4-abe2-0002a5d5c51b.ta
+-r--r--r-- 1 xzl xzl 55K Jul 10 09:56 out-br/target/lib/optee_armtz/8aaaf200-2450-11e4-abe2-0002a5d5c51b.ta
+
+$ md5sum out-br/target/lib/optee_armtz/8aaaf200-2450-11e4-abe2-0002a5d5c51b.ta
+669e219e7381c842d80f3ba68db9368f  out-br/target/lib/optee_armtz/8aaaf200-2450-11e4-abe2-0002a5d5c51b.ta
+</code></pre>
+<p>Why the magical filename? This is because each TA is named after a unique UUID. In this example, it is defined in <code>hello_world_ta.h</code>. The build script will pick the UUID up and name the output binary after it. </p>
+<p>Restart QEMU, and check if the newly build TA is included into our rootfs: </p>
+<pre><code class="language-bash"># (In the normal world console): 
+$ md5sum /lib/optee_armtz/8aaaf200-2450-11e4-abe2-0002a5d5c51b.ta
+669e219e7381c842d80f3ba68db9368f
+</code></pre>
+<p>The md5sum (669e2...) matches what we saw above. </p>
+<p>Now run helloworld again: </p>
+<pre><code class="language-bash"># (in the normal world console)
+$ optee_example_hello_world
+hello! ... Invoking TA to increment 42
+TA incremented value to 44
+</code></pre>
+<p>The value is incremented by 2 -- our modification to TA works!</p>
+<h3 id="pro-tips-share-files-with-qemu-no-reboot-needed">Pro tips: share files with QEMU, no reboot needed</h3>
+<p>With the above method, you will soon find it tedious to restart QEMU every time we change TA/CA sources. The solution is to share the TA/CA build outcome via a folder shared with the QEMU guest.</p>
+<p>No extra step is needed. After QEMU is launched, Linux mounts the shared folder in QEMU guest system automatically. To verify: </p>
+<pre><code class="language-bash"># in normal world console
+$ mount -a 
+...
+host on /root/shared type 9p (rw,sync,dirsync,relatime,access-client,trans=virtio)
+</code></pre>
+<p><strong>Explanation:</strong> automatic mount is done by the following line in <code>/etc/fstab</code></p>
+<pre><code class="language-bash"># in normal world console
+$ cat /etc/fstab | tail -n 1
+host    /root/shared 9p trans=virtio 0 0
+</code></pre>
+<p><strong>1. To rebuild a CA:</strong> Every time we rebuild a CA (see the command above <code>make buildroot...</code>), copy its binary to the shared directory: </p>
+<pre><code class="language-bash">$ cp ./out-br/target/usr/bin/optee_example_hello_world build/shared_folder/
+</code></pre>
+<p><strong>2. To rebuilt a TA:</strong> If we rebuild a TA, first copy TAs to the shared directory (similar to above); then in the normal world console, copy the TAs to the guest's <code>/lib</code> where OPTEE's daemon will look for TAs: </p>
+<pre><code class="language-sh"># (in the normal world console) 
+$ cd shared &amp;&amp; cp *.ta /lib/optee_armtz/
+</code></pre>
+<p>Consider writing a script to automate the above workflow. </p>
+<h3 id="_1"><!--Choice 3: Rpi3 - copying files over SSH--></h3>
+<!--If we are running Rpi3, we copy over CA/TA over SSH connection. [This article](https://github.com/piachristel/open-source-fabric-optee-chaincode/blob/master/documentation/chaincode-and-chaincode-proxy-rapi.md) explains how to quickly configure an SSH server on Rpi3.-->
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs"], "search": "../assets/javascripts/workers/search.e5c33ebb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.51d95adb.min.js"></script>
+      
+    
+  </body>
+</html>

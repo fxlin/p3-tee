@@ -1,0 +1,814 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../quickstart/">
+      
+      
+        <link rel="next" href="../secure-vision/">
+      
+      <link rel="icon" href="../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.6">
+    
+    
+      
+        <title>app samples - p3-tee</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.558e4712.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.2505c338.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="orange" data-md-color-accent="orange">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#sample-app-code-walkthrough" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="p3-tee" class="md-header__button md-logo" aria-label="p3-tee" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 89 89">
+  <path d="M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z" />
+  <path d="M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z" style="fill-opacity: 0.5" />
+  <path d="M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z" />
+  <path d="M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z" style="fill-opacity: 0.25" />
+</svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            p3-tee
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              app samples
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../quickstart/" class="md-tabs__link">
+      quickstart
+    </a>
+  </li>
+
+      
+        
+  
+  
+    
+  
+
+
+  <li class="md-tabs__item">
+    <a href="./" class="md-tabs__link md-tabs__link--active">
+      app samples
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../secure-vision/" class="md-tabs__link">
+      task
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../issues/" class="md-tabs__link">
+      troubleshoot
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../porting/" class="md-tabs__link">
+      /porting
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../cleanup/" class="md-tabs__link">
+      /cleanup
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../sod/" class="md-tabs__link">
+      /lib
+    </a>
+  </li>
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="p3-tee" class="md-nav__button md-logo" aria-label="p3-tee" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 89 89">
+  <path d="M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z" />
+  <path d="M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z" style="fill-opacity: 0.5" />
+  <path d="M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z" />
+  <path d="M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z" style="fill-opacity: 0.25" />
+</svg>
+
+    </a>
+    p3-tee
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quickstart/" class="md-nav__link">
+        quickstart
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          app samples
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        app samples
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objective" class="md-nav__link">
+    Objective
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisite" class="md-nav__link">
+    Prerequisite
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#app-1-helloworld" class="md-nav__link">
+    App 1: Helloworld
+  </a>
+  
+    <nav class="md-nav" aria-label="App 1: Helloworld">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-cata-interaction" class="md-nav__link">
+    The CA/TA interaction
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-ca-host-source" class="md-nav__link">
+    The CA (host) source
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-ta-source" class="md-nav__link">
+    The TA source
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compile-run" class="md-nav__link">
+    Compile &amp; run
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#app-2-secure-data-path-sdp-basic" class="md-nav__link">
+    App 2: Secure data path (sdp) basic
+  </a>
+  
+    <nav class="md-nav" aria-label="App 2: Secure data path (sdp) basic">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-ta-code" class="md-nav__link">
+    The TA code
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-ca-code" class="md-nav__link">
+    The CA code
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compile-run_1" class="md-nav__link">
+    Compile &amp; run
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../secure-vision/" class="md-nav__link">
+        task
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../issues/" class="md-nav__link">
+        troubleshoot
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../porting/" class="md-nav__link">
+        /porting
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cleanup/" class="md-nav__link">
+        /cleanup
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sod/" class="md-nav__link">
+        /lib
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#objective" class="md-nav__link">
+    Objective
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisite" class="md-nav__link">
+    Prerequisite
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#app-1-helloworld" class="md-nav__link">
+    App 1: Helloworld
+  </a>
+  
+    <nav class="md-nav" aria-label="App 1: Helloworld">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-cata-interaction" class="md-nav__link">
+    The CA/TA interaction
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-ca-host-source" class="md-nav__link">
+    The CA (host) source
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-ta-source" class="md-nav__link">
+    The TA source
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compile-run" class="md-nav__link">
+    Compile &amp; run
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#app-2-secure-data-path-sdp-basic" class="md-nav__link">
+    App 2: Secure data path (sdp) basic
+  </a>
+  
+    <nav class="md-nav" aria-label="App 2: Secure data path (sdp) basic">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#the-ta-code" class="md-nav__link">
+    The TA code
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-ca-code" class="md-nav__link">
+    The CA code
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compile-run_1" class="md-nav__link">
+    Compile &amp; run
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="sample-app-code-walkthrough">Sample app code walkthrough</h1>
+<h2 id="objective">Objective</h2>
+<p>We will walk through the source of two minimalist OPTEE apps. </p>
+<h2 id="prerequisite">Prerequisite</h2>
+<p>Having completed the <a href="../quickstart/">quickstart</a>. </p>
+<h2 id="app-1-helloworld">App 1: Helloworld</h2>
+<p>What it does: the TA takes an integer value passed from the CA, increments the value by 1, and passes the value back to the CA. </p>
+<p>The code location is: <code>./optee_examples/hello_world/</code>. The directory structure is as follows: </p>
+<pre><code>hello_world/
+├── Android.mk
+├── CMakeLists.txt
+├── host
+│   ├── main.c
+│   └── Makefile
+├── Makefile
+└── ta
+    ├── Android.mk
+    ├── hello_world_ta.c
+    ├── include
+    │   └── hello_world_ta.h
+    ├── Makefile
+    ├── sub.mk
+    └── user_ta_header_defines.h
+</code></pre>
+<p>For this tutorial, we only care about <code>host/main.c</code> (the client app) and <code>ta/*.[c|h]</code> (the TA). A detailed description of CA/TA source structure is <a href="https://optee.readthedocs.io/en/latest/building/trusted_applications.html">here</a>. </p>
+<h3 id="the-cata-interaction">The CA/TA interaction</h3>
+<p><img alt="" src="../interaction.png" /></p>
+<p>To implement the above interaction, CA/TA must implement a set of functions as shown below: </p>
+<p><img alt="" src="../api.png" /></p>
+<h3 id="the-ca-host-source">The CA (host) source</h3>
+<p>In only ~100 SLoC, the source implements a barebone CA. Corresponding to the figure above: </p>
+<p>First, initialize a TEE context: </p>
+<pre><code class="language-c">int main(void) {
+    /* ... */
+    /* Initialize a context connecting us to the TEE */
+    res = TEEC_InitializeContext(NULL, &amp;ctx);
+</code></pre>
+<hr />
+<p>Then, open a session to the TA: </p>
+<pre><code class="language-c">res = TEEC_OpenSession(&amp;ctx, &amp;sess, &amp;uuid,
+                   TEEC_LOGIN_PUBLIC, NULL, NULL, &amp;err_origin);
+</code></pre>
+<p>Here, <code>uuid</code> is worth explaining. Its value is assigned to be a magic number: </p>
+<pre><code class="language-c">// main.c
+TEEC_UUID uuid = TA_HELLO_WORLD_UUID; 
+// hello_world_ta.h
+#define TA_HELLO_WORLD_UUID \
+    { 0x8aaaf200, 0x2450, 0x11e4, \
+        { 0xab, 0xe2, 0x00, 0x02, 0xa5, 0xd5, 0xc5, 0x1b} }
+</code></pre>
+<p>This magic number uniquely identifies the TA. When we build the TA, the produced TA binary will be named after the UUID (e.g. 8aaaf200-2450-11e4-abe2-0002a5d5c51b.ta), instead of "helloworld.ta". </p>
+<hr />
+<p>Next, prepare parameters for the cross-world call which invokes a TA command: </p>
+<pre><code class="language-c">op.paramTypes = TEEC_PARAM_TYPES(TEEC_VALUE_INOUT, TEEC_NONE,
+                     TEEC_NONE, TEEC_NONE);
+op.params[0].value.a = 42;
+</code></pre>
+<p>A call can carry up to 4 parameters.  We are using the 0th argument only (TEEC_VALUE_INOUT, in/out, as a value). The remaining parameters are unused (TEEC_NONE). </p>
+<hr />
+<p>Invoke the command: </p>
+<pre><code class="language-c">TEEC_InvokeCommand(&amp;sess, TA_HELLO_WORLD_CMD_INC_VALUE, &amp;op,
+                 &amp;err_origin);
+</code></pre>
+<p>Note that <code>TA_HELLO_WORLD_CMD_INC_VALUE</code> is a command ID as agreed by CA/TA. It is defined in <code>hello_world_ta.h</code>. </p>
+<p>Under the hood, this will invoke <code>tee_supplicant</code>, which will go to the OPTEE kernel driver, which will request world switch (EL3), which will take the CPU to the secure world, which will invoke our TA.... and come back. </p>
+<hr />
+<p>After the above function returns, we examine parameter 0, which should have been filled with a value incremented by the TA:</p>
+<pre><code>printf(&quot;TA incremented value to %d\n&quot;, op.params[0].value.a);
+</code></pre>
+<p>Then we are done with cleaning up: </p>
+<pre><code>TEEC_CloseSession(&amp;sess);
+TEEC_FinalizeContext(&amp;ctx);
+</code></pre>
+<p>As simple as that!</p>
+<h3 id="the-ta-source">The TA source</h3>
+<p>Another ~150 SLoC in <code>hello_world_ta.c</code>, which implements a set of callbacks, including: </p>
+<pre><code>TEE_Result TA_CreateEntryPoint(void) {
+    DMSG(&quot;has been called&quot;);
+    return TEE_SUCCESS;
+} 
+void TA_DestroyEntryPoint(void) { 
+    DMSG(&quot;has been called&quot;);
+}
+</code></pre>
+<p>They will be invoked when the CA initializes/finalizes a context (again, check the figure above). DMSG() and IMSG() print debug messages to the secure world console. The visibility of such messages is controlled by TA's build macro <code>CFG_TEE_TA_LOG_LEVEL</code>in their respective Makefiles. </p>
+<p>When the CA opens/closes a session, the following TA functions will be called: </p>
+<pre><code>TEE_Result TA_OpenSessionEntryPoint(...)
+void TA_CloseSessionEntryPoint(...)
+</code></pre>
+<p>In this helloworld TA, they are just placeholders that print some "Hello world" messages, which shall show up on the secure world console. </p>
+<p>When the CA invokes a command, the TA will handle the command with the following "command entry point" function: </p>
+<pre><code>TEE_Result TA_InvokeCommandEntryPoint(...)
+</code></pre>
+<p>This function further dispatches to <code>inc_value()</code> and <code>dec_value()</code>, depending on the command ID passed from the CA. These two functions will update the parameter (<code>params[0].value</code>) in place, which will be made visible to the CA after the command is completed on the normal world side. </p>
+<h3 id="compile-run">Compile &amp; run</h3>
+<p>See the setup guide. </p>
+<h2 id="app-2-secure-data-path-sdp-basic">App 2: Secure data path (sdp) basic</h2>
+<p>Another simple example worth looking at. It showcases how to copy a large chunk of data between normal/secure worlds, as OPTEE does not support passing large data as values in command parameters (for efficiency reason).  </p>
+<h3 id="the-ta-code">The TA code</h3>
+<p>is at ./optee_test/ta/sdp_basic/ta_sdp_basic.c. We focus on  three commands and their callbacks: <code>TA_SDP_BASIC_CMD_INJECT</code>, <code>TA_SDP_BASIC_CMD_TRANSFORM</code>, and <code>TA_SDP_BASIC_CMD_DUMP</code>. Check the source code comments which are informative. </p>
+<blockquote>
+<p>The source code further include some commands for "Pseudo Trusted Application" (PTA) which can be learnt <a href="https://optee.readthedocs.io/en/latest/architecture/trusted_applications.html">here</a>. PTA is meant to be invoked by regular TAs, but not to be directly invoked by CAs in the normal world.</p>
+</blockquote>
+<p><strong>Accessing shared buffer?</strong> To implement the INJECT command, the TA accesses a shared memory buffer passed from the CA. This is only allowed when the TA is compiled with <strong>TA_FLAG_SECURE_DATA_PATH</strong>. Otherwise CA invoking the command will fail with "bad parameter" error (origin = 3, TEE). </p>
+<pre><code class="language-c">//user_ta_header_defines.h
+#define TA_FLAGS            (TA_FLAG_EXEC_DDR|TA_FLAG_SECURE_DATA_PATH) 
+</code></pre>
+<p><a href="https://github.com/OP-TEE/optee_os/issues/4572">Related discussion</a></p>
+<h3 id="the-ca-code">The CA code</h3>
+<p>is at <code>./optee_test/host/xtest/sdp_basic.c</code>, from which you can learn how to prepare data buffer in the normal world to be copied to the secure world. Be aware: the code is part of a large test suite as opposed to a standalone user program. </p>
+<p>The entry function is <code>sdp_basic_runner_cmd_parser()</code> which will be invoked by the main test function in <code>./optee_test/host/xtest/xtest_main.c</code>. </p>
+<h3 id="compile-run_1">Compile &amp; run</h3>
+<p>See the setup guide. Make sure CFG_SECURE_DATA_PATH is set, which should have been taken care by env.sh already. </p>
+<p>Verify sdp functionalities are compiled: </p>
+<pre><code># on QEMU's normal world console
+$ xtest -h |grep &quot;sdp-basic&quot;
+--sdp-basic [opts] Basic Secure Data Path test setup ('-h' for usage)
+</code></pre>
+<p>Run the sdp example by: </p>
+<pre><code>$ xtest --sdp-basic
+# To get help 
+$ xtest --sdp-basic -h
+</code></pre>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs"], "search": "../assets/javascripts/workers/search.e5c33ebb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.51d95adb.min.js"></script>
+      
+    
+  </body>
+</html>

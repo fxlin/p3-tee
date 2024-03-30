@@ -1,0 +1,1233 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../secure-vision/">
+      
+      
+        <link rel="next" href="../porting/">
+      
+      <link rel="icon" href="../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.6">
+    
+    
+      
+        <title>troubleshoot - p3-tee</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.558e4712.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.2505c338.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="orange" data-md-color-accent="orange">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#common-issues" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="p3-tee" class="md-header__button md-logo" aria-label="p3-tee" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 89 89">
+  <path d="M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z" />
+  <path d="M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z" style="fill-opacity: 0.5" />
+  <path d="M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z" />
+  <path d="M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z" style="fill-opacity: 0.25" />
+</svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            p3-tee
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              troubleshoot
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../quickstart/" class="md-tabs__link">
+      quickstart
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../helloworld/" class="md-tabs__link">
+      app samples
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../secure-vision/" class="md-tabs__link">
+      task
+    </a>
+  </li>
+
+      
+        
+  
+  
+    
+  
+
+
+  <li class="md-tabs__item">
+    <a href="./" class="md-tabs__link md-tabs__link--active">
+      troubleshoot
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../porting/" class="md-tabs__link">
+      /porting
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../cleanup/" class="md-tabs__link">
+      /cleanup
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../sod/" class="md-tabs__link">
+      /lib
+    </a>
+  </li>
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="p3-tee" class="md-nav__button md-logo" aria-label="p3-tee" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 89 89">
+  <path d="M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z" />
+  <path d="M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z" style="fill-opacity: 0.5" />
+  <path d="M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z" />
+  <path d="M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z" style="fill-opacity: 0.25" />
+</svg>
+
+    </a>
+    p3-tee
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quickstart/" class="md-nav__link">
+        quickstart
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../helloworld/" class="md-nav__link">
+        app samples
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../secure-vision/" class="md-nav__link">
+        task
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          troubleshoot
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        troubleshoot
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#python-version-mismatch" class="md-nav__link">
+    python version mismatch
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#from-sec-world-error-failed-ffff000-from-origin" class="md-nav__link">
+    (from sec world) Error: ... failed ffff000? from origin ?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ca-eg-xtest-optee_example_hello_world-hangs" class="md-nav__link">
+    CA (e.g xtest, optee_example_hello_world) hangs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#make-run-only-xterm-problems" class="md-nav__link">
+    make run-only... xterm problems
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#address-already-in-use" class="md-nav__link">
+    Address already in use
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#p3-run-hangs-no-xterm-etc" class="md-nav__link">
+    p3-run hangs, no xterm, etc.
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#from-normal-world-optee_example_hello_world-teec_opensession-failed-with-code-0xffff0008-origin-0x3" class="md-nav__link">
+    (from normal world) optee_example_hello_world: TEEC_Opensession failed with code 0xffff0008 origin 0x3
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#qemu-failed-to-launch" class="md-nav__link">
+    (qemu) failed to launch
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#qemu-qemu-system-aarch64-could-not-find-rom-image-bl1bin" class="md-nav__link">
+    (qemu) qemu-system-aarch64: Could not find ROM image 'bl1.bin'
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#qemu-qemu-system-aarch64-failed-to-load-image" class="md-nav__link">
+    (qemu) qemu-system-aarch64: failed to load "Image"
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#regression_1000ctext0x3300-undefined-reference-to-sdp_basic_test" class="md-nav__link">
+    regression_1000.c:(.text+0x3300): undefined reference to `sdp_basic_test'
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-open-session-to-target-test-ta-failed-ffff0008-3-test-failed" class="md-nav__link">
+    Error: open session to target test TA failed ffff0008 3 Test failed!"
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#failure-to-install-dependencies-of-qemu" class="md-nav__link">
+    Failure to install dependencies of QEMU
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#shared_folder-not-found" class="md-nav__link">
+    shared_folder not found
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#include-extra-packages-in-rootfs" class="md-nav__link">
+    Include extra packages in rootfs?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#no-soi-from-sod-secure-world-console" class="md-nav__link">
+    "No SOI" from SOD (secure world console)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tee-failed-to-allocate-ptes" class="md-nav__link">
+    TEE failed to allocate ptes...
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#failed-to-mount-rootfs" class="md-nav__link">
+    Failed to mount rootfs
+  </a>
+  
+    <nav class="md-nav" aria-label="Failed to mount rootfs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#related-dicussion" class="md-nav__link">
+    Related dicussion:
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bash-line-4-build-command-not-found-while-buiding-edk2" class="md-nav__link">
+    "bash: line 4: build: command not found" (while buiding edk2)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#buildroot-external-custom-toolchain-does-not-support-ssp-stack-protection" class="md-nav__link">
+    buildroot: ... external custom toolchain does not support SSP (stack protection)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#other-buildroot-failures" class="md-nav__link">
+    other buildroot failures
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qemu-make-clean-failure" class="md-nav__link">
+    qemu make clean failure
+  </a>
+  
+    <nav class="md-nav" aria-label="qemu make clean failure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#symptom" class="md-nav__link">
+    symptom
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-j20-seems-ignored-for-some-modules-edk2-buildroot" class="md-nav__link">
+    -j20 seems ignored for some modules (edk2, buildroot)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ln-target-uxl6yqtmpoptee-qemuv8buildoutbin-is-not-a-directory-no-such-file-or-directory" class="md-nav__link">
+    ln: target '/u/xl6yq/tmp/optee-qemuv8/build/../out/bin/' is not a directory: No such file or directory
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edk2-error-f002-failed-to-build-module-fileexplorerlibfileexplorerlibinf" class="md-nav__link">
+    edk2:  error F002: Failed to build module .... FileExplorerLib/FileExplorerLib.inf
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#no-symlinks-eg-bl1bin-under-outbin-after-a-full-make" class="md-nav__link">
+    no symlinks (e.g. bl1.bin) under out/bin/ after a full make
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qemu-qemu-system-aarch64-serial-tcplocalhost50324-failed-to-connect-socket-connection-refused" class="md-nav__link">
+    (qemu) qemu-system-aarch64: -serial tcp:localhost:50324: Failed to connect socket: Connection refused
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qemu-qemu-system-aarch64-failed-to-load-rootfscpiogz" class="md-nav__link">
+    (qemu) qemu-system-aarch64: failed to load "rootfs.cpio.gz"
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#buildroot-you-seem-to-have-the-current-working-directory-in-your-ld_library_path-environment-variable-this-doesnt-work" class="md-nav__link">
+    buildroot: "You seem to have the current working directory in your LD_LIBRARY_PATH environment variable. This doesn't work."
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qemu-qemu-system-aarch64-failed-to-load-image_1" class="md-nav__link">
+    (qemu) qemu-system-aarch64: failed to load "Image"
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linux-build-asks-for-configuration" class="md-nav__link">
+    Linux build asks for configuration
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#buildroot-homebfr4xroptee-qemuv8buildtoolchainsaarch64binaarch64-linux-gnu-ldbfd-cannot-find-los_test" class="md-nav__link">
+    buildroot: "/home/bfr4xr/optee-qemuv8/build/../toolchains/aarch64/bin/aarch64-linux-gnu-ld.bfd: cannot find -los_test"
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#make-edk2-clean-python-complains-lack-of-userdict" class="md-nav__link">
+    make edk2-clean: python complains lack of "UserDict"
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#modulenotfounderror-no-module-named-crypto" class="md-nav__link">
+    ModuleNotFoundError: No module named 'Crypto'
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../porting/" class="md-nav__link">
+        /porting
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cleanup/" class="md-nav__link">
+        /cleanup
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sod/" class="md-nav__link">
+        /lib
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#python-version-mismatch" class="md-nav__link">
+    python version mismatch
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#from-sec-world-error-failed-ffff000-from-origin" class="md-nav__link">
+    (from sec world) Error: ... failed ffff000? from origin ?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ca-eg-xtest-optee_example_hello_world-hangs" class="md-nav__link">
+    CA (e.g xtest, optee_example_hello_world) hangs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#make-run-only-xterm-problems" class="md-nav__link">
+    make run-only... xterm problems
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#address-already-in-use" class="md-nav__link">
+    Address already in use
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#p3-run-hangs-no-xterm-etc" class="md-nav__link">
+    p3-run hangs, no xterm, etc.
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#from-normal-world-optee_example_hello_world-teec_opensession-failed-with-code-0xffff0008-origin-0x3" class="md-nav__link">
+    (from normal world) optee_example_hello_world: TEEC_Opensession failed with code 0xffff0008 origin 0x3
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#qemu-failed-to-launch" class="md-nav__link">
+    (qemu) failed to launch
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#qemu-qemu-system-aarch64-could-not-find-rom-image-bl1bin" class="md-nav__link">
+    (qemu) qemu-system-aarch64: Could not find ROM image 'bl1.bin'
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#qemu-qemu-system-aarch64-failed-to-load-image" class="md-nav__link">
+    (qemu) qemu-system-aarch64: failed to load "Image"
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#regression_1000ctext0x3300-undefined-reference-to-sdp_basic_test" class="md-nav__link">
+    regression_1000.c:(.text+0x3300): undefined reference to `sdp_basic_test'
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#error-open-session-to-target-test-ta-failed-ffff0008-3-test-failed" class="md-nav__link">
+    Error: open session to target test TA failed ffff0008 3 Test failed!"
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#failure-to-install-dependencies-of-qemu" class="md-nav__link">
+    Failure to install dependencies of QEMU
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#shared_folder-not-found" class="md-nav__link">
+    shared_folder not found
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#include-extra-packages-in-rootfs" class="md-nav__link">
+    Include extra packages in rootfs?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#no-soi-from-sod-secure-world-console" class="md-nav__link">
+    "No SOI" from SOD (secure world console)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tee-failed-to-allocate-ptes" class="md-nav__link">
+    TEE failed to allocate ptes...
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#failed-to-mount-rootfs" class="md-nav__link">
+    Failed to mount rootfs
+  </a>
+  
+    <nav class="md-nav" aria-label="Failed to mount rootfs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#related-dicussion" class="md-nav__link">
+    Related dicussion:
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bash-line-4-build-command-not-found-while-buiding-edk2" class="md-nav__link">
+    "bash: line 4: build: command not found" (while buiding edk2)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#buildroot-external-custom-toolchain-does-not-support-ssp-stack-protection" class="md-nav__link">
+    buildroot: ... external custom toolchain does not support SSP (stack protection)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#other-buildroot-failures" class="md-nav__link">
+    other buildroot failures
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qemu-make-clean-failure" class="md-nav__link">
+    qemu make clean failure
+  </a>
+  
+    <nav class="md-nav" aria-label="qemu make clean failure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#symptom" class="md-nav__link">
+    symptom
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-j20-seems-ignored-for-some-modules-edk2-buildroot" class="md-nav__link">
+    -j20 seems ignored for some modules (edk2, buildroot)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ln-target-uxl6yqtmpoptee-qemuv8buildoutbin-is-not-a-directory-no-such-file-or-directory" class="md-nav__link">
+    ln: target '/u/xl6yq/tmp/optee-qemuv8/build/../out/bin/' is not a directory: No such file or directory
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#edk2-error-f002-failed-to-build-module-fileexplorerlibfileexplorerlibinf" class="md-nav__link">
+    edk2:  error F002: Failed to build module .... FileExplorerLib/FileExplorerLib.inf
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#no-symlinks-eg-bl1bin-under-outbin-after-a-full-make" class="md-nav__link">
+    no symlinks (e.g. bl1.bin) under out/bin/ after a full make
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qemu-qemu-system-aarch64-serial-tcplocalhost50324-failed-to-connect-socket-connection-refused" class="md-nav__link">
+    (qemu) qemu-system-aarch64: -serial tcp:localhost:50324: Failed to connect socket: Connection refused
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qemu-qemu-system-aarch64-failed-to-load-rootfscpiogz" class="md-nav__link">
+    (qemu) qemu-system-aarch64: failed to load "rootfs.cpio.gz"
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#buildroot-you-seem-to-have-the-current-working-directory-in-your-ld_library_path-environment-variable-this-doesnt-work" class="md-nav__link">
+    buildroot: "You seem to have the current working directory in your LD_LIBRARY_PATH environment variable. This doesn't work."
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qemu-qemu-system-aarch64-failed-to-load-image_1" class="md-nav__link">
+    (qemu) qemu-system-aarch64: failed to load "Image"
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#linux-build-asks-for-configuration" class="md-nav__link">
+    Linux build asks for configuration
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#buildroot-homebfr4xroptee-qemuv8buildtoolchainsaarch64binaarch64-linux-gnu-ldbfd-cannot-find-los_test" class="md-nav__link">
+    buildroot: "/home/bfr4xr/optee-qemuv8/build/../toolchains/aarch64/bin/aarch64-linux-gnu-ld.bfd: cannot find -los_test"
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#make-edk2-clean-python-complains-lack-of-userdict" class="md-nav__link">
+    make edk2-clean: python complains lack of "UserDict"
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#modulenotfounderror-no-module-named-crypto" class="md-nav__link">
+    ModuleNotFoundError: No module named 'Crypto'
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="common-issues">Common issues</h1>
+<h2 id="python-version-mismatch">python version mismatch</h2>
+<p>Jan 2024</p>
+<p>Symptom:</p>
+<pre><code>/sw/ubuntu-22.04/python/3.10.11/bin/python3: /lib/x86_64-linux-gnu/libm.so.6: version `GLIBC_2.35' not found (required by /sw/ubuntu-22.04/python/3.10.11/bin/python3)
+... 
+</code></pre>
+<p>Cause: granger1/2 run Ubuntu 20.04, while python3 for Ubuntu 22.04 (as managed by the ``module'' system, /sw/...) somehow gets invoked. The newer python3 expects GLIBC versions that do not exist on Ubuntu 20.04</p>
+<p>Solution: only use Python3 that comes with Ubuntu20.04. $PATH is clean, not containing anything like "/sw/...". Also unload any python ("module unload python..."). No conda env ("conda deactivate"). This should solve most of the problem. </p>
+<p>FL: some errors were seen in "make buildroot", which I did not fully eliminate. It does not breaking the build.</p>
+<h2 id="from-sec-world-error-failed-ffff000-from-origin">(from sec world) Error: ... failed ffff000? from origin ?</h2>
+<p>The way to debug is to understand the optee error code definition ffff000? and its origin ?. See table below. Also GIYF. You may find the <a href="https://globalplatform.org/wp-content/uploads/2010/07/TEE_Client_API_Specification-V1.0.pdf">doc for developing CA</a> and <a href="https://globalplatform.org/wp-content/uploads/2018/06/GPD_TEE_Internal_Core_API_Specification_v1.1.2.50_PublicReview.pdf">doc for developing TA</a> exceptionally helpful. Search your error code, function name, etc in these two docs.</p>
+<p><img alt="image.png" src="../optee-error-codes.png" /></p>
+<h2 id="ca-eg-xtest-optee_example_hello_world-hangs">CA (e.g xtest, optee_example_hello_world) hangs</h2>
+<p>The secure world console shows "Loading TA ...." then nothing. 
+Is tee-supplicant running? <code>ps aux|grep tee</code>. 
+Manual launch by <code>/usr/sbin/tee-supplicant -d /dev/teepriv0</code> Make sure it is running via ps, then retry the CA. </p>
+<p>sometimes fs init failures seem to block it from launch. if <code>top</code> or <code>ps</code> fail to work, /procfs is likely not working. do <code>mount -a</code> and try again. </p>
+<h2 id="make-run-only-xterm-problems">make run-only... xterm problems</h2>
+<p>/usr/bin/xterm: Xt error Can't open display; DISPLAY is not set etc. 
+Can be strange even if xterm is not being launched. </p>
+<p>Try to comment out <code>$(call check-terminal)</code> in build/qemu_v8.mk</p>
+<h2 id="address-already-in-use">Address already in use</h2>
+<p>When you run qemu (p3-run), the command line <code>-serial tcp:localhost:XXXXX -serial tcp:localhost:XXXXX</code> tells QEMU to listen on two ports for incoming GDB connection. </p>
+<p>THE TWO PORTS MUST BE CHANGED to your choice (e.g. 58888/59999): if multiple students bind to the same ports, all but one will fail. </p>
+<p>Here is our solution. When you run "source env.sh", it (cf: p3-gen-hash-ports) will generate two ports from a hash function of your user ID. The hope is that students will use different ports without collision. </p>
+<pre><code>$ source env.sh
+set ports: normal world: 54198  sec world :54199
+</code></pre>
+<p>The two ports above are just examples. You should have different ports. If for some reasons, the ports are used (by yourself or by another user), qemu will fail to start. </p>
+<p>To debug the issue, check if a port is in use by <code>netstat --all | grep 54198</code> . </p>
+<h2 id="p3-run-hangs-no-xterm-etc">p3-run hangs, no xterm, etc.</h2>
+<p>This is also related to the tcp port issues above. 
+Check if any previous qemu instances hang. e.g. 
+<code>ps aux|grep qemu</code>
+If so, kill them manually. Then retry the command. </p>
+<h2 id="from-normal-world-optee_example_hello_world-teec_opensession-failed-with-code-0xffff0008-origin-0x3">(from normal world) optee_example_hello_world: TEEC_Opensession failed with code 0xffff0008 origin 0x3</h2>
+<p>(from sec world): init_with_ldeff:232 ldelf failed with res: 0xffff0008 &lt;--- meaning item no found</p>
+<p>xtests all failed. </p>
+<p>meanwhile, the tee supplicant log: </p>
+<pre><code>cat /data/tee/teec.log                      
+ERR [190] TSUP:load_ta:284:   TA not found  
+</code></pre>
+<p>Related functions: tee_supplicant.c: TEECI_LoadSecureModule() and try_load_secure_module(). </p>
+<p><strong>Cause</strong>: 
+* Make sure all TAs are in place (/lib/optee_armtz/...)
+* Make sure /lib/optee_armtz/ has right permission (755), allowing user "tee" to access. Otherwise TEE supplicant will fail. (THIS IS THE REASON)</p>
+<pre><code>xl6yq@granger2[optee-qemuv8]$ ll out-br/target/lib |grep optee_armtz
+drwxr-xr-x 2 xl6yq fax   28 Apr  7 22:57 optee_armtz
+</code></pre>
+<p><strong>Solution</strong>
+build/br-ext/package/optee_examples/optee_examples.mk
+add the chmod line</p>
+<pre><code>define OPTEE_EXAMPLES_INSTALL_TAS
+        @$(foreach f,$(wildcard $(@D)/*/ta/out/*.ta), \
+                mkdir -p $(TARGET_DIR)/lib/optee_armtz &amp;&amp; \
+                chmod 755 $(TARGET_DIR)/lib/optee_armtz &amp;&amp; \
+                $(INSTALL) -v -p  --mode=444 \
+                        --target-directory=$(TARGET_DIR)/lib/optee_armtz $f \
+                        &amp;&amp;) true
+endef
+</code></pre>
+<p>Related (but not our cause): https://github.com/mofanv/darknetz/issues/7</p>
+<h2 id="qemu-failed-to-launch">(qemu) failed to launch</h2>
+<p><img alt="image.png" src="../qemu-fail-to-launch.png" />
+have you run the two 'nc' instances? are they still alive?</p>
+<h2 id="qemu-qemu-system-aarch64-could-not-find-rom-image-bl1bin">(qemu) qemu-system-aarch64: Could not find ROM image 'bl1.bin'</h2>
+<p>arm-tf missing. Rebuild it. ``make arm-tf''.</p>
+<h2 id="qemu-qemu-system-aarch64-failed-to-load-image">(qemu) qemu-system-aarch64: failed to load "Image"</h2>
+<p>Kernel missing. </p>
+<h2 id="regression_1000ctext0x3300-undefined-reference-to-sdp_basic_test">regression_1000.c:(.text+0x3300): undefined reference to `sdp_basic_test'</h2>
+<h2 id="error-open-session-to-target-test-ta-failed-ffff0008-3-test-failed">Error: open session to target test TA failed ffff0008 3 Test failed!"</h2>
+<p>missing CFG_SECURE_DATA_PATH=y  in make command</p>
+<h2 id="failure-to-install-dependencies-of-qemu">Failure to install dependencies of QEMU</h2>
+<p>If the installation fails, e.g. due to unmet dependency, it's likely that the source of your apt repository is not properly configured. A common cause is that you have previously installed packages from some third-party apt sources. Remove them from /etc/apt and do <code>apt update</code>. </p>
+<h2 id="shared_folder-not-found">shared_folder not found</h2>
+<p><code>$ make run-only QEMU_VIRTFS_ENABLE=y QEMU_VIRTFS_HOST_DIR=build/shared_folder</code> </p>
+<p>If the above command complains "shared_folder" not found, try passing an absolute path as the last argument</p>
+<h2 id="include-extra-packages-in-rootfs">Include extra packages in rootfs?</h2>
+<pre><code>make buildroot QEMU_VIRTFS_ENABLE=y CFG_SECURE_DATA_PATH=y \
+BR2_PACKAGE_BUSYBOX_SHOW_OTHERS=y \
+CFG_TEE_RAM_VA_SIZE=0x00300000 -j`nproc`
+</code></pre>
+<h2 id="no-soi-from-sod-secure-world-console">"No SOI" from SOD (secure world console)</h2>
+<p>meaning it fails to decode an image as .jpg. Can be benign if the image is not jpg, e.g. PNG.</p>
+<h2 id="tee-failed-to-allocate-ptes">TEE failed to allocate ptes...</h2>
+<p>Secure world: "E/TC:0 alloc_pgt:281 5 page tables not available"</p>
+<p>Cause: insufficient pgt cache for nw/sw shared memory. </p>
+<p>Solution: </p>
+<p>optee_os/core/arch/arm/include/mm.pgt_cache.h</p>
+<p><code>#define PGT_CACHE_SIZE 32</code></p>
+<p>https://github.com/OP-TEE/optee_os/issues/2178#issuecomment-374671101</p>
+<h2 id="failed-to-mount-rootfs">Failed to mount rootfs</h2>
+<p>A recent Linux kernel failed to mount the rootfs which is ext2. Related boot log: </p>
+<pre><code>[    1.304029] uart-pl011 9000000.pl011: no DMA platform data                                                                                                                                            │····································[    1.309704] VFS: Cannot open root device &quot;vda2&quot; or unknown-block(0,0): error -6                                                                                                                       │····································[    1.310024] Please append a correct &quot;root=&quot; boot option; here are the available partitions:                                                                                                           │····································[    1.310863] 1f00           65536 mtdblock0                                                                                                                                                            │····································[    1.310980]  (driver?)                                                                                                                                                                                │····································[    1.311461] Kernel panic - not syncing: VFS: Unable to mount root fs on unknown-block(0,0)                                                                                                            │····································[    1.311933] CPU: 0 PID: 1 Comm: swapper/0 Not tainted 5.16.0-gdbeb6ea978fc #1                                                                                                                         │····································[    1.312256] Hardware name: QEMU QEMU Virtual Machine, BIOS 0.0.0 02/06/2015                                                                                                                           │····································[    1.312730] Call trace:                                                                                                                                                                               │····································[    1.312864]  dump_backtrace+0x0/0x1b0                                                                                                                                                                 │····································[    1.313196]  show_stack+0x18/0x68                                                                                                                                                                     │····································[    1.313358]  dump_stack_lvl+0x68/0x84                                                                                                                                                                 │····································[    1.313523]  dump_stack+0x18/0x34                                                                                                                                                                     │····································[    1.313663]  panic+0x164/0x324                                                                                                                                                                        │····································[    1.313793]  mount_block_root+0x130/0x20c                                                                                                                                                             │····································[    1.313953]  mount_root+0x1e0/0x214                                                                                                                                                                   │····································[    1.314091]  prepare_namespace+0x12c/0x16c                                                                                                                                                            │····································[    1.314340]  kernel_init_freeable+0x250/0x294                                                                                                                                                         │····································[    1.314621]  kernel_init+0x24/0x130                                                                                                                                                                   │····································[    1.314771]  ret_from_fork+0x10/0x20                                                                                                                                                                  │····································[    1.315194] SMP: stopping secondary CPUs                                                                                                                                                              │····································[    1.315679] Kernel Offset: 0x516c3b920000 from 0xffff800010000000                                                                                                                                     │·······························�····[    1.315912] PHYS_OFFSET: 0xffffdb4d00000000                                                                                                                                                           │····································[    1.316085] CPU features: 0x2,200018c2,00000846                                                                                                                                                       │····································[    1.316433] Memory Limit: none                                                                                                                                                                        │····································[    1.976015] ---[ end Kernel panic - not syncing: VFS: Unable to mount root fs on unknown-block(0,0) ]---
+</code></pre>
+<p>Kernel version: dbeb6ea97; 5.16.0</p>
+<p>Strangely, the kernel config contains EXT2/3/4 as it should. No idea what caused the problem. </p>
+<p>Some students reported success when they repack rootfs as ext4</p>
+<p>Note that <code>.repo/manifests/qemu_v8.xml</code> does not specify the release of Linux (as oppposed to other projects)</p>
+<pre><code>...
+&lt;!-- linaro-swg gits --&gt;                                                                                                                         
+&lt;project path=&quot;linux&quot;                name=&quot;linaro-swg/linux.git&quot;                  revision=&quot;optee&quot; clone-depth=&quot;1&quot; /&gt;
+</code></pre>
+<p>So change that to an earlier version: </p>
+<pre><code>&lt;project path=&quot;linux&quot;                name=&quot;linaro-swg/linux.git&quot;                  revision=&quot;refs/tags/optee-3.10.0&quot; clone-depth=&quot;1&quot; /&gt;
+</code></pre>
+<p>Then <code>repo sync ...</code> you should be able to boot Linux fine. </p>
+<h3 id="related-dicussion">Related dicussion:</h3>
+<ul>
+<li>https://piazza.com/class/ky1ydg1ni7fty?cid=192</li>
+<li>https://piazza.com/class/ky1ydg1ni7fty?cid=190</li>
+</ul>
+<h3 id="bash-line-4-build-command-not-found-while-buiding-edk2">"bash: line 4: build: command not found" (while buiding edk2)</h3>
+<p>stale edk2 config. The root cause of almost all edk2 build problems</p>
+<pre><code>make edk2-cleaner
+</code></pre>
+<p>which basically does:</p>
+<pre><code>mv edk2/Conf/BuildEnv.sh edk2/Conf/BuildEnv.sh.old
+make edk2-clean
+</code></pre>
+<h3 id="buildroot-external-custom-toolchain-does-not-support-ssp-stack-protection">buildroot: ... external custom toolchain does not support SSP (stack protection)</h3>
+<p>Toolchain problem. test program for SSP failed to build. make sure toolchains/ are good, e.g. crt0.o must be there. 
+rename or remove toolchains/, then</p>
+<pre><code>make toolchains -j2
+</code></pre>
+<h3 id="other-buildroot-failures">other buildroot failures</h3>
+<p>If it's "host" packages, check versions of server libraries, toolchains, etc. 
+Otherwise check the cross compiler toolchain. </p>
+<h3 id="qemu-make-clean-failure">qemu make clean failure</h3>
+<h4 id="symptom">symptom</h4>
+<pre><code>xl6yq@granger2 (master)[qemu]$ make distclean
+/bin/sh: 1: cd: can't cd to /home/xzl/p3/optee-qemuv8-teachingonly/optee-qemuv8/qemu
+find: ‘/home/xzl/p3/optee-qemuv8-teachingonly/optee-qemuv8/qemu/scripts/tracetool’: No such file or directory
+</code></pre>
+<p>cause: config-host.mak constains stale paths, which causes <code>make distclean</code> to fail. (make distclean is supposed to clean up config-host.mak!)</p>
+<p>solution: </p>
+<pre><code>mv config-host.mak /tmp
+</code></pre>
+<h3 id="-j20-seems-ignored-for-some-modules-edk2-buildroot">-j20 seems ignored for some modules (edk2, buildroot)</h3>
+<p>TBD</p>
+<h3 id="ln-target-uxl6yqtmpoptee-qemuv8buildoutbin-is-not-a-directory-no-such-file-or-directory">ln: target '/u/xl6yq/tmp/optee-qemuv8/build/../out/bin/' is not a directory: No such file or directory</h3>
+<p>likely some targets failed to build (otherwise they will produce symlinks such as bl1.bin etc under out/bin)</p>
+<pre><code>cd build                                                                                        
+make QEMU_VIRTFS_ENABLE=y CFG_SECURE_DATA_PATH=y CFG_TEE_RAM_VA_SIZE=0x00300000 arm-tf -j20     
+make QEMU_VIRTFS_ENABLE=y CFG_SECURE_DATA_PATH=y CFG_TEE_RAM_VA_SIZE=0x00300000 buildroot -j20  
+make QEMU_VIRTFS_ENABLE=y CFG_SECURE_DATA_PATH=y CFG_TEE_RAM_VA_SIZE=0x00300000 linux -j20      
+</code></pre>
+<p>See which target fails and the error messages. </p>
+<h3 id="edk2-error-f002-failed-to-build-module-fileexplorerlibfileexplorerlibinf">edk2:  error F002: Failed to build module .... FileExplorerLib/FileExplorerLib.inf</h3>
+<p>Per the error message, do something like: </p>
+<pre><code>make -C optee-qemuv8/build/../edk2/BaseTools/Source/C
+</code></pre>
+<h3 id="no-symlinks-eg-bl1bin-under-outbin-after-a-full-make">no symlinks (e.g. bl1.bin) under out/bin/ after a full <code>make</code></h3>
+<p>See if this helps: force building the arm-tf target, which is responsible for those links...</p>
+<pre><code>make QEMU_VIRTFS_ENABLE=y CFG_SECURE_DATA_PATH=y CFG_TEE_RAM_VA_SIZE=0x00300000 -j20 arm-tf
+</code></pre>
+<h3 id="qemu-qemu-system-aarch64-serial-tcplocalhost50324-failed-to-connect-socket-connection-refused">(qemu) qemu-system-aarch64: -serial tcp:localhost:50324: Failed to connect socket: Connection refused</h3>
+<p>Make sure two "nc" commands are running. Check the port numbers</p>
+<h3 id="qemu-qemu-system-aarch64-failed-to-load-rootfscpiogz">(qemu) qemu-system-aarch64: failed to load "rootfs.cpio.gz"</h3>
+<p>do you have rootfs.cpio.gz under out-br/images/? If not, <code>make buildroot</code> seems incomplete or fail. Try build it. </p>
+<h3 id="buildroot-you-seem-to-have-the-current-working-directory-in-your-ld_library_path-environment-variable-this-doesnt-work">buildroot: "You seem to have the current working directory in your LD_LIBRARY_PATH environment variable. This doesn't work."</h3>
+<pre><code>export LD_LIBRARY_PATH=
+# make sure nothing
+echo $LD_LIBRARY_PATH
+</code></pre>
+<h3 id="qemu-qemu-system-aarch64-failed-to-load-image_1">(qemu) qemu-system-aarch64: failed to load "Image"</h3>
+<p>Linux kernel missing. Likely not built or linked. See out/bin/Image. If missing, force build:</p>
+<pre><code>make QEMU_VIRTFS_ENABLE=y CFG_SECURE_DATA_PATH=y CFG_TEE_RAM_VA_SIZE=0x00300000 -j20 linux
+</code></pre>
+<h3 id="linux-build-asks-for-configuration">Linux build asks for configuration</h3>
+<p>Simply accept all default ones. </p>
+<h3 id="buildroot-homebfr4xroptee-qemuv8buildtoolchainsaarch64binaarch64-linux-gnu-ldbfd-cannot-find-los_test">buildroot: "/home/bfr4xr/optee-qemuv8/build/../toolchains/aarch64/bin/aarch64-linux-gnu-ld.bfd: cannot find -los_test"</h3>
+<p>Need a dirty hack: </p>
+<pre><code class="language-bash">cd out-br/build/optee_test-1.0/ta
+ln -sf os_test_lib 0os_test_lib
+</code></pre>
+<p>Then <code>make buildroot...</code></p>
+<p>Explanation: optee_test-1.0 has a bunch of CAs/TAs, including os_test, which depends on os_test_lib. 
+For a reson that is beyond me, the dependency is not encoded in the build system. Instead, it seems to count on luck that shell enumerates 
+os_test_lib before os_test and builds the former first. 
+Apparently, on a shell that enumerates os_test before os_test_lib, the build will fail. 
+Solution: force the shell to discover os_test_lib first...</p>
+<p>TBD: fix this permanently</p>
+<h3 id="make-edk2-clean-python-complains-lack-of-userdict">make edk2-clean: python complains lack of "UserDict"</h3>
+<p>It is a Python2 thing. Some edk2 library expects python2. Make sure you have it. It is ok that the default python is python3.</p>
+<h2 id="modulenotfounderror-no-module-named-crypto">ModuleNotFoundError: No module named 'Crypto'</h2>
+<p>It's a python script complaining you don't have Crypto. To see if that's the case, do 
+<code>python -c "import Crypto"</code>
+There shouldn't be any error. Solution: 
+<code>sudo apt get install python-is-python3</code>; then <code>sudo apt get install python3-pycrypto</code> to install Crypto for python3; lastly <code>sudo apt install python-crypto</code> to install it for python2. All needs to be done with <code>root</code>.</p>
+<p>(FL: Above may need update)</p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs"], "search": "../assets/javascripts/workers/search.e5c33ebb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.51d95adb.min.js"></script>
+      
+    
+  </body>
+</html>
