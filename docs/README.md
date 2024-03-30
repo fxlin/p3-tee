@@ -1,8 +1,8 @@
 # Trusted Execution Environment (TEE)
 
-**Code: https://github.com/fxlin/p3-tee** As well as the tarball that TA will distribute.
+**Code: https://github.com/fxlin/p3-tee** 
 
-**This project is to be completed on: server granger1/2 (recommended), your own Linux (recommended), your own WSL (recommended), or Rpi3**
+As well as any code that TA may distribute.
 
 In this project, we will experience with Arm's TEE - TrustZone. 
 
@@ -34,19 +34,4 @@ Instead of writing baremetal TEE code, we will write our TEE code running atop a
 **Host & guest** The lingo of OPTEE source refers the normal world app as "host". Be aware though: in the context of virtual machines, the PC/server where we hack & develop OPTEE code is "host" and QEMU is a "guest". We will be explicit in differentiating them. 
 
 ![](arch.png)
-
-## Assignment weights
-
-| Exp  | Weights |
-| ---- | ------- |
-| 1 TEE basics | 10     |
-| 2 helloworld | 10     |
-| 3 data path | 10     |
-| 4 secure vision -- alpha | 15    |
-| 5 secure vision -- beta | 15    |
-
-If exp4 and exp5 are combined, they will weight 30 in total.
-
-The weights are relative and may not necessarily add up to 100. 
-
 

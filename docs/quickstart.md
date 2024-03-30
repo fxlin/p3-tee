@@ -8,6 +8,8 @@ This project can be completed on:
 
 This article describes the **recommended route**: use a personal machine connected to course servers; build everything on servers; the servers run QEMU which emulates the TrustZone hardware. For adv routes, see docs/archived/ and [here](quickstart-rpi3.md). 
 
+**NOTE: QEMU from p1 cannot be used.**
+
 ## Source code overview
 
 OPTEE is a complex project with a myriad of components, including QEMU, a normal world daemon, trustlets (TAs), etc. The sources of all these components are organized in a directory with the following structure. 
@@ -48,13 +50,13 @@ Your local machine may run Windows, Mac, or Linux.
 
 #### Install Software 
 
-* Win owner: Install WSL2 [instructions](https://docs.google.com/document/d/1EseVrjfDBpFcz5_TETV7HQXRptpMQO6MJoI2Qq7vB2E/edit?usp=sharing); your Linux version can be Ubuntu >= 20.04. Also [instructions](https://docs.google.com/document/d/1MVOJzVWuJeYznnzXg1C6Pe6bLi1KlmXik2FiPB1mKlE/edit?usp=sharing).
+* Win owner: Install WSL2 [instructions](https://docs.google.com/document/d/1EseVrjfDBpFcz5_TETV7HQXRptpMQO6MJoI2Qq7vB2E/edit?usp=sharing); the Linux version for WSL can be Ubuntu >= 20.04. Also see [instructions](https://docs.google.com/document/d/1MVOJzVWuJeYznnzXg1C6Pe6bLi1KlmXik2FiPB1mKlE/edit?usp=sharing). **Warning**: you must use WSL terminals, not "cmd" or "Powershell" as you have have been doing before. 
 * Mac owner: Install & configure X server. [instructions](https://docs.google.com/document/d/1MVOJzVWuJeYznnzXg1C6Pe6bLi1KlmXik2FiPB1mKlE/edit?usp=sharing)
 * Linux owner: make sure you have a local X desktop. 
 
 ### Step 2: build OP-TEE for QEMU
 
-**NOTE: QEMU from p1 cannot be used for p3.**
+**NOTE: QEMU from p1 cannot be used.**
 
 We will pull code to ~/optee-qemuv8, so make sure there is no pre-existing directory with the same name. 
 
@@ -64,7 +66,7 @@ We will pull code to ~/optee-qemuv8, so make sure there is no pre-existing direc
 /cs4414-shared/optee-qemuv8/student-pull-dir.sh
   ```
 
-  If everything works fine, it will create ~/optee-qemuv8 with the [following contents](student-dir-files.txt).
+**Check:** If everything works fine, it will create ~/optee-qemuv8 with the [following contents](student-dir-files.txt).
 
 Explanation: most of the software stack (toolchains, secure firmware, the Linux kernel...) are prebuilt and placed under /cs4414-shared/optee-qemuv8 which you just use as symbolic links. You will modify your own copy of OPTEE and the OS root filesystem (rootfs), via a framework called buildroot. 
 
@@ -90,9 +92,10 @@ QEMU_VIRTFS_ENABLE allows QEMU and the host (e.g. granger1) to share files; CFG_
 
 If you want to clean up existing build, do `p3-buildroot-clean`
 
-4. **Verify build artifacts**. If everything builds ok, the rootfs image must exists, and with a recent timestamp:
+4. **Verify build artifacts**. Check: if everything builds ok, the rootfs image (rootfs.cpio.gz) must exists, and with a recent timestamp:
 ```
-~/optee-qemuv8$ ls -lh out-br/images/rootfs.cpio.gz
+# cd ~/optee-qemuv8
+$ ls -lh out-br/images/rootfs.cpio.gz
 -rw-r--r-- 1 cs6456ta cs6456ta 7.5M Jan 21 12:59 out-br/images/rootfs.cpio.gz
 ```
 
@@ -108,13 +111,9 @@ Explanation: it will invoke the following command:
 make run-only QEMU_VIRTFS_ENABLE=y QEMU_VIRTFS_HOST_DIR=`readlink -f shared_folder`
 ```
 
-QEMU_VIRTFS_HOST_DIR means the emulated OS and server (e.g. gr1/2) will share a directory. Easy for file exchange. 
+QEMU_VIRTFS_HOST_DIR means the emulated OS and the host (e.g. granger1/2) will share a directory. This eases exchanging files between the emulated OS and host. 
 
-From the server console, you should see QEMU run without errors. Two terminal windows should pop up on your local machine (see the screenshot below). 
-
-Start the emulation: typing `c` in the QEMU console (see the screenshot below, near the bottom). 
-
-In case of errors, see [troubleshooting](issues.md).
+On the server, you should see QEMU run without errors. On your local machine, you should see two terminal windows pop up. We will refer to them as "normal world console" and "secure world console".
 
 **Windows (WSL2):** 
 
@@ -124,20 +123,27 @@ In case of errors, see [troubleshooting](issues.md).
 
 ![img](4-_pohrywkT4meL6-tUb4Wu7ynU1qFBQGLbQ7elcD801GejotXQIbnti6wfDjqiaKAVirY6R4tPA9wyiTQYgwaGwUgiias8VRDUY4TDYn9YdrAOrn5KLWpR8yLAmqTX4zwRjudu6rh0Ax7M7WdxBAyk.png)
 
+Start the emulation: typing `c` in the QEMU console (see the screenshot above, near the bottom). 
+
+From the normal world console, login Linux. Username "root", no password. 
+
+In case of errors, see [troubleshooting](issues.md).
+
 ### If you cannot get local X server to work
 
-If in a pinch, you may run nc on server. See [quickstart-nc.md](quickstart-nc.md).
+If in a pinch, you may run nc on server. See [quickstart-nc.md](quickstart-nc.md). Warning: much more rudimentary than X servers.
 
 ## Run sample apps
 
-Verify that OPTEE's normal-world daemon (`tee_supplicant`) is already started automatically as a service.
+Once the above is done, verify that OPTEE's normal-world daemon (`tee_supplicant`) is already started automatically as a service. Check: 
+
 ```bash
 # In the normal world console: 
 $ ps aux|grep supplicant
  190 tee      /usr/sbin/tee-supplicant -d /dev/teepriv0
 ```
 
-Run OPTEE's test suite (`xtest`), which should have already been baked in the rootfs image in the build process: 
+Next, try OPTEE's test suite (`xtest`), which should have been built in the rootfs image (rootfs.cpio.gz): 
 
 ```bash
 # In the normal world console: 
@@ -148,7 +154,7 @@ $ xtest
 ```
 For more options for `xtest`, see its [reference](https://optee.readthedocs.io/en/latest/building/gits/optee_test.html#optee-test-run-xtest)
 
-Now try examples for OPTEE, e.g. 
+Now, try examples for OPTEE, e.g. 
 
 ```bash
 #  In the normal world console: 
@@ -161,11 +167,9 @@ Reference: [Official build instructions](https://optee.readthedocs.io/en/latest/
 
 ## Modify & run sample apps
 
-Next, we will modify an app source, rebuild rootfs, & run the whole system with our modification. 
+Next, test the development workflow: modify an app source, rebuild rootfs, & run the whole system with our modification. 
 
-We will leverage an existing OPTEE example program: modify/add/delete its sources, rebuild the entire rootfs, and relaunch QEMU. In this way, we do not have deal with the Makefile hierarchy. 
-
-We pick the "helloworld" example. Here's its source directory: 
+We will leverage an existing OPTEE example program ("helloworld"): modify its sources, rebuild the entire rootfs, and relaunch QEMU. Here's its code: 
 
 ``` bash
 $ tree ./optee_examples/hello_world/
@@ -188,11 +192,9 @@ hello_world/
 
 ```
 
-#### 1. CA (the normal world): 
+#### 1. Change the CA (the normal world): 
 
-Let's do some trivial changes to the helloworld app source: 
-
-./optee_examples/hello_world/host/main.c
+Make trivial changes to the app source: ./optee_examples/hello_world/host/main.c
 
 ```c
 @@ -82,7 +82,7 @@ int main(void)
@@ -208,9 +210,9 @@ Then rebuild helloworld (included in rootfs):
 ```bash
 p3-buildroot
 ```
-Output location: `./out-br/target/usr/bin/optee_example_hello_world`
+Check the output: `./out-br/target/usr/bin/optee_example_hello_world`. Does the file have a recent timestamp? 
 
-Restart QEMU and invoke the CA  from within QEMU, showing that our modification is effective: 
+Restart QEMU and invoke the CA from within QEMU, see if our modification is effective: 
 
 ```bash
 # (in the normal world console)
@@ -219,7 +221,7 @@ hello! ... Invoking TA to increment 42
 TA incremented value to 43
 ```
 
-#### 2. TA (the secure world)
+#### 2. Change the TA (the secure world)
 Source location: `./optee_examples/hello_world/ta/hello_world_ta.c` 
 
 Do some trivial changes: 
@@ -250,7 +252,7 @@ $ md5sum out-br/target/lib/optee_armtz/8aaaf200-2450-11e4-abe2-0002a5d5c51b.ta
 ```
 Why the magical filename? This is because each TA is named after a unique UUID. In this example, it is defined in `hello_world_ta.h`. The build script will pick the UUID up and name the output binary after it. 
 
-Restart QEMU, and check if the newly build TA is baked into our rootfs: 
+Restart QEMU, and check if the newly build TA is included into our rootfs: 
 
 ```bash
 # (In the normal world console): 
@@ -303,7 +305,7 @@ $ cp ./out-br/target/usr/bin/optee_example_hello_world build/shared_folder/
 # (in the normal world console) 
 $ cd shared && cp *.ta /lib/optee_armtz/
 ```
-You are recommended to write a script to automate the above workflow. 
+Consider writing a script to automate the above workflow. 
 
 ### <!--Choice 3: Rpi3 - copying files over SSH-->
 

@@ -1,11 +1,11 @@
-# push to shared...
+# push source code to the shared location...
 rsync -avxP optee-qemuv8/ /cs4414-shared/optee-qemuv8
 cp env.sh  /cs4414-shared/optee-qemuv8/
 cp student-pull-dir.sh /cs4414-shared/optee-qemuv8/
 
-# rebuild everything under the shared dir, which is needed
+# rebuild everything under the shared dir, which is required
 cd /cs4414-shared/optee-qemuv8/
-# make sure python works, ``conda deactivate''
+# make sure python works, e.g. by doing ``conda deactivate''
 source env.sh
 p3-rebuild-all
 

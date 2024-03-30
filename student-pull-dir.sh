@@ -1,8 +1,6 @@
-# to be executed under the root of the student dir
-
+# to be executed directly under the student home dir
 
 ROOT=~/optee-qemuv8
-
 
 if [ -d ${ROOT} ]; then
     echo "${ROOT} already exists. rename or remove it, and retry"
